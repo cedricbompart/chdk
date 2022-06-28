@@ -3,7 +3,7 @@ THUMB_FW=1
 # update build rules for Digic 7 ARM changes
 ARMV7A=1
 
-PLATFORMID=13009
+PLATFORMID=12997
 
 PLATFORMOS=dryos
 
@@ -23,12 +23,8 @@ MAXRAMADDR = 0x3fffffff
 # force FI2 off - does not work
 #override OPT_FI2=
 
-# Found @
+# TODO
 NEED_ENCODED_DISKBOOT=18
-
-#TODO: these are wrong !
-
-# Found @e0019ec0
 KEYSYS=d4k
 FI2FLAGS=W
 
