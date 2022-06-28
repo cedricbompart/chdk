@@ -123,6 +123,7 @@
 // //      PROPCASE_SVFIX 260
 // #define PROPCASE_TV 276
 // Guessed propset: uncertain (14 of 15 match), closest to 11
+// Port's propset (12) may be set incorrectly
 
 // EXMEM types:
 // EXMEM_RAMDISK        0
@@ -188,20 +189,20 @@ NHSTUB(Close                                  ,0xe035f377) //  0
 NHSTUB(CreateBinarySemaphore                  ,0xdffccf7d) //  0
 NHSTUB(CreateTask                             ,0xdffc93a3) //  0
 NHSTUB(DebugAssert                            ,0xdffc96e5) //  0
-// ERROR: DeleteDirectory_Fut is not found.                //--- ---
-// ERROR: DeleteFile_Fut is not found.                     //--- ---
+//NHSTUB(DeleteDirectory_Fut                  ,0x00000000) //  0            == 0x00000000
+//NHSTUB(DeleteFile_Fut                       ,0x00000000) //  0            == 0x00000000
 NHSTUB(DeleteSemaphore                        ,0xdffcd005) //  0
 NHSTUB(DoAELock                               ,0xe027a70f) //  0
 NHSTUB(DoAFLock                               ,0xe027a2c1) //  0
-// ERROR: EnterToCompensationEVF is not found.             //--- ---
+//NHSTUB(EnterToCompensationEVF               ,0x00000000) //  0            == 0x00000000
 NHSTUB2(ExecuteEventProcedure                  ,0xe03366f3) //  0
-// ERROR: ExitFromCompensationEVF is not found.            //--- ---
+//NHSTUB(ExitFromCompensationEVF              ,0x00000000) //  0            == 0x00000000
 NHSTUB(ExitTask                               ,0xdffc9597) //  0
-// ERROR: ExpCtrlTool_StartContiAE is not found.           //--- ---
-// ERROR: ExpCtrlTool_StopContiAE is not found.            //--- ---
+//NHSTUB(ExpCtrlTool_StartContiAE             ,0x00000000) //  0            == 0x00000000
+//NHSTUB(ExpCtrlTool_StopContiAE              ,0x00000000) //  0            == 0x00000000
 NHSTUB(Fclose_Fut                             ,0xe033503f) //  0
-// ERROR: Feof_Fut is not found.                           //--- ---
-// ERROR: Fflush_Fut is not found.                         //--- ---
+//NHSTUB(Feof_Fut                             ,0x00000000) //  0            == 0x00000000
+//NHSTUB(Fflush_Fut                           ,0x00000000) //  0            == 0x00000000
 NHSTUB(Fgets_Fut                              ,0xe0335123) //  0
 NHSTUB(Fopen_Fut                              ,0xe0335017) //  0
 NHSTUB(Fread_Fut                              ,0xe03350b3) //  0
@@ -217,9 +218,9 @@ NHSTUB(GetUsableMinAv                         ,0xe03a4363) //  0
 NHSTUB(get_current_deltasv                    ,0xe01cfc8f) //  0
 NHSTUB(GetCurrentDriveBaseSvValue             ,0xe02fafb1) //  0
 NHSTUB(GetDrive_ClusterSize                   ,0xe036076b) //  0
-// ERROR: GetDrive_TotalClusters is not found.             //--- ---
+//NHSTUB(GetDrive_TotalClusters               ,0x00000000) //  0            == 0x00000000
 NHSTUB(GetFocusLensSubjectDistance            ,0xe035ee73) //  0
-// ERROR: GetFocusLensSubjectDistanceFromLens is not found.  //--- ---
+//NHSTUB(GetFocusLensSubjectDistanceFromLens  ,0x00000000) //  0            == 0x00000000
 NHSTUB(GetKbdState                            ,0xe00703b7) //  0
 NHSTUB(GetMemInfo                             ,0xe0424f59) //  0
 NHSTUB(GetOpticalTemperature                  ,0xe01e5bc7) //  0
@@ -236,7 +237,7 @@ NHSTUB(LEDDrive                               ,0xe03c2bcd) //  0
 NHSTUB(LocalTime                              ,0xdffcd883) //  0
 NHSTUB(LockMainPower                          ,0xe0088d49) //  0
 NHSTUB(MakeDirectory_Fut                      ,0xe035f6df) //  0
-// ERROR: MoveFocusLensToDistance is not found.            //--- ---
+//NHSTUB(MoveFocusLensToDistance              ,0x00000000) //  0            == 0x00000000
 NHSTUB(MoveIrisWithAv                         ,0xe03f4bb1) //  0
 NHSTUB(Open                                   ,0xe035f33b) //  0
 NHSTUB(PB2Rec                                 ,0xe03513d9) //  0
@@ -246,24 +247,24 @@ NHSTUB(PostLogicalEventToUI                   ,0xe0362bef) //  0
 NHSTUB(Read                                   ,0xe044cd97) //  0
 NHSTUB(ReadFastDir                            ,0xe03ba959) //  0
 NHSTUB(Rec2PB                                 ,0xe0351433) //  0
-// ERROR: RenameFile_Fut is not found.                     //--- ---
-// ERROR: Restart is not found.                            //--- ---
+//NHSTUB(RenameFile_Fut                       ,0x00000000) //  0            == 0x00000000
+//NHSTUB(Restart                              ,0x00000000) //  0            == 0x00000000
 NHSTUB(ScreenLock                             ,0xe035dd93) //  0
 NHSTUB(ScreenUnlock                           ,0xe035dea7) //  0
 NHSTUB(SetAE_ShutterSpeed                     ,0xe040eac1) //  0
 NHSTUB(SetAutoShutdownTime                    ,0xe0088d99) //  0
 NHSTUB(SetCurrentCaptureModeType              ,0xe0369f1f) //  0
 NHSTUB(SetDate                                ,0xe041004d) //  0
-// ERROR: SetFileAttributes is not found.                  //--- ---
-// ERROR: SetFileTimeStamp is not found.                   //--- ---
+//NHSTUB(SetFileAttributes                    ,0x00000000) //  0            == 0x00000000
+//NHSTUB(SetFileTimeStamp                     ,0x00000000) //  0            == 0x00000000
 NHSTUB(SetLogicalEventActive                  ,0xe03578af) //  0
 NHSTUB(SetParameterData                       ,0xe025e443) //  0
 NHSTUB(SetPropertyCase                        ,0xe036b00d) //  0
 NHSTUB(SetScriptMode                          ,0xe03578e7) //  0
 NHSTUB(SleepTask                              ,0xdffc9253) //  0
 NHSTUB(TakeSemaphore                          ,0xdffcd077) //  0
-// ERROR: TurnOffBackLight is not found.                   //--- ---
-// ERROR: TurnOnBackLight is not found.                    //--- ---
+//NHSTUB(TurnOffBackLight                     ,0x00000000) //  0            == 0x00000000
+//NHSTUB(TurnOnBackLight                      ,0x00000000) //  0            == 0x00000000
 NHSTUB(TurnOnDisplay                          ,0xe00cb739) //  0
 NHSTUB(TurnOffDisplay                         ,0xe00e55b5) //  0
 NHSTUB(UnlockAE                               ,0xe027a72d) //  0
@@ -271,16 +272,16 @@ NHSTUB(UnlockAF                               ,0xe027a2f1) //  0
 NHSTUB(UnlockMainPower                        ,0xe0088cdb) //  0
 NHSTUB(VbattGet                               ,0xe0072c69) //  0
 NHSTUB(Write                                  ,0xe035f2fd) //  0
-// ERROR: WriteSDCard is not found.                        //--- ---
+//NHSTUB(WriteSDCard                          ,0x00000000) //  0            == 0x00000000
 NHSTUB(_log                                   ,0xdffd52c9) //  0
 NHSTUB(_log10                                 ,0xdffd5621) //  0
 NHSTUB(_pow                                   ,0xdffd5705) //  0
-// ERROR: _sqrt is not found.                              //--- ---
+//NHSTUB(_sqrt                                ,0x00000000) //  0            == 0x00000000
 NHSTUB(add_ptp_handler                        ,0xe02d5567) //  0
-// ERROR: apex2us is not found.                            //--- ---
+//NHSTUB(apex2us                              ,0x00000000) //  0            == 0x00000000
 NHSTUB(close                                  ,0xe044cc93) //  0
-// ERROR: exmem_ualloc is not found.                       //--- ---
-// ERROR: exmem_ufree is not found.                        //--- ---
+//NHSTUB(exmem_ualloc                         ,0x00000000) //  0            == 0x00000000
+//NHSTUB(exmem_ufree                          ,0x00000000) //  0            == 0x00000000
 NHSTUB(free                                   ,0xe03a0b7b) //  0
 NHSTUB(kbd_p1_f                               ,0xe007a4d3) //  0
 NHSTUB(kbd_p1_f_cont                          ,0xe007a4db) //  0
@@ -299,7 +300,7 @@ NHSTUB(closedir                               ,0xe03ba883) //  0
 NHSTUB(get_fstype                             ,0xe0360705) //  0
 NHSTUB(qsort                                  ,0xe049c7af) //  0
 NHSTUB(rand                                   ,0xe04fb4a7) //  0
-// ERROR: reboot_fw_update is not found.                   //--- ---
+//NHSTUB(reboot_fw_update                     ,0x00000000) //  0            == 0x00000000
 NHSTUB(set_control_event                      ,0xe0357619) //  0
 NHSTUB(srand                                  ,0xe04fb4a1) //  0
 NHSTUB(stat                                   ,0xe035f57d) //  0
@@ -325,10 +326,10 @@ NHSTUB(strtolx                                ,0xe03c0fd9) //  0
    DEF(hook_CreateTask                        ,0xdffc93a2) //  0
 NHSTUB(time                                   ,0xdffcd4c1) //  0
 NHSTUB(vsprintf                               ,0xe0383ad3) //  0
-// ERROR: EngDrvRead is not found.                         //--- ---
+//NHSTUB(EngDrvRead                           ,0x00000000) //  0            == 0x00000000
 NHSTUB(PTM_GetCurrentItem                     ,0xe035940f) //  0
-// ERROR: CancelHPTimer is not found.                      //--- ---
-// ERROR: SetHPTimerAfterNow is not found.                 //--- ---
+//NHSTUB(CancelHPTimer                        ,0x00000000) //  0            == 0x00000000
+//NHSTUB(SetHPTimerAfterNow                   ,0x00000000) //  0            == 0x00000000
 NHSTUB(SetEventFlag                           ,0xdffcca49) //  0
 NHSTUB(transfer_src_overlay                   ,0xe035da6b) //  0
 NHSTUB(bzero                                  ,0xdffd415d) //  0
