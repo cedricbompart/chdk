@@ -1,0 +1,12 @@
+--- EOS M6 ---
+
+processor:    DIGIC 7 (Cortex A9)
+architecture: ARMv7-a
+sensor:       22.3mm x 14.9mm CMOS
+aspect ratio: 3:2
+image size:   6000 x 4000
+raw:          14 bit
+iso:          100-25600
+interface:    micro USB, WiFi, NFC, Bluetooth
+port:         micro HDMI, 3.5mm stereo jack
+battery:      LP-E17
