@@ -40,6 +40,10 @@
 #define CAM_RAW_ROWS              4060
 #define CAM_JPEG_WIDTH            6000
 #define CAM_JPEG_HEIGHT           4000
+#define CAM_ACTIVE_AREA_X1        84
+#define CAM_ACTIVE_AREA_Y1        46
+#define CAM_ACTIVE_AREA_X2        6084
+#define CAM_ACTIVE_AREA_Y2        4046
 #undef  CAM_SENSOR_BITS_PER_PIXEL
 #define CAM_SENSOR_BITS_PER_PIXEL 14
 #define CAM_DNG_LENS_INFO         { 180,10,550,10,35,10,56,10 } // 18-55mm
