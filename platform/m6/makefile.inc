@@ -1,27 +1,16 @@
-# mandatory for DIGIC 6 and later
 THUMB_FW=1
-# update build rules for Digic 7 ARM changes
 ARMV7A=1
 
-PLATFORMID=12997
-
+PLATFORMID=12997 # from lsusb
 PLATFORMOS=dryos
-
 PLATFORMOSVER=59
-
 DIGIC = 70
 
-# mandatory for DIGIC 6
 MEMBASEADDR=0x8000
-
-# start of firmware
 ROMBASEADDR=0xE0000000
 
-# end of RAM
+# TODO
 MAXRAMADDR = 0x3fffffff
-
-# force FI2 off - does not work
-#override OPT_FI2=
 
 # TODO
 NEED_ENCODED_DISKBOOT=18

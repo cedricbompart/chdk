@@ -22,18 +22,28 @@
 
 
 // from signature finder
-#define CAM_DRYOS         1
-#define CAM_DRYOS_2_3_R39 1 // Defined for cameras with DryOS version R39 or higher
-#define CAM_DRYOS_2_3_R47 1 // Defined for cameras with DryOS version R47 or higher
-#define CAM_DRYOS_2_3_R59 1 // Defined for cameras with DryOS version R59 or higher
-#define CAM_ILC           1 // Camera is interchangeable lens
-#define CAM_HAS_WIFI      1 // Firmware has wifi support (only define if camera has hardware)
+#define CAM_DRYOS                 1
+#define CAM_DRYOS_2_3_R39         1 // Defined for cameras with DryOS version R39 or higher
+#define CAM_DRYOS_2_3_R47         1 // Defined for cameras with DryOS version R47 or higher
+#define CAM_DRYOS_2_3_R59         1 // Defined for cameras with DryOS version R59 or higher
+#define CAM_ILC                   1 // Camera has interchangeable lens
+#define CAM_HAS_WIFI              1 // Firmware has wifi support
 #undef  CAM_UNCACHED_BIT
-#define CAM_UNCACHED_BIT  0x40000000 // Found @0xe01e8654
-#undef CAM_HAS_ND_FILTER // Camera does not have an ND filter
+#define CAM_UNCACHED_BIT          0x40000000 // Found @0xe01e8654
+#undef CAM_HAS_ND_FILTER          // Camera does not have an ND filter
 
 // handwritten
-#define CAM_PROPSET       12
-#define CAM_HAS_CMOS      1
-#define CAM_RAW_ROWPIX    6112
-#define CAM_RAW_ROWS      4060
+#define CAM_PROPSET               12
+#define CAM_HAS_CMOS              1
+
+#define CAM_RAW_ROWPIX            6112
+#define CAM_RAW_ROWS              4060
+#define CAM_JPEG_WIDTH            6000
+#define CAM_JPEG_HEIGHT           4000
+#undef  CAM_SENSOR_BITS_PER_PIXEL
+#define CAM_SENSOR_BITS_PER_PIXEL 14
+#define CAM_DNG_LENS_INFO         { 180,10,550,10,35,10,56,10 } // 18-55mm
+
+#define CAM_HAS_CANON_RAW         1
+#define CAM_HAS_VIDEO_BUTTON      1
+#undef  CAM_HAS_ERASE_BUTTON
