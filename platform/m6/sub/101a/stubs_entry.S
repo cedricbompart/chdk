@@ -184,13 +184,27 @@ DEF(debug_logging_flag                ,0x00022744) // Found @0xe00879b6
 DEF(mzrm_sendmsg_ret_adr              ,0xe02ecc77)
 DEF_CONST(fw_yuv_layer_buf                  ,0x4196a000) // Found @0xe007b710
 
+//NHSTUB(DeleteDirectory_Fut                  ,0x00000000) //  0        *** != 0xe0334fdd
+//NHSTUB(DeleteFile_Fut                       ,0x00000000) //  0        *** != 0xe0334f93
+//NHSTUB(Feof_Fut                             ,0x00000000) //  0        *** != 0xe0335189
+//NHSTUB(Fflush_Fut                           ,0x00000000) //  0        *** != 0xe03351b3
+//NHSTUB(GetDrive_TotalClusters               ,0x00000000) //  0        *** != 0xe003a195
+//NHSTUB(RenameFile_Fut                       ,0x00000000) //  0        *** != 0xe0334f31
+//NHSTUB(SetFileAttributes                    ,0x00000000) //  0        *** != 0xe035f66f
+//NHSTUB(SetFileTimeStamp                     ,0x00000000) //  0        *** != 0xe035f627
+//NHSTUB(_sqrt                                ,0x00000000) //  0        *** != 0xdffd619d
+//NHSTUB(apex2us                              ,0x00000000) //  0        *** != 0xe01217c7
+//NHSTUB(exmem_ualloc                         ,0x00000000) //  0        *** != 0xe00744f7
+//NHSTUB(exmem_ufree                          ,0x00000000) //  0        *** != 0xe0074553
+//NHSTUB(reboot_fw_update                     ,0x00000000) //  0        *** != 0xe039b733
+//NHSTUB(CancelHPTimer                        ,0x00000000) //  0        *** != 0xe0178e9f
+//NHSTUB(SetHPTimerAfterNow                   ,0x00000000) //  0        *** != 0xe0178e05
+
 NHSTUB(AllocateUncacheableMemory              ,0xe01e8625) //  0
 NHSTUB(Close                                  ,0xe035f377) //  0
 NHSTUB(CreateBinarySemaphore                  ,0xdffccf7d) //  0
 NHSTUB(CreateTask                             ,0xdffc93a3) //  0
 NHSTUB(DebugAssert                            ,0xdffc96e5) //  0
-//NHSTUB(DeleteDirectory_Fut                  ,0x00000000) //  0            == 0x00000000
-//NHSTUB(DeleteFile_Fut                       ,0x00000000) //  0            == 0x00000000
 NHSTUB(DeleteSemaphore                        ,0xdffcd005) //  0
 NHSTUB(DoAELock                               ,0xe027a70f) //  0
 NHSTUB(DoAFLock                               ,0xe027a2c1) //  0
@@ -201,8 +215,6 @@ NHSTUB(ExitTask                               ,0xdffc9597) //  0
 //NHSTUB(ExpCtrlTool_StartContiAE             ,0x00000000) //  0            == 0x00000000
 //NHSTUB(ExpCtrlTool_StopContiAE              ,0x00000000) //  0            == 0x00000000
 NHSTUB(Fclose_Fut                             ,0xe033503f) //  0
-//NHSTUB(Feof_Fut                             ,0x00000000) //  0            == 0x00000000
-//NHSTUB(Fflush_Fut                           ,0x00000000) //  0            == 0x00000000
 NHSTUB(Fgets_Fut                              ,0xe0335123) //  0
 NHSTUB(Fopen_Fut                              ,0xe0335017) //  0
 NHSTUB(Fread_Fut                              ,0xe03350b3) //  0
@@ -218,7 +230,6 @@ NHSTUB(GetUsableMinAv                         ,0xe03a4363) //  0
 NHSTUB(get_current_deltasv                    ,0xe01cfc8f) //  0
 NHSTUB(GetCurrentDriveBaseSvValue             ,0xe02fafb1) //  0
 NHSTUB(GetDrive_ClusterSize                   ,0xe036076b) //  0
-//NHSTUB(GetDrive_TotalClusters               ,0x00000000) //  0            == 0x00000000
 NHSTUB(GetFocusLensSubjectDistance            ,0xe035ee73) //  0
 //NHSTUB(GetFocusLensSubjectDistanceFromLens  ,0x00000000) //  0            == 0x00000000
 NHSTUB(GetKbdState                            ,0xe00703b7) //  0
@@ -247,7 +258,6 @@ NHSTUB(PostLogicalEventToUI                   ,0xe0362bef) //  0
 NHSTUB(Read                                   ,0xe044cd97) //  0
 NHSTUB(ReadFastDir                            ,0xe03ba959) //  0
 NHSTUB(Rec2PB                                 ,0xe0351433) //  0
-//NHSTUB(RenameFile_Fut                       ,0x00000000) //  0            == 0x00000000
 //NHSTUB(Restart                              ,0x00000000) //  0            == 0x00000000
 NHSTUB(ScreenLock                             ,0xe035dd93) //  0
 NHSTUB(ScreenUnlock                           ,0xe035dea7) //  0
@@ -255,8 +265,6 @@ NHSTUB(SetAE_ShutterSpeed                     ,0xe040eac1) //  0
 NHSTUB(SetAutoShutdownTime                    ,0xe0088d99) //  0
 NHSTUB(SetCurrentCaptureModeType              ,0xe0369f1f) //  0
 NHSTUB(SetDate                                ,0xe041004d) //  0
-//NHSTUB(SetFileAttributes                    ,0x00000000) //  0            == 0x00000000
-//NHSTUB(SetFileTimeStamp                     ,0x00000000) //  0            == 0x00000000
 NHSTUB(SetLogicalEventActive                  ,0xe03578af) //  0
 NHSTUB(SetParameterData                       ,0xe025e443) //  0
 NHSTUB(SetPropertyCase                        ,0xe036b00d) //  0
@@ -276,12 +284,8 @@ NHSTUB(Write                                  ,0xe035f2fd) //  0
 NHSTUB(_log                                   ,0xdffd52c9) //  0
 NHSTUB(_log10                                 ,0xdffd5621) //  0
 NHSTUB(_pow                                   ,0xdffd5705) //  0
-//NHSTUB(_sqrt                                ,0x00000000) //  0            == 0x00000000
 NHSTUB(add_ptp_handler                        ,0xe02d5567) //  0
-//NHSTUB(apex2us                              ,0x00000000) //  0            == 0x00000000
 NHSTUB(close                                  ,0xe044cc93) //  0
-//NHSTUB(exmem_ualloc                         ,0x00000000) //  0            == 0x00000000
-//NHSTUB(exmem_ufree                          ,0x00000000) //  0            == 0x00000000
 NHSTUB(free                                   ,0xe03a0b7b) //  0
 NHSTUB(kbd_p1_f                               ,0xe007a4d3) //  0
 NHSTUB(kbd_p1_f_cont                          ,0xe007a4db) //  0
@@ -300,7 +304,6 @@ NHSTUB(closedir                               ,0xe03ba883) //  0
 NHSTUB(get_fstype                             ,0xe0360705) //  0
 NHSTUB(qsort                                  ,0xe049c7af) //  0
 NHSTUB(rand                                   ,0xe04fb4a7) //  0
-//NHSTUB(reboot_fw_update                     ,0x00000000) //  0            == 0x00000000
 NHSTUB(set_control_event                      ,0xe0357619) //  0
 NHSTUB(srand                                  ,0xe04fb4a1) //  0
 NHSTUB(stat                                   ,0xe035f57d) //  0
@@ -326,10 +329,8 @@ NHSTUB(strtolx                                ,0xe03c0fd9) //  0
    DEF(hook_CreateTask                        ,0xdffc93a2) //  0
 NHSTUB(time                                   ,0xdffcd4c1) //  0
 NHSTUB(vsprintf                               ,0xe0383ad3) //  0
-//NHSTUB(EngDrvRead                           ,0x00000000) //  0            == 0x00000000
+//NHSTUB(EngDrvRead                           ,0x00000000) //  0            Overridden
 NHSTUB(PTM_GetCurrentItem                     ,0xe035940f) //  0
-//NHSTUB(CancelHPTimer                        ,0x00000000) //  0            == 0x00000000
-//NHSTUB(SetHPTimerAfterNow                   ,0x00000000) //  0            == 0x00000000
 NHSTUB(SetEventFlag                           ,0xdffcca49) //  0
 NHSTUB(transfer_src_overlay                   ,0xe035da6b) //  0
 NHSTUB(bzero                                  ,0xdffd415d) //  0

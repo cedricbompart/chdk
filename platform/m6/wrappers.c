@@ -14,6 +14,12 @@ long lens_get_target_distance()
 {
     return _GetCurrentTargetDistance();
 }
+
+int _EngDrvRead(int gpio_reg)
+{
+    extern int _EngDrvRead_FW(int*);
+    return _EngDrvRead_FW(&gpio_reg);
+}
  
  //--------------------------------------------------
  // DoMFLock : use _MFOn/_MFOff  or  _PT_MFOn/_PT_MFOff  or _SS_MFOn/_SS_MFOff if defined in stubs_entry.S
