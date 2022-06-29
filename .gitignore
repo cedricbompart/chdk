@@ -13,6 +13,8 @@ CHDK/MODULES
 
 platform/**/sub/**/bin_compat.h
 
+tools/ghidra_scripts/**
+
 CHDK/DATA/logo.dat
 lib/font/font_8x16_uni_packed.h
 lib/lang/lang_str.h
