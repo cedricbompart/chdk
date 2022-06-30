@@ -21,10 +21,7 @@ int _EngDrvRead(int gpio_reg)
     return _EngDrvRead_FW(&gpio_reg);
 }
  
- //--------------------------------------------------
- // DoMFLock : use _MFOn/_MFOff  or  _PT_MFOn/_PT_MFOff  or _SS_MFOn/_SS_MFOff if defined in stubs_entry.S
- //            otherwise use PostLogicalEventForNotPowerType(levent_id_for_name(PressSW1andMF),0); (see sx500hs for an example)
- 
+// DoMFLock: use _MFOn/_MFOff or _PT_MFOn/_PT_MFOff or _SS_MFOn/_SS_MFOff if defined in stubs_entry.S 
 int DoMFLock(void)
 {
   if (!camera_info.state.mode_play) {
