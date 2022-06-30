@@ -51,3 +51,5 @@
 #define CAM_HAS_CANON_RAW         1
 #define CAM_HAS_VIDEO_BUTTON      1
 #undef  CAM_HAS_ERASE_BUTTON
+
+#define CAM_3ARG_DebugAssert      1 // from Ghidra
