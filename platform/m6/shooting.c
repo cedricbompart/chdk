@@ -112,3 +112,11 @@ const ISOTable iso_table[] = {
     { 24, 20000, "20000", -1},
     { 25, 25600, "25600", -1},
 };
+
+const CapturemodeMap modemap[] = {
+{ MODE_M,  32770 }, //
+{ MODE_AV, 32771 }, //
+{ MODE_TV, 32772 }, //
+{ MODE_P,  32773 }, //
+};
+
