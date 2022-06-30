@@ -1,4 +1,4 @@
-    .section .entry
+.section .entry
 
 // ordinary startup...
 .code 16
