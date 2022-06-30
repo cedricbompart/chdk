@@ -114,9 +114,35 @@ const ISOTable iso_table[] = {
 };
 
 const CapturemodeMap modemap[] = {
-{ MODE_M,  32770 }, //
-{ MODE_AV, 32771 }, //
-{ MODE_TV, 32772 }, //
-{ MODE_P,  32773 }, //
+    { MODE_M,  32770 }, //
+    { MODE_AV, 32771 }, //
+    { MODE_TV, 32772 }, //
+    { MODE_P,  32773 }, //
 };
+
+#include "../generic/shooting.c"
+
+long get_file_next_counter() {
+    return get_file_counter();
+}
+
+long get_target_file_num() {
+    return get_exposure_counter();
+}
+
+#if defined(CAM_DATE_FOLDER_NAMING) // TODO: not really sure why there is a if/else ?
+void get_target_dir_name(char *out)
+{
+    if (!out) {
+        return;
+    }
+    extern void _GetImageFolder(char*,int,int,int);
+    _GetImageFolder(out,get_file_next_counter(),CAM_DATE_FOLDER_NAMING,time(NULL));
+}
+#else
+long get_target_dir_num() 
+{
+    return 0;
+}
+#endif
 
