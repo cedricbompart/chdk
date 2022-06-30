@@ -53,3 +53,4 @@
 #undef  CAM_HAS_ERASE_BUTTON
 
 #define CAM_3ARG_DebugAssert      1 // from Ghidra
+#define CAM_FILE_COUNTER_IS_VAR   1
