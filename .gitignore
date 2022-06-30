@@ -6,6 +6,7 @@
 *.elf
 *.elf.syms
 *.dump
+.project
 
 **/.o3
 bin

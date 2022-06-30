@@ -3,9 +3,9 @@
 extern long *blob_chdk_core;
 extern long blob_chdk_core_size;
 
-void __attribute__((noreturn)) my_restart()
-{
-    check_compat();
+void __attribute__((noreturn)) my_restart() {
+	check_compat();
 
-    while(1);
+	while (1)
+		;
 }
