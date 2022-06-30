@@ -5,6 +5,13 @@
 #include "kbd_common.h"
 #include "levent.h"
 
+int get_usb_bit() {
+    long usb_physw[3];
+    usb_physw[USB_IDX] = 0;
+    _kbd_read_keys_r2(usb_physw);
+    return(( usb_physw[USB_IDX] & USB_MASK)==USB_MASK) ;
+}
+
 KeyMap keymap[] = {
     { 0, KEY_PLAYBACK        ,0x00000002 }, // Found @0xe05e4cdc, levent 0x101 (uses inverted logic in physw_status)
     { 0, KEY_WIFI            ,0x00000004 }, // Found @0xe05e4ce4, levent 0x103 (uses inverted logic in physw_status)
