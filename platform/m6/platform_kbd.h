@@ -1,8 +1,10 @@
 #ifndef PLATFORM_KBD_H
 #define PLATFORM_KBD_H
 
-// plaform specific keyboard defines, see core/kbd_common.c for documentation
-// non-standard key state update to handle inverted keys, etc
+/**
+ * Platform specific keyboard defines, see core/kbd_common.c for documentation
+ * non-standard key state update to handle inverted keys, etc
+ */
 
 // from signature finder
 #define SD_READONLY_FLAG    0x00000020 // Found @0xe05e4d0c, levent 0x30a
