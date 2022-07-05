@@ -3,26 +3,26 @@
 #include "core.h"
 #include "keyboard.h"
 
+extern int _GetLensCurrentFocalLength(void);
+extern int _GetLensWideFocalLength(void);
 extern long link_bss_start;
 extern long link_bss_end;
 extern void boot();
 
-void startup() {
-	long *bss = &link_bss_start;
-	// sanity check
-	if ((long) &link_bss_end > (MEMISOSTART + MEMISOSIZE)) {
-		started();
-		shutdown();
+void startup(int core) {
+	if (!core) { // core 0 only
+		long *bss = &link_bss_start;
+		// sanity check
+		if ((long) &link_bss_end > (MEMISOSTART + MEMISOSIZE)) {
+			while (1)
+				;
+		}
+		// initialize .bss segment
+		while (bss < &link_bss_end)
+			*bss++ = 0;
 	}
-	// initialize .bss senment
-	while (bss < &link_bss_end)
-		*bss++ = 0;
 	boot();
 }
-
-const int zoom_points = 1;
-extern int _GetLensCurrentFocalLength(void);
-extern int _GetLensWideFocalLength(void);
 
 /**
  * @header shooting.h
@@ -43,7 +43,8 @@ int get_focal_length(__attribute__ ((unused))int zp) {
  */
 int get_zoom_x(__attribute__ ((unused))int zp) {
 	// TODO: why the 100 ?
-	return _GetLensCurrentFocalLength() * 100/ (_GetLensWideFocalLength() * 100);
+	return _GetLensCurrentFocalLength() * 100
+			/ (_GetLensWideFocalLength() * 100);
 }
 
 /**

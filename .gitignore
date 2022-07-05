@@ -22,6 +22,8 @@ lib/lang/lang_str.h
 modules/exportlist.inc
 modules/module_exportlist.h
 modules/module_hashlist.c
+doc/camnotes.txt
+doc/readme.txt
 
 tools/finsig_thumb2
 tools/code_gen
