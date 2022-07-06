@@ -1,5 +1,5 @@
 *.o
-*.BIN
+#*.BIN
 *.bin
 *.lua
 *.a
