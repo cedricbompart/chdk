@@ -2,7 +2,7 @@
 #include "lolevel.h"
 #include "live_view.h"
 
-#define LED_PR 0xd20b0994 // green LED on the back
+#define LED 0xD20801E0 // green LED on the back
 
 void shutdown_soft() {
 	_PostLogicalEventForNotPowerType(0x1005, 0);
@@ -20,7 +20,7 @@ void shutdown() {
  * @header debug_led.h
  */
 void debug_led(int state) {
-	volatile long *p = (void*) LED_PR;
+	volatile long *p = (void*) LED;
 	*p = ((state) ? 0x4d0002 : 0x4c0003);
 }
 
