@@ -1,3 +1,5 @@
+#include "../../../generic/mmu_utils.h"
+
 #define LED 0xD20801E0
 
 void sleep(int duration) {
