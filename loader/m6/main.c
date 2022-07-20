@@ -11,9 +11,9 @@ ld_ver_t fw = { "GM1.01A",  //
 
 int __attribute__((naked)) get_core_id() {
 	asm volatile (
-			"mrc     p15, #0, r0, c0, c0, #5\n"
-			"ands    r0, #0xf\n"
-			"bx      lr\n"
+			"    mrc     p15, #0, r0, c0, c0, #5\n"
+			"    ands    r0, #0xf\n"
+			"    bx      lr\n"
 	);
 }
 

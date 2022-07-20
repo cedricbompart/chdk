@@ -1,5 +1,5 @@
 *.o
-#*.BIN
+*.BIN
 *.bin
 *.lua
 *.a
@@ -40,3 +40,4 @@ tools/makeexport
 tools/makelang
 tools/packfi2/fi2enc
 tools/pakwif
+tools/capdis
