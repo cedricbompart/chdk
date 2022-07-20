@@ -23,6 +23,14 @@ NHSTUB(EngDrvRead_FW,                       0xe05b1d13) // in wrappers
 NHSTUB(GetLensCurrentFocalLength,           0xe03f4561)
 NHSTUB(GetLensWideFocalLength,              0xe03f4573)
 
+// MMU
+NHSTUB(dcache_clean_by_mva                  ,0xe036ba79)
+NHSTUB(clean_l2_cache_by_phys_addr          ,0xe00698dd)
+NHSTUB(set_canon_mmu_tables_to              ,0xdffc7ccb)
+NHSTUB(make_copy_of_canon_mmutables         ,0xdffc7c55)
+NHSTUB(icache_branchpr_invalidate           ,0xe036bb4d)
+NHSTUB(dcache_clean_and_invalidate_all      ,0xe036bb09)
+
 NHSTUB(EnterToCompensationEVF,              0x00000000) // TODO
 NHSTUB(ExitFromCompensationEVF,             0x00000000) // TODO
 NHSTUB(ExpCtrlTool_StartContiAE,            0x00000000) // TODO
@@ -33,5 +41,3 @@ NHSTUB(Restart,                             0x00000000) // TODO
 NHSTUB(TurnOffBackLight,                    0x00000000) // TODO
 NHSTUB(TurnOnBackLight,                     0x00000000) // TODO
 NHSTUB(WriteSDCard,                         0x00000000) // TODO
-
-
