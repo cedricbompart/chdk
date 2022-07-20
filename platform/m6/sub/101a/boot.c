@@ -79,14 +79,14 @@ void setup_mmu_for_chdk(int core) {
 
 		{
 			// create L2 table for following 1MB ROM section
-			replace_section_with_l2_tbl(0xe0000000, CANON_TABLES_AT, l2adr,
+			replace_section_with_l2_tbl(ROMBASEADDR, CANON_TABLES_AT, l2adr,
 					flags);
 
-			replace_rom_page(0xe0020000, rompagecopy, l2adr, flags);
+			replace_rom_page(ROMBASEADDR + 0x20000, rompagecopy, l2adr, flags);
 			plant_hacks_for_e0020000(rompagecopy);
 			rompagecopy += PAGE_SIZE;
 
-			replace_rom_page(0xe0070000, rompagecopy, l2adr, flags);
+			replace_rom_page(ROMBASEADDR + 0x70000, rompagecopy, l2adr, flags);
 			plant_hacks_for_e0070000(rompagecopy);
 			rompagecopy += PAGE_SIZE;
 
