@@ -23,36 +23,59 @@
  */
 
 // from signature finder
-#define CAM_DRYOS                 1
-#define CAM_DRYOS_2_3_R39         1 // Defined for cameras with DryOS version R39 or higher
-#define CAM_DRYOS_2_3_R47         1 // Defined for cameras with DryOS version R47 or higher
-#define CAM_DRYOS_2_3_R59         1 // Defined for cameras with DryOS version R59 or higher
-#define CAM_ILC                   1 // Camera has interchangeable lens
-#define CAM_HAS_WIFI              1 // Firmware has wifi support
+#define CAM_DRYOS                      1
+#define CAM_DRYOS_2_3_R39              1 // Defined for cameras with DryOS version R39 or higher
+#define CAM_DRYOS_2_3_R47              1 // Defined for cameras with DryOS version R47 or higher
+#define CAM_DRYOS_2_3_R59              1 // Defined for cameras with DryOS version R59 or higher
+#define CAM_ILC                        1 // Camera has interchangeable lens
+#define CAM_HAS_WIFI                   1 // Firmware has wifi support
 #undef  CAM_UNCACHED_BIT
-#define CAM_UNCACHED_BIT          0x40000000 // Found @0xe01e8654
-#undef CAM_HAS_ND_FILTER          // Camera does not have an ND filter
+#define CAM_UNCACHED_BIT               0x40000000 // Found @0xe01e8654
+#undef  CAM_HAS_ND_FILTER              // Camera does not have an ND filter
 
 // handwritten
-#define CAM_PROPSET               12
-#define CAM_HAS_CMOS              1
+#define CAM_PROPSET                    12
+#define CAM_HAS_CMOS                   1
 
-#define CAM_RAW_ROWPIX            6112
-#define CAM_RAW_ROWS              4060
-#define CAM_JPEG_WIDTH            6000
-#define CAM_JPEG_HEIGHT           4000
-#define CAM_ACTIVE_AREA_X1        84
-#define CAM_ACTIVE_AREA_Y1        46
-#define CAM_ACTIVE_AREA_X2        6084
-#define CAM_ACTIVE_AREA_Y2        4046
+#define CAM_RAW_ROWPIX                 6112
+#define CAM_RAW_ROWS                   4060
+#define CAM_JPEG_WIDTH                 6000
+#define CAM_JPEG_HEIGHT                4000
+#define CAM_ACTIVE_AREA_X1             84
+#define CAM_ACTIVE_AREA_Y1             46
+#define CAM_ACTIVE_AREA_X2             6084
+#define CAM_ACTIVE_AREA_Y2             4046
 #undef  CAM_SENSOR_BITS_PER_PIXEL
-#define CAM_SENSOR_BITS_PER_PIXEL 14
-#define CAM_DNG_LENS_INFO         { 180,10,550,10,35,10,56,10 } // 18-55mm
+#define CAM_SENSOR_BITS_PER_PIXEL      14
+#define CAM_DNG_LENS_INFO              { 180,10,550,10,35,10,56,10 } // 18-55mm
+#define cam_CFAPattern                 0x02010100
+#define cam_CalibrationIlluminant1     17 // Standard light A
+#define cam_CalibrationIlluminant2     21 // D65
 
-#define CAM_HAS_CANON_RAW         1
-#define CAM_HAS_VIDEO_BUTTON      1
+#define CAM_HAS_CANON_RAW              1
+#define CAM_ADJUSTABLE_ALT_BUTTON      1
+#define CAM_ALT_BUTTON_NAMES           { "Playback", "WiFi" }
+#define CAM_ALT_BUTTON_OPTIONS         { KEY_PLAYBACK, KEY_WIFI }
+#define CAM_HAS_VIDEO_BUTTON           1
 #undef  CAM_HAS_ERASE_BUTTON
 
-#define CAM_3ARG_DebugAssert      1 // confirmed with Ghidra
-#define CAM_FILE_COUNTER_IS_VAR   1
-#define CAM_DATE_FOLDER_NAMING    0x80
+#define CAM_3ARG_DebugAssert           1 // confirmed with Ghidra
+#define CAM_FILE_COUNTER_IS_VAR        1
+#define CAM_DATE_FOLDER_NAMING         0x80
+#define CAM_QUALITY_OVERRIDE           1
+#define CAM_CALC_BLACK_LEVEL           1
+#define CAM_SHOW_OSD_IN_SHOOT_MENU     1
+#define CAM_AV_OVERRIDE_IRIS_FIX       1
+#define CAM_DRIVE_MODE_FROM_TIMER_MODE 1
+
+#undef  CAM_AF_LED
+#define CAM_AF_LED                     1
+
+#undef  CAM_CIRCLE_OF_CONFUSION
+#define CAM_CIRCLE_OF_CONFUSION        19 // APSC - CoC value for camera/sensor (see http://www.dofmaster.com/digital_coc.html)
+
+#define CAM_SD_OVER_IN_AF              1
+#define CAM_SD_OVER_IN_MF              1
+
+#undef  CAM_USB_EVENTID
+#define CAM_USB_EVENTID                0x302 // Levent ID for USB control
