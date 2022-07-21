@@ -1,0 +1,6 @@
+#include "stubs_asm.h"
+
+STUB(E02796AE)
+STUB(E010E954)
+STUB(e007006e)
+STUB(e007a49c)
