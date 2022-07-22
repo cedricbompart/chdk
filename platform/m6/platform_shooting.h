@@ -4,6 +4,8 @@
 #include "shooting.h"
 #include "modes.h"
 
+extern void _GetImageFolder(char*out, int filecount, int flags, int time);
+
 const ApertureSize aperture_sizes_table[] = {
     { 6,   64, "1.2" },
     { 7,   96, "1.4" },

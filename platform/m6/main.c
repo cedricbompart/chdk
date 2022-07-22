@@ -5,6 +5,8 @@
 
 #include "main.h"
 
+const int zoom_points = 1; // used usb_module
+
 void startup(int core) {
 	if (!core) { // core 0 only
 		long *bss = &link_bss_start;
