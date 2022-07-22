@@ -1,8 +1,8 @@
 #include "cache.h"
+#include "core.h"
 
 #include "../../../generic/mmu_utils.h"
 #include "boot.h"
-#include "debug.h"
 
 #define CHDK_MMUTBL_START 0xdffda400
 #define CHDK_PAGES_START  0x11d0000
@@ -11,16 +11,19 @@
 static int no_chdk_please = 0;
 
 void CreateTask_spytask() {
-
+	if (!no_chdk_please) {
+		_CreateTask("SpyTask", 0x19, 0x2000, core_spytask, 0);
+	}
 }
 
 void startup_mode_fix(void) {
 	int startupmode = *(int*) 0x9eb0;
 	switch (startupmode) {
-	case 0x1000000: // rec
-		break;
-	default:
+	case 0x80000:
+	case 0x400000:
+	case 0x200000:
 		no_chdk_please = 1;
+		break;
 	}
 }
 
@@ -242,7 +245,7 @@ void __attribute__((naked,noinline)) boot() {
 			"    ldr     r0, =0xdffc4900\n"
 			"    ldr     r1, =0x000152a0\n"
 			"    bl      _icache_branchpr_invalidate\n"
-			"    b       loc_e0020032\n"// +
+			"    b       loc_e0020032\n" // +
 	);
 
 }

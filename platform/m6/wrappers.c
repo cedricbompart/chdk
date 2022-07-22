@@ -1,6 +1,4 @@
-#include "lens.h"
-#include "lolevel.h"
-#include "camera_info.h"
+#include "../generic/wrappers.c"
 
 /**
  * @header lens.h

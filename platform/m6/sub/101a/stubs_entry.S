@@ -163,8 +163,8 @@ DEF(levent_table                      ,0xe06b81a4) // Found @0xe007ba58
 DEF(FlashParamsTable                  ,0xe09d82c4) // Found @0xe003e7e4
 DEF(playrec_mode                      ,0x0000b74c) // (0xb748+0x4) Found @0xe02ce292
 DEF(jpeg_count_str                    ,0x00124ed8) // Found @0xe011e19a
-// zoom_busy not found
-// focus_busy not found
+//DEF(zoom_busy                         ,0x00000000), ** != ** stubs_entry_2 = 0x00000001 (1)
+//DEF(focus_busy                        ,0x00000000), ** != ** stubs_entry_2 = 0x00000001 (1)
 DEF(imager_active                     ,0x000086c4) // (0x86c0+0x4) Found @0xe01ccb12
 DEF(canon_menu_active                 ,0x0000c740) // (0xc73c+0x4) Found @0xe035a48a
 DEF(file_counter_var                  ,0x00010aa8) // Found @0xe03e3d2c
@@ -173,9 +173,9 @@ DEF(_nrflag                           ,0x000234bc) // (0x234b4+0x8) Found @0xe00
 DEF(av_override_semaphore             ,0x0003d344) // Found @0xe03f4bc4
 DEF(active_bitmap_buffer              ,0x0000c6f8) // (0xc6ac+0x4c) Found @0xe035e688
 DEF(displaytype                       ,0x00009c28) // (0x9bc8+0x60) Found @0xe00e5578
-DEF(bitmap_buffer                     ,0x0000c6fc) // (0xc6ac+0x50) Found @0xe035e68e
+//DEF(bitmap_buffer                     ,0x0000c6fc), ** != ** stubs_entry_2 = 0x00000000 ()
 DEF(live_free_cluster_count           ,0x0012a948) // (0x12a910+0x38) Found @0xe002d066
-// uiprop_count not found
+//DEF_CONST(uiprop_count                      ,0x00000000), ** != ** stubs_entry_2 = 0x000000e8 (0x000000e8)
 DEF(exmem_alloc_table                 ,0x00073ba8) // Found @0xe0074062
 DEF(exmem_types_table                 ,0xe1160da0) // Found @0xe0074066
 DEF_CONST(exmem_type_count                  ,0x0000001a) // Found @0xe1160da0
@@ -189,6 +189,8 @@ DEF_CONST(fw_yuv_layer_buf                  ,0x4196a000) // Found @0xe007b710
 //NHSTUB(Feof_Fut                             ,0x00000000) //  0        *** != 0xe0335189
 //NHSTUB(Fflush_Fut                           ,0x00000000) //  0        *** != 0xe03351b3
 //NHSTUB(GetDrive_TotalClusters               ,0x00000000) //  0        *** != 0xe003a195
+//NHSTUB(GetImageFolder                       ,0x00000000) //  0        *** != 0xe02e3031
+//NHSTUB(MakeSDCardBootable                   ,0x00000000) //  0        *** != 0xe036111b
 //NHSTUB(RenameFile_Fut                       ,0x00000000) //  0        *** != 0xe0334f31
 //NHSTUB(SetFileAttributes                    ,0x00000000) //  0        *** != 0xe035f66f
 //NHSTUB(SetFileTimeStamp                     ,0x00000000) //  0        *** != 0xe035f627
