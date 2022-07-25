@@ -70,8 +70,12 @@
 #undef  CAM_HAS_ERASE_BUTTON
 #undef  CAM_USE_ZOOM_FOR_MF
 
+#undef  CAM_KEY_PRESS_DELAY
+#define CAM_KEY_PRESS_DELAY               60
+
 #define CAM_3ARG_DebugAssert              1
 #define CAM_FILE_COUNTER_IS_VAR           1
+#define PARAM_CAMERA_NAME                 2
 #define CAM_DATE_FOLDER_NAMING            0x80
 #define CAM_QUALITY_OVERRIDE              1
 #define CAM_CALC_BLACK_LEVEL              1

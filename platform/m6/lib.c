@@ -122,6 +122,48 @@ long vid_get_viewport_height() {
 /**
  * @header viewport.h
  */
+void* vid_get_opacity_active_buffer() {
+	return opacity_buffer[active_bitmap_buffer & 1];
+}
+
+/**
+ * @header viewport.h
+ */
+int vid_get_viewport_display_xoffset_proper() {
+	return vid_get_viewport_display_xoffset();
+}
+
+/**
+ * @header viewport.h
+ */
+int vid_get_viewport_display_yoffset_proper() {
+	return vid_get_viewport_display_yoffset();
+}
+
+/**
+ * @header viewport.h
+ */
+int vid_get_viewport_fullscreen_width() {
+	return CAM_SCREEN_WIDTH;
+}
+
+/**
+ * @header viewport.h
+ */
+int vid_get_viewport_fullscreen_height() {
+	return CAM_SCREEN_HEIGHT;
+}
+
+/**
+ * @header viewport.h
+ */
+int vid_get_viewport_buffer_width_proper() {
+	return CAM_BITMAP_WIDTH;
+}
+
+/**
+ * @header viewport.h
+ */
 int vid_get_viewport_type() {
 	return LV_FB_YUV8B;
 }
@@ -129,8 +171,8 @@ int vid_get_viewport_type() {
 /**
  * @header viewport.h
  */
-void* vid_get_opacity_active_buffer() {
-	return opacity_buffer[active_bitmap_buffer & 1];
+int vid_get_aspect_ratio() {
+	return LV_ASPECT_3_2;
 }
 
 /**
