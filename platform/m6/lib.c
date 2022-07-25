@@ -5,14 +5,14 @@
 #include "lib.h"
 
 void shutdown_soft() {
-	// _PostLogicalEventForNotPowerType(0x1005, 0);
+	// find_levent -full PRIMARY.BIN 0xe0000000 | grep -i PowerLever
+	_PostLogicalEventForNotPowerType(0x1014, 2); // PowerLeverOff
 }
 
-/**
- * @see main startup
- */
 void shutdown() {
-
+	shutdown_soft();
+	while (1)
+		;
 }
 
 /**

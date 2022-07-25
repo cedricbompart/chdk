@@ -41,3 +41,9 @@ tools/makelang
 tools/packfi2/fi2enc
 tools/pakwif
 tools/capdis
+tools/dumpchk
+tools/extract_error_table
+tools/find_eventproc
+tools/find_levent
+tools/rawconvert
+tools/yuvconvert
