@@ -60,7 +60,7 @@ void plant_hacks_for_e0070000(unsigned addr) {
 	*(unsigned short*) (addr + 0x9DA2) = 0xbf00;
 }
 
-// following should be integrated in dcache_clean_all
+// should be integrated in dcache_clean_all
 void l2_cache_sync(void) {
 	*(int*) 0xc1100730 = 0;
 }
@@ -155,6 +155,56 @@ void __attribute__((naked,noinline)) sub_e00200f8_my() {
 	);
 }
 
+void __attribute__((naked,noinline)) CreateTask_my() {
+	asm volatile (
+			"    push   {r0}\n"
+			"    ldr     r0, =task_InitFileModules\n"
+			"    cmp     r0, r3\n"
+			"    it      eq\n"
+			"    ldreq   r3, =init_file_modules_task\n"
+			"exitHook:\n"
+			"    pop    {r0}\n" // restore overwritten register(s)
+
+			// execute overwritten instructions from original code, then jump to firmware
+			// capdis -f=chdk -jfw -stubs -s=CreateTask -c=4 PRIMARY.BIN 0xe0000000
+			// CreateTask 0xdffc93a3
+			"    push    {r1, r2, r3, r4, r5, r6, r7, lr}\n"
+			"    mov     r4, r3\n"
+			"    mov.w   r3, #0x1000\n"
+			"    ldr     r5, [sp, #0x20]\n"
+			"    ldr     pc, =0xdffc93ad\n"// Continue in firmware
+			".ltorg\n"
+	);
+}
+
+void __attribute__((naked,noinline)) init_file_modules_task() {
+	// tools/capdis -f=chdk -jfw -stubs -s=task_InitFileModules -c=18 PRIMARY.BIN 0xe0000000
+	// task_InitFileModules 0xe00fdd05
+	asm volatile (
+			"    push    {r4, r5, r6, lr}\n"
+			"    movs    r0, #6\n"
+			"    bl      sub_e0362f64\n" // return
+			"    bl      sub_e011ce98\n"
+			"    movs    r4, r0\n"
+			"    movw    r5, #0x5006\n"
+			"    beq     loc_e00fdd20\n"
+			"    movs    r1, #0\n"
+			"    mov     r0, r5\n"
+			"    bl      _PostLogicalEventToUI\n"
+			"loc_e00fdd20:\n"
+			"    bl      sub_e011cec0\n"
+			"    BL      core_spytask_can_start\n"// set "it's-safe-to-start" flag for spytask
+			"    cmp     r4, #0\n"
+			"    bne     loc_e00fdd34\n"// return
+			"    mov     r0, r5\n"
+			"    pop.w   {r4, r5, r6, lr}\n"
+			"    movs    r1, #1\n"
+			"    b.w     _PostLogicalEventToUI\n"
+			"loc_e00fdd34:\n"
+			"    pop     {r4, r5, r6, pc}\n"
+	);
+}
+
 /**
  * @see main startup
  */
@@ -239,13 +289,33 @@ void __attribute__((naked,noinline)) boot() {
 			"    it      lo\n"
 			"    strlo   r2, [r3], #4\n"
 			"    blo     loc_e002009e\n"
+
+			// install CreateTask patch
+			// use half words in case source or destination not word aligned
+			"    adr     r0, patch_CreateTask\n"// src: patch data
+			"    ldr     r1, =hook_CreateTask\n"// dest: address to patch
+			"    add     r2, r0, #10\n"// 2.5 words as target is not word aligned
+			"patch_hook_loop:\n"
+			"    ldrh   r3, [r0],#2\n"
+			"    strh   r3, [r1],#2\n"
+			"    cmp    r0,r2\n"
+			"    blo    patch_hook_loop\n"
+
 			"    ldr     r0, =0xdffc4900\n"
 			"    ldr     r1, =0x000152a0\n"
 			"    bl      _dcache_clean_by_mva\n"
 			"    ldr     r0, =0xdffc4900\n"
 			"    ldr     r1, =0x000152a0\n"
 			"    bl      _icache_branchpr_invalidate\n"
-			"    b       loc_e0020032\n" // +
+			"    b       loc_e0020032\n"// +
+
+			"    .align  2\n"
+			"    .short 0\n"// added for alignment
+			"patch_CreateTask:\n"
+			"    ldr.w   pc, _createtask_my\n"// jump to absolute address CreateTask_my
+			"    .short 0\n"// added for alignment
+			"_createtask_my:\n"
+			"    .long   CreateTask_my + 1\n"// has to be a thumb address
 	);
 
 }
