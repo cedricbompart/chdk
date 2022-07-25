@@ -5,15 +5,14 @@
 #include "lib.h"
 
 void shutdown_soft() {
-	_PostLogicalEventForNotPowerType(0x1005, 0);
+	// _PostLogicalEventForNotPowerType(0x1005, 0);
 }
 
 /**
  * @see main startup
  */
 void shutdown() {
-	while (1)
-		_SleepTask(500);
+
 }
 
 /**

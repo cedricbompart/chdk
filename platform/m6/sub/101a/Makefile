@@ -1,4 +1,4 @@
-OBJS=boot.o stubs_auto.o stubs_entry.o stubs_entry_2.o mmu_utils.o capt_seq.o
+OBJS=boot.o stubs_min.o stubs_auto.o stubs_entry.o stubs_entry_2.o mmu_utils.o capt_seq.o
 STUBS_AUTO_DEPS=boot.c
 
 include ../../../makefile_sub.inc
