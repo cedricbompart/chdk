@@ -194,6 +194,7 @@ DEF_CONST(fw_yuv_layer_buf                  ,0x4196a000) // Found @0xe007b710
 //NHSTUB(RenameFile_Fut                       ,0x00000000) //  0        *** != 0xe0334f31
 //NHSTUB(SetFileAttributes                    ,0x00000000) //  0        *** != 0xe035f66f
 //NHSTUB(SetFileTimeStamp                     ,0x00000000) //  0        *** != 0xe035f627
+//NHSTUB(WriteSDCard                          ,0x00000000) //  0        *** != 0xe04faf19
 //NHSTUB(_sqrt                                ,0x00000000) //  0        *** != 0xdffd619d
 //NHSTUB(apex2us                              ,0x00000000) //  0        *** != 0xe01217c7
 //NHSTUB(exmem_ualloc                         ,0x00000000) //  0        *** != 0xe00744f7
@@ -282,7 +283,6 @@ NHSTUB(UnlockAF                               ,0xe027a2f1) //  0
 NHSTUB(UnlockMainPower                        ,0xe0088cdb) //  0
 NHSTUB(VbattGet                               ,0xe0072c69) //  0
 NHSTUB(Write                                  ,0xe035f2fd) //  0
-//NHSTUB(WriteSDCard                          ,0x00000000) //  0            == 0x00000000
 NHSTUB(_log                                   ,0xdffd52c9) //  0
 NHSTUB(_log10                                 ,0xdffd5621) //  0
 NHSTUB(_pow                                   ,0xdffd5705) //  0

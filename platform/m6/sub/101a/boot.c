@@ -178,7 +178,7 @@ void __attribute__((naked,noinline)) CreateTask_my() {
 }
 
 void __attribute__((naked,noinline)) init_file_modules_task() {
-	// tools/capdis -f=chdk -jfw -stubs -s=task_InitFileModules -c=18 PRIMARY.BIN 0xe0000000
+	// capdis -f=chdk -jfw -stubs -s=task_InitFileModules -c=18 PRIMARY.BIN 0xe0000000
 	// task_InitFileModules 0xe00fdd05
 	asm volatile (
 			"    push    {r4, r5, r6, lr}\n"

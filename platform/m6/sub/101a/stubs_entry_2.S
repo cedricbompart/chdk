@@ -19,6 +19,8 @@ NHSTUB(exmem_ualloc,                        0xe00744f7)
 NHSTUB(exmem_ufree,                         0xe0074553)
 NHSTUB(reboot_fw_update,                    0xe039b733)
 NHSTUB(GetImageFolder,                      0xe02e3031)
+NHSTUB(WriteSDCard,                         0xe04faf19)
+NHSTUB(MakeSDCardBootable,                  0xe036111b)
 
 IGNORE(EngDrvRead)
 NHSTUB(EngDrvRead_FW,                       0xe05b1d13) // in wrappers
@@ -28,7 +30,6 @@ NHSTUB(GetLensWideFocalLength,              0xe03f4573)
 
 NHSTUB(VTMLock,                             NULL_SUB)
 NHSTUB(VTMUnlock,                           NULL_SUB)
-NHSTUB(MakeSDCardBootable,                  0xe036111b)
 
 // MMU
 NHSTUB(dcache_clean_by_mva,                 0xe036ba79)
@@ -47,4 +48,3 @@ NHSTUB(MoveFocusLensToDistance,             NULL_SUB) // TODO: MoveFocusLensWith
 NHSTUB(Restart,                             NULL_SUB) // TODO
 NHSTUB(TurnOffBackLight,                    NULL_SUB) // TODO
 NHSTUB(TurnOnBackLight,                     NULL_SUB) // TODO
-NHSTUB(WriteSDCard,                         NULL_SUB) // TODO
