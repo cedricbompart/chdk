@@ -1,5 +1,6 @@
 #include "cache.h"
 #include "core.h"
+#include "lolevel.h"
 
 #include "../../../generic/mmu_utils.h"
 #include "boot.h"
@@ -53,11 +54,22 @@ void __attribute__((naked,noinline,aligned(4))) patch_E0079DA4() {
 	);
 }
 
+void __attribute__((naked,noinline,aligned(4))) patch_E007A1E8() {
+	asm volatile (
+			"ldr        r3, =mykbd_task\n"
+			"movs       r0, #0\n"
+			"mov        r2, #0x2000\n"
+			"strd       r0, r1, [sp]\n"
+			"ldr        pc, =0xe007a1f1\n" // -> back to ROM
+	);
+}
+
 void plant_hacks_for_e0070000(unsigned addr) {
 	// insert startup mode handling
 	place_fw_patch_t2_64b(patch_E0079DA4, addr + 0x9DA4);
+	place_fw_patch_t2_64b(patch_E007A1E8, addr + 0xA1E8);
 	// nop (benign 16-bit instruction, added to replace 1st half of destroyed 32-bit instruction)
-	*(unsigned short*) (addr + 0x9DA2) = 0xbf00;
+	*(unsigned short*) (addr + 0xA1E6) = 0xbf00;
 }
 
 // should be integrated in dcache_clean_all

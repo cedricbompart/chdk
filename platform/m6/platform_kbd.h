@@ -17,6 +17,7 @@
 #define HOTSHOE_IDX         2
 
 // handwrittten
+#define KEYS_INV0  (0x00000006)
 #define KEYS_MASK0 (0x00000006) // TODO: check
 #define KEYS_MASK1 (0x00063f80) // TODO: check
 #define KEYS_MASK2 (0x00000000) // TODO: check

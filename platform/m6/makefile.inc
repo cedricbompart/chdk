@@ -11,12 +11,10 @@ ROMBASEADDR=0xE0000000
 
 override OPT_FI2=
 
-# TODO: check
 MAXRAMADDR = 0x3fffffff
 
-# TODO: check
 NEED_ENCODED_DISKBOOT=19
-KEYSYS=d4k
+KEYSYS=d4k // TODO
 FI2FLAGS=W
 
 # next line is for the compatibility check, as comment
