@@ -21,6 +21,7 @@ NHSTUB(reboot_fw_update,                    0xe039b733)
 NHSTUB(GetImageFolder,                      0xe02e3031)
 NHSTUB(WriteSDCard,                         0xe04faf19)
 NHSTUB(MakeSDCardBootable,                  0xe036111b)
+NHSTUB(post_msg_3_to_physw_releasesw,       0xe0070a3b)
 
 IGNORE(EngDrvRead)
 NHSTUB(EngDrvRead_FW,                       0xe05b1d13) // in wrappers
