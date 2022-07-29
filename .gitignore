@@ -13,6 +13,7 @@ bin
 CHDK/MODULES
 
 platform/**/sub/**/bin_compat.h
+platform/fi2.inc
 
 tools/ghidra_scripts/**
 

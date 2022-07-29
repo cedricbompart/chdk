@@ -372,6 +372,7 @@ m10,111a,ALPHA,,,,12960,dryos,57,60,0xFC000000,0x8000,0x1fffffff,d4g,W,13,1,,0x0
 sx710hs,100a,,,,,12966,dryos,57,60,0xFC000000,0x8000,0x1fffffff,d4g,,13,1,1,0x006ce000 ,0x00022000 ,,,,,,7
 sx710hs,101a,,,,,12966,dryos,57,60,0xFC000000,0x8000,0x1fffffff,d4g,,13,1,1,0x006ce000 ,0x00022000 ,,,,,,7
 ixus285_elph360hs,100b,ALPHA,,,SKIP,12989,dryos,58,41,0xff010000,0x1900,0x1FFFFFF,d4i,W,16,,,,,,,,,,10
+ixus285_elph360hs,100c,ALPHA,,,SKIP,12989,dryos,58,41,0xff010000,0x1900,0x1FFFFFF,d4i,W,16,,,,,,,,,,10
 sx420is,100a,BETA,,,,12991,dryos,58,41,0xff010000,0x1900,0x1FFFFFF,d4i,W,16,,,,,,,,,,10
 ixus175_elph180,100a,,100c,,,12993,dryos,58,41,0xFF810000,0x1900,0x07ffffff,d4i,W,16,,,,,,,,,,10
 ixus175_elph180,100b,,100c,,,12993,dryos,58,41,0xFF810000,0x1900,0x07ffffff,d4i,W,16,,,,,,,,,,10
@@ -395,5 +396,6 @@ sx730hs,100b,,100c,,,13014,dryos,59,60,0xFC000000,0x8000,0x1fffffff,d4j,W,17,1,,
 sx730hs,100c,,,,,13014,dryos,59,60,0xFC000000,0x8000,0x1fffffff,d4j,W,17,1,,,,,,,,,12
 sx730hs,100d,,,,,13014,dryos,59,60,0xFC000000,0x8000,0x1fffffff,d4j,W,17,1,,,,,,,,,12
 sx730hs,100e,,100d,,,13014,dryos,59,60,0xFC000000,0x8000,0x1fffffff,d4j,W,17,1,,,,,,,,,12
+m6,101a,ALPHA,,,,12997 ,dryos,59,70,0xE0000000,0x8000,0x3fffffff,d7,W,19,1,,0x006ce000,,,,,,,12
 
 Generated file - run 'make camera-info' to update

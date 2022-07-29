@@ -48,3 +48,9 @@ ifeq ($(KEYSYS), d4e)
 FI2KEY=
 FI2IV =
 endif
+
+# m6
+ifeq ($(KEYSYS), d7)
+FI2KEY=
+FI2IV=
+endif

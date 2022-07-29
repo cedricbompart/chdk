@@ -9,12 +9,10 @@ DIGIC = 70
 MEMBASEADDR=0x8000
 ROMBASEADDR=0xE0000000
 
-override OPT_FI2=
-
 MAXRAMADDR = 0x3fffffff
 
 NEED_ENCODED_DISKBOOT=19
-KEYSYS=d4k // TODO
+KEYSYS=d7
 FI2FLAGS=W
 
 # next line is for the compatibility check, as comment
