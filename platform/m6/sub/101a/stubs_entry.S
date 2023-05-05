@@ -12,7 +12,7 @@
 //   DIGIC = 70
 //   MEMISOSTART = 0x2b4138
 //   MEMBASEADDR = 0x8000
-//   ARAM_HEAP_START = 0x006ce000#  Found @0xe03a51d4
+// ARAM_HEAP_START not found
 // ARAM_HEAP_SIZE not found
 
 // Detected address ranges:
@@ -186,21 +186,17 @@ DEF_CONST(fw_yuv_layer_buf                  ,0x4196a000) // Found @0xe007b710
 
 //NHSTUB(DeleteDirectory_Fut                  ,0x00000000) //  0        *** != 0xe0334fdd
 //NHSTUB(DeleteFile_Fut                       ,0x00000000) //  0        *** != 0xe0334f93
-//NHSTUB(Feof_Fut                             ,0x00000000) //  0        *** != 0xe0335189
-//NHSTUB(Fflush_Fut                           ,0x00000000) //  0        *** != 0xe03351b3
-//NHSTUB(GetDrive_TotalClusters               ,0x00000000) //  0        *** != 0xe003a195
+//NHSTUB(EnterToCompensationEVF               ,0xe027a65b) //  0        *** != 0x00000000
+//NHSTUB(ExitFromCompensationEVF              ,0xe027a69d) //  0        *** != 0x00000000
+//NHSTUB(GetDrive_TotalClusters               ,0xe0360ce1) //  0        *** != 0xe003a195
 //NHSTUB(GetImageFolder                       ,0x00000000) //  0        *** != 0xe02e3031
-//NHSTUB(MakeSDCardBootable                   ,0x00000000) //  0        *** != 0xe036111b
 //NHSTUB(RenameFile_Fut                       ,0x00000000) //  0        *** != 0xe0334f31
 //NHSTUB(SetFileAttributes                    ,0x00000000) //  0        *** != 0xe035f66f
 //NHSTUB(SetFileTimeStamp                     ,0x00000000) //  0        *** != 0xe035f627
-//NHSTUB(WriteSDCard                          ,0x00000000) //  0        *** != 0xe04faf19
-//NHSTUB(_sqrt                                ,0x00000000) //  0        *** != 0xdffd619d
-//NHSTUB(apex2us                              ,0x00000000) //  0        *** != 0xe01217c7
+//NHSTUB(_sqrt                                ,0xdffd6c21) //  0        *** != 0xdffd619d
 //NHSTUB(exmem_ualloc                         ,0x00000000) //  0        *** != 0xe00744f7
 //NHSTUB(exmem_ufree                          ,0x00000000) //  0        *** != 0xe0074553
 //NHSTUB(reboot_fw_update                     ,0x00000000) //  0        *** != 0xe039b733
-//NHSTUB(CancelHPTimer                        ,0x00000000) //  0        *** != 0xe0178e9f
 //NHSTUB(SetHPTimerAfterNow                   ,0x00000000) //  0        *** != 0xe0178e05
 
 NHSTUB(AllocateUncacheableMemory              ,0xe01e8625) //  0
@@ -211,13 +207,13 @@ NHSTUB(DebugAssert                            ,0xdffc96e5) //  0
 NHSTUB(DeleteSemaphore                        ,0xdffcd005) //  0
 NHSTUB(DoAELock                               ,0xe027a70f) //  0
 NHSTUB(DoAFLock                               ,0xe027a2c1) //  0
-//NHSTUB(EnterToCompensationEVF               ,0x00000000) //  0            == 0x00000000
 NHSTUB2(ExecuteEventProcedure                  ,0xe03366f3) //  0
-//NHSTUB(ExitFromCompensationEVF              ,0x00000000) //  0            == 0x00000000
 NHSTUB(ExitTask                               ,0xdffc9597) //  0
 //NHSTUB(ExpCtrlTool_StartContiAE             ,0x00000000) //  0            == 0x00000000
 //NHSTUB(ExpCtrlTool_StopContiAE              ,0x00000000) //  0            == 0x00000000
 NHSTUB(Fclose_Fut                             ,0xe033503f) //  0
+//NHSTUB(Feof_Fut                             ,0xe0335189) //  0            == 0xe0335189
+//NHSTUB(Fflush_Fut                           ,0xe03351b3) //  0            == 0xe03351b3
 NHSTUB(Fgets_Fut                              ,0xe0335123) //  0
 NHSTUB(Fopen_Fut                              ,0xe0335017) //  0
 NHSTUB(Fread_Fut                              ,0xe03350b3) //  0
@@ -251,6 +247,7 @@ NHSTUB(LEDDrive                               ,0xe03c2bcd) //  0
 NHSTUB(LocalTime                              ,0xdffcd883) //  0
 NHSTUB(LockMainPower                          ,0xe0088d49) //  0
 NHSTUB(MakeDirectory_Fut                      ,0xe035f6df) //  0
+//NHSTUB(MakeSDCardBootable                   ,0xe036111b) //  0            == 0xe036111b
 //NHSTUB(MoveFocusLensToDistance              ,0x00000000) //  0            == 0x00000000
 NHSTUB(MoveIrisWithAv                         ,0xe03f4bb1) //  0
 NHSTUB(Open                                   ,0xe035f33b) //  0
@@ -283,11 +280,14 @@ NHSTUB(UnlockAF                               ,0xe027a2f1) //  0
 NHSTUB(UnlockMainPower                        ,0xe0088cdb) //  0
 NHSTUB(VbattGet                               ,0xe0072c69) //  0
 NHSTUB(Write                                  ,0xe035f2fd) //  0
+//NHSTUB(WriteSDCard                          ,0xe04faf19) //  0            == 0xe04faf19
 NHSTUB(_log                                   ,0xdffd52c9) //  0
 NHSTUB(_log10                                 ,0xdffd5621) //  0
 NHSTUB(_pow                                   ,0xdffd5705) //  0
 NHSTUB(add_ptp_handler                        ,0xe02d5567) //  0
+//NHSTUB(apex2us                              ,0xe01217c7) //  0            == 0xe01217c7
 NHSTUB(close                                  ,0xe044cc93) //  0
+NHSTUB(err_init_task                          ,0xe0020361) //  0
 NHSTUB(free                                   ,0xe03a0b7b) //  0
 NHSTUB(kbd_p1_f                               ,0xe007a4d3) //  0
 NHSTUB(kbd_p1_f_cont                          ,0xe007a4db) //  0
@@ -333,6 +333,7 @@ NHSTUB(time                                   ,0xdffcd4c1) //  0
 NHSTUB(vsprintf                               ,0xe0383ad3) //  0
 //NHSTUB(EngDrvRead                           ,0x00000000) //  0            Overridden
 NHSTUB(PTM_GetCurrentItem                     ,0xe035940f) //  0
+//NHSTUB(CancelHPTimer                        ,0xe0178e9f) //  0            == 0xe0178e9f
 NHSTUB(SetEventFlag                           ,0xdffcca49) //  0
 NHSTUB(transfer_src_overlay                   ,0xe035da6b) //  0
 NHSTUB(bzero                                  ,0xdffd415d) //  0

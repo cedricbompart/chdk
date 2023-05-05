@@ -52,6 +52,7 @@
 #define cam_CalibrationIlluminant1        17 // Standard light A
 #define cam_CalibrationIlluminant2        21 // D65
 
+#define CAM_HAS_DISPLAY_REFRESH_FLAG      1 // 'display_needs_refresh' variable is available to trigger CHDK UI update
 #define DRAW_ON_ACTIVE_BITMAP_BUFFER_ONLY 1
 #undef  CAM_BITMAP_WIDTH
 #undef  CAM_BITMAP_HEIGHT

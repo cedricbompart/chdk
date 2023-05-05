@@ -9,6 +9,7 @@
 .project
 
 **/.o3
+**/.o5
 bin
 CHDK/MODULES
 
@@ -28,6 +29,7 @@ doc/readme.txt
 
 tools/finsig_thumb2
 tools/code_gen
+tools/code_gen2
 tools/dancingbits
 tools/elf2flt/elf2flt
 tools/elf2flt/fltdump

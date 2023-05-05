@@ -181,3 +181,11 @@ int vid_get_aspect_ratio() {
 char* camera_jpeg_count_str() {
 	return jpeg_count_str;
 }
+
+/**
+ * @header gui_draw.c
+ */
+void vid_bitmap_erase() {
+	extern void _bzero(unsigned char *s, int n);
+	_bzero(chdk_rgba, CB_W * bm_h * 4);
+}
