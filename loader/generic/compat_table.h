@@ -44,22 +44,6 @@
 { 12638,1,0xc02200c4,0xfffe0130 }, // sx100is
 { 12639,1,0xc02200cc,0xfffe0130 }, // ixus960_sd950
 { 12640,1,0xc02200cc,0xfffe0130 }, // ixus860_sd870
-#elif (NEED_ENCODED_DISKBOOT == 1)
-{ 12659,1,0xc02200d4,0xfffe0130 }, // ixus970_sd890
-{ 12660,1,0xc0220130,0xfffe0130 }, // ixus90_sd790
-{ 12661,1,0xc02200d4,0xfffe0130 }, // ixus85_sd770
-{ 12662,1,0xc02200c4,0xfffe0130 }, // a590
-{ 12663,1,0xc02200c4,0xfffe0130 }, // a580
-{ 12666,1,0xc0220084,0xfffe0130 }, // a470
-{ 12676,1,0xc02200d4,0xfffe0130 }, // ixus80_sd1100
-{ 12685,1,0xc0220060,0xfffe0130 }, // sx10
-{ 12686,1,0xc02200c4,0xfffe0130 }, // a1000
-{ 12687,1,0xc02200d4,0xfffe0130 }, // g10
-{ 12689,1,0xc02200c4,0xfffe0130 }, // a2000
-{ 12690,1,0xc02200c4,0xfffe0130 }, // sx110is
-{ 12691,1,0xc02200bc,0xfffe0130 }, // ixus980_sd990
-{ 12693,0,0,0xfffe0130 }, // sx1
-{ 12694,1,0xc02200d4,0xfffe0130 }, // ixus870_sd880
 #elif (NEED_ENCODED_DISKBOOT == 10)
 { 12894,2,0xc022c30c,0xfff40040 }, // n
 { 12895,4,0xd20b0994,0xfff60040 }, // sx280hs
@@ -77,6 +61,22 @@
 { 12916,4,0xd20b0994,0xfff20040 }, // g16
 { 12918,1,0xc0220120,0xfffe0040 }, // sx170is
 { 12919,1,0xc022302c,0xfff40040 }, // sx510hs
+#elif (NEED_ENCODED_DISKBOOT == 1)
+{ 12659,1,0xc02200d4,0xfffe0130 }, // ixus970_sd890
+{ 12660,1,0xc0220130,0xfffe0130 }, // ixus90_sd790
+{ 12661,1,0xc02200d4,0xfffe0130 }, // ixus85_sd770
+{ 12662,1,0xc02200c4,0xfffe0130 }, // a590
+{ 12663,1,0xc02200c4,0xfffe0130 }, // a580
+{ 12666,1,0xc0220084,0xfffe0130 }, // a470
+{ 12676,1,0xc02200d4,0xfffe0130 }, // ixus80_sd1100
+{ 12685,1,0xc0220060,0xfffe0130 }, // sx10
+{ 12686,1,0xc02200c4,0xfffe0130 }, // a1000
+{ 12687,1,0xc02200d4,0xfffe0130 }, // g10
+{ 12689,1,0xc02200c4,0xfffe0130 }, // a2000
+{ 12690,1,0xc02200c4,0xfffe0130 }, // sx110is
+{ 12691,1,0xc02200bc,0xfffe0130 }, // ixus980_sd990
+{ 12693,0,0,0xfffe0130 }, // sx1
+{ 12694,1,0xc02200d4,0xfffe0130 }, // ixus870_sd880
 #elif (NEED_ENCODED_DISKBOOT == 12)
 { 12933,4,0xd20b0994,0xfff20040 }, // sx700hs
 { 12935,3,0xc022d1fc,0xffff0040 }, // ixus150_elph140
@@ -110,6 +110,8 @@
 { 13012,3,0xc022d1fc,0xffff0270 }, // ixus185_elph185
 { 13013,3,0xc022d1fc,0xfffe0270 }, // sx430is
 { 13014,4,0xd20b0994,0xfff20270 }, // sx730hs
+#elif (NEED_ENCODED_DISKBOOT == 19)
+{ 12997,5,0xD20801E0,0xe1f20270 }, // m6
 #elif (NEED_ENCODED_DISKBOOT == 2)
 { 12732,1,0xc0220134,0xfffe0130 }, // d10
 { 12733,1,0xc0220130,0xfffe0130 }, // ixus110_sd960
