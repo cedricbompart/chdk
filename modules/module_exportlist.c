@@ -11,9 +11,6 @@
 
             module_get_adr
             module_exit_alt
-            module_restore_edge
-            module_save_edge
-            module_set_script_lang
             module_run
             module_preload
             &chdk_colors
@@ -155,7 +152,6 @@
             gui_default_kbd_process_menu_btn
             get_batt_perc
             gui_mbox_init
-            gui_enum_value_change
             gui_set_need_restore
             gui_load_user_menu_script
 
@@ -163,7 +159,6 @@
             gui_osd_draw_clock
 
             gui_activate_sub_menu
-            gui_menu_back
             get_curr_menu
 
             vid_get_bitmap_fb
@@ -308,6 +303,7 @@
             get_exposure_counter
             get_target_dir_name
             get_target_file_num
+            get_playback_image_number
             GetJpgCount
             GetRawCount
             is_raw_possible
@@ -428,14 +424,11 @@
             SetHPTimerAfterNow
             CancelHPTimer
 
-            remotecap_get_target_support
             remotecap_set_target
             remotecap_using_dng_module
             remotecap_set_timeout
-            remotecap_get_target
 
             set_focus_bypass
-            sd_over_modes
 
             &firmware_crc_desc
             live_view_get_data

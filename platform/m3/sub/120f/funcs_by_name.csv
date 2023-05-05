@@ -26,6 +26,8 @@
 0xfc43d107,AllocateEFlensComBuffer
 0xfc450d6f,AllocateMemory_FW
 0xfc153795,AllocateUncacheableMemory
+0xfc3f454f,apex2us
+0xfc29f849,ApMoniSel_FW
 0xfc24b767,AprocSigProc_ALC_FW
 0xfc24b77d,AprocSigProc_ALCReset_FW
 0xfc24b71d,AprocSigProc_DCCut_FW
@@ -80,6 +82,7 @@
 0xfc5a565b,CancelAdj_AEMode_FW
 0xfc4ca9bb,CancelExStrobeMode_FW
 0xfc44c2e7,CancelFocusLensMaxSpeedLimit_FW
+0xfc1fcc21,CancelHPTimer
 0xfc5a43d1,CancelImageDrive_FW
 0xfc159dd9,CancelImager_FW
 0xfc5aa129,CancelLoopGainCalc_FW
@@ -450,6 +453,9 @@
 0xfc4404f5,EFLensCom.SyncComFocusInfo_FW
 0xfc440569,EFLensCom.SyncComFocusStatus_FW
 0xfc2f3b57,EFLensCom.UpdateStatus_FW
+0xfc43e349,EFLensCom_FocusSearchFar
+0xfc43e36f,EFLensCom_FocusSearchNear
+0xfc2f3315,EFLensCom_MoveFocus
 0xfc43dbdd,EFLensTool.Cmd.Clear_FW
 0xfc43db73,EFLensTool.Cmd.GetRcvData_FW
 0xfc43dadf,EFLensTool.Cmd.Send_FW
@@ -497,6 +503,7 @@
 0xfc020fdb,EngDrvRead_FW
 0xfc020ff3,EngDrvReadDump_FW
 0xfc18a581,EngineDriver.Create_FW
+0xfc0aa66b,EnterToCompensationEVF
 0xfc37b999,EpilogFile_FW
 0xfc37b9df,EpilogMenu_FW
 0xfc37b86d,EpilogShow_FW
@@ -506,6 +513,7 @@
 0xfc18cfbd,EraseLogSector_FW
 0xfc0f83cb,EraseRom_FW
 0xfc189125,EraseSignature_FW
+0xfc06316b,err_init_task
 0xfc0bbc7f,ErrorTest_Disconnect_FW
 0xfc0bbc35,ErrorTest_Succession_FW
 0xfc44bad5,EscapeFocusLens_FW
@@ -546,6 +554,7 @@
 0xfc10afbd,ExEVFDrvWriteData_FW
 0xfc1c0171,ExEVFDrvWriteRomData_FW
 0xfc1c025b,ExEVFDrvWriteRomDataWithPolling_FW
+0xfc0aa6a7,ExitFromCompensationEVF
 0xbfe14c13,ExitTask
 0xbfe14c13,ExitTask_FW
 0xfc078d9b,ExMem.AllocCacheable_FW
@@ -560,6 +569,8 @@
 0xfc078d27,exmem_ufree
 0xfc20f89b,ExpCtrlTool.SetExpMode_FW
 0xfc20f8cd,ExpCtrlTool.SoundDevTest_FW
+0xfc2aab75,ExpCtrlTool_StartContiAE
+0xfc2aadc9,ExpCtrlTool_StopContiAE
 0xfc32827f,ExportToEventProcedure_FW
 0xfc18a11b,FA.Create_FW
 0xfc18a10f,FA.Delete_FW
@@ -570,6 +581,8 @@
 0xfc3742e7,Fclose_Fut
 0xfc3742e7,Fclose_Fut_FW
 0xfc066a33,fclose_low
+0xfc374429,Feof_Fut
+0xfc374451,Fflush_Fut
 0xfc3743c5,Fgets_Fut
 0xfc066baf,fgets_low
 0xfc183055,File.ClearExifInfo_FW
@@ -748,8 +761,10 @@
 0xfc450b25,GetDramTypeError_FW
 0xfc379e4f,GetDrive_ClusterSize
 0xfc37a353,GetDrive_FreeClusters
+0xfc37a32f,GetDrive_TotalClusters
 0xfc1793bd,GetDriverInfoEvent_FW
 0xfc086a27,getEepromNum_FW
+0xfc5a8adf,GetEFLensFocusPositionWithLensCom
 0xfc5a8adf,GetEFLensFocusPositionWithLensCom_FW
 0xfc2f191f,GetEFLensFocusPositionWithoutLensCom_FW
 0xfc5a7bd5,GetEFUSEData_FW
@@ -798,6 +813,7 @@
 0xfc554aaf,GetFocusLensSettingWaitVoltage_FW
 0xfc35fd97,GetFocusLensSubjectDistance
 0xfc44c3d5,GetFocusLensSubjectDistance_FW
+0xfc35ff17,GetFocusLensSubjectDistanceFromLens
 0xfc44c3e7,GetFocusLensSubjectDistanceNumber_FW
 0xfc0f8a43,GetFocusStartZoomPosition_FW
 0xfc5a7b93,GetFPGABinSize_FW
@@ -1162,6 +1178,7 @@
 0xfc37b257,InactivateAdjLog_FW
 0xfc1ee771,init_error_handlers
 0xfc0636dd,init_ex_drivers
+0xfc379a27,init_sd_io_funcs
 0xfc06316b,init_task_error
 0xfc0bfde9,initComDiscovery_FW
 0xfc18a0f9,InitializeAdjustmentFunction_FW
@@ -1694,6 +1711,7 @@
 0xfc020f2d,MakeDefectTurnTable_FW
 0xfc37ab5b,MakeDirectory_Fut
 0xfc450e6d,MakeScriptDisk_FW
+0xfc37a6bd,MakeSDCardBootable
 0xfc3801c5,malloc
 0xfc37a765,malloc_strictly
 0xfc020c0f,MarkPointDefData_FW
@@ -1941,6 +1959,7 @@
 0xfc5a7853,ReadImgCorrectDefectModeEEPRom_FW
 0xfc5a6fbf,ReadImgEEPRomAllData_FW
 0xfc5a7581,ReadImgEEPRomData_FW
+0x010e2b03,ReadSDCard
 0xfc17b745,ReadStatusRegEEPRom_FW
 0xfc32a9e7,Rec2PB
 0xfc44ccc1,ReceiveMechaCircuitData_FW
@@ -2513,6 +2532,7 @@
 0xbfe15401,TakeSemaphore_FW
 0xbfe120b3,takesemaphore_low
 0xbfe155ad,TakeSemaphoreStrictly
+0xfc21ed8d,task__cntFlashTask
 0xfc213bdf,task__furikakeLeoCalcTask
 0xfc1f1059,task__imageSensorTask
 0xfc23eff9,task__tgTask
@@ -2523,6 +2543,7 @@
 0xfc201a97,task_AprocBpGenTask
 0xfc201a37,task_AprocBpPwmTask
 0xfc2019ab,task_AprocMainTask
+0xfc4f42d3,task_AprocMusicTask
 0xfc13095f,task_BatteryTask
 0xfc077755,task_bomStopPTPIPTask
 0xfc156c13,task_BrtMsrTask
@@ -2558,6 +2579,7 @@
 0xfc10dbe1,task_DPOFTask
 0xfc110b5f,task_DvlpSeqTask
 0xfc13e081,task_EdetSBJTask
+0xfc4f309d,task_EFChargeT
 0xfc2f0df9,task_EFLensComTask
 0xfc18707b,task_EISMainTask
 0xfc0d9471,task_EncRemoteEVFJpgTask
@@ -2600,6 +2622,9 @@
 0xfc0bcca1,task_LachesisTest
 0xfc177631,task_LcdConTask
 0xfc13b60d,task_LEDCon
+0xfc0f8597,task_LensController
+0xfc0f8683,task_LensController
+0xfc0f873f,task_LensController
 0xfc25cc89,task_LensInfo
 0xfc15bb0b,task_LiveImageTask
 0xfc0dc81f,task_LowConsole
@@ -2849,6 +2874,7 @@
 0xfc1022e5,WriteNFCUserArea_FW
 0xfc1c02cb,WriteNFCUserAreaWithInitNFCAdj_FW
 0xfc5a9d97,WritePWMAdjustment_FW
+0x010e2bed,WriteSDCard
 0xfc17b613,WriteStatusRegEEPRom_FW
 0xfc0f8363,WriteToRom_FW
 0xfc1f8c53,WRITEUSERSETTINGDATATOFROM_FW

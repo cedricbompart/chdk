@@ -235,6 +235,7 @@ sig_entry_t  sig_names[MAX_SIG_ENTRY] =
     { "VbattGet" },
     { "Write" },
     { "WriteSDCard" },
+    { "ReadSDCard", OPTIONAL|UNUSED },
 
     { "_log" },
     { "_log10" },
@@ -539,6 +540,12 @@ sig_entry_t  sig_names[MAX_SIG_ENTRY] =
     { "ReleaseEFlensComBuffer", OPTIONAL|UNUSED },
     { "EFLens_Send", OPTIONAL|UNUSED },
     { "EFLens_Send_low", OPTIONAL|UNUSED },
+    { "EFLensCom_MoveFocus", OPTIONAL|UNUSED },
+    { "EFLensCom_FocusSearchNear", OPTIONAL|UNUSED },
+    { "EFLensCom_FocusSearchFar", OPTIONAL|UNUSED },
+    { "GetEFLensFocusPositionWithLensCom", OPTIONAL|UNUSED },
+
+    { "init_sd_io_funcs", OPTIONAL|UNUSED }, // helper for WriteSDCard
 
     {0,0,0},
 };
@@ -1015,6 +1022,8 @@ int is_sig_call(firmware *fw, iter_state_t *is, const char *name)
 #define SIG_NO_D7 2
 #define SIG_ILC_ONLY 4
 #define SIG_NONILC_ONLY 8
+#define SIG_OPTIONAL 16
+
 
 typedef struct sig_rule_s sig_rule_t;
 typedef int (*sig_match_fn)(firmware *fw, iter_state_t *is, sig_rule_t *rule);
@@ -1946,7 +1955,21 @@ int sig_match_take_semaphore_strict(firmware *fw, iter_state_t *is, sig_rule_t *
     if(!insn_match_find_next(fw,is,10,match_bl_blximm)) {
         return 0;
     }
-    return save_sig_with_j(fw,"GetDrive_FreeClusters",get_branch_call_insn_target(fw,is));
+    uint32_t adr=get_branch_call_insn_target(fw,is);
+    int rv = save_sig_with_j(fw,"GetDrive_FreeClusters",adr);
+
+    // GetDrive_TotalClusters is function immediately before GetDrive_FreeClusters
+    adr -= 40;
+    fw_disasm_iter_single(fw,adr);
+    for (i=0; i<10; i+=1) {
+        if (fw->is->insn->id == ARM_INS_PUSH && fw->is->insn->detail->arm.operands[0].reg == ARM_REG_R4) {
+            save_sig_with_j(fw,"GetDrive_TotalClusters",(fw->is->insn->address) | is->thumb);
+            break;
+        }
+        fw_disasm_iter(fw);
+    }
+
+    return rv;
 }
 
 int sig_match_get_semaphore_value(firmware *fw, iter_state_t *is, sig_rule_t *rule)
@@ -2535,9 +2558,14 @@ int sig_match_sqrt(firmware *fw, iter_state_t *is, sig_rule_t *rule)
             return 0;
         }
     }
+    uint32_t adr = (uint32_t)is->adr|is->thumb;
     // second call/branch (seems to be bhs)
     if(!insn_match_find_nth(fw,is,12,2,match_b_bl_blximm)) {
-        return 0;
+        // not second call, reset and try first
+        disasm_iter_init(fw,is,adr);
+        if(!insn_match_find_nth(fw,is,8,1,match_bl_blximm)) {
+            return 0;
+        }
     }
     return save_sig_with_j(fw,rule->name,get_branch_call_insn_target(fw,is));
 }
@@ -3120,42 +3148,45 @@ int sig_match_get_num_posted_messages(firmware *fw, iter_state_t *is, sig_rule_t
 int sig_match_set_hp_timer_after_now(firmware *fw, iter_state_t *is, sig_rule_t *rule)
 {
     uint32_t str_adr = find_str_bytes_main_fw(fw,rule->ref_name);
-    if(!str_adr) {
+    if (!str_adr) {
         printf("sig_match_set_hp_timer_after_now: failed to find ref %s\n",rule->ref_name);
         return 0;
     }
-    disasm_iter_init(fw,is,(ADR_ALIGN4(str_adr) - SEARCH_NEAR_REF_RANGE) | fw->thumb_default); // reset to a bit before where the string was found
-    while(fw_search_insn(fw,is,search_disasm_const_ref,str_adr,NULL,str_adr+SEARCH_NEAR_REF_RANGE)) {
-        if(!find_next_sig_call(fw,is,20,"ClearEventFlag")) {
-            // printf("sig_match_set_hp_timer_after_now: failed to find ClearEventFlag\n");
-            continue;
-        }
-        // find 3rd call
-        if(!insn_match_find_nth(fw,is,13,3,match_bl_blximm)) {
-            // printf("sig_match_set_hp_timer_after_now: no match bl 0x%"PRIx64"\n",is->insn->address);
-            continue;
-        }
-        // check call args, expect r0 = 70000
-        uint32_t regs[4];
-        uint32_t found_regs = get_call_const_args(fw,is,6,regs);
-        if((found_regs&0x1)!=0x1) {
-            // some cameras load r0 through a base reg, try alternate match
-            // r3 == 3 and r2 or r1 found and in ROM
-            if((found_regs & 0x8) && regs[3] == 4) {
-                if((found_regs & 0x2 && regs[1] > fw->rom_code_search_min_adr)
-                    || (found_regs & 0x4 && regs[2] > fw->rom_code_search_min_adr)) {
-                    return save_sig_with_j(fw,rule->name,get_branch_call_insn_target(fw,is));
-                }
+    while (str_adr) {
+        disasm_iter_init(fw,is,(ADR_ALIGN4(str_adr) - SEARCH_NEAR_REF_RANGE) | fw->thumb_default); // reset to a bit before where the string was found
+        while(fw_search_insn(fw,is,search_disasm_const_ref,str_adr,NULL,str_adr+SEARCH_NEAR_REF_RANGE)) {
+            if(!find_next_sig_call(fw,is,20,"ClearEventFlag")) {
+                // printf("sig_match_set_hp_timer_after_now: failed to find ClearEventFlag\n");
+                continue;
             }
-            // printf("sig_match_set_hp_timer_after_now: failed to match args 0x%"PRIx64"\n",is->insn->address);
-            continue;
+            // find 3rd call
+            if(!insn_match_find_nth(fw,is,13,3,match_bl_blximm)) {
+                // printf("sig_match_set_hp_timer_after_now: no match bl 0x%"PRIx64"\n",is->insn->address);
+                continue;
+            }
+            // check call args, expect r0 = 70000
+            uint32_t regs[4];
+            uint32_t found_regs = get_call_const_args(fw,is,6,regs);
+            if((found_regs&0x1)!=0x1) {
+                // some cameras load r0 through a base reg, try alternate match
+                // r3 == 3 and r2 or r1 found and in ROM
+                if((found_regs & 0x8) && regs[3] == 4) {
+                    if((found_regs & 0x2 && regs[1] > fw->rom_code_search_min_adr)
+                        || (found_regs & 0x4 && regs[2] > fw->rom_code_search_min_adr)) {
+                        return save_sig_with_j(fw,rule->name,get_branch_call_insn_target(fw,is));
+                    }
+                }
+                // printf("sig_match_set_hp_timer_after_now: failed to match args 0x%"PRIx64"\n",is->insn->address);
+                continue;
+            }
+            // r1, r2 should be func pointers but may involve reg-reg moves that get_call_const_args doesn't track
+            if(regs[0] != 70000) {
+                // printf("sig_match_set_hp_timer_after_now: args mismatch 0x%08x 0x%08x 0x%"PRIx64"\n",regs[0],regs[1],is->insn->address);
+                continue;
+            }
+            return save_sig_with_j(fw,rule->name,get_branch_call_insn_target(fw,is));
         }
-        // r1, r2 should be func pointers but may involve reg-reg moves that get_call_const_args doesn't track
-        if(regs[0] != 70000) {
-            // printf("sig_match_set_hp_timer_after_now: args mismatch 0x%08x 0x%08x 0x%"PRIx64"\n",regs[0],regs[1],is->insn->address);
-            continue;
-        }
-        return save_sig_with_j(fw,rule->name,get_branch_call_insn_target(fw,is));
+        str_adr = find_next_str_bytes_main_fw(fw,rule->ref_name,str_adr+8);
     }
     return 0;
 }
@@ -4381,6 +4412,7 @@ int sig_match_aram_start(firmware *fw, iter_state_t *is, sig_rule_t *rule)
         printf("sig_aram_start: no match DebugAssert\n");
         return 0;
     }
+    uint32_t m_adr = is->insn->address | is->thumb;
     const insn_match_t match_cmp_bne_ldr[]={
         {MATCH_INS(CMP, 2), {MATCH_OP_REG(R1),MATCH_OP_IMM(0)}},
         {MATCH_INS_CC(B,NE,MATCH_OPCOUNT_IGNORE)},
@@ -4388,46 +4420,23 @@ int sig_match_aram_start(firmware *fw, iter_state_t *is, sig_rule_t *rule)
         {ARM_INS_ENDING}
     };
     if(!insn_match_find_next_seq(fw,is,15,match_cmp_bne_ldr)) {
-        printf("sig_match_aram_start: no match CMP\n");
-        return 0;
+        // Try alternate instruction sequence
+        disasm_iter_init(fw, is, m_adr);
+        const insn_match_t match_cmp_bne_ldr2[]={
+            {MATCH_INS(CMP, 2), {MATCH_OP_REG(R1),MATCH_OP_IMM(0)}},
+            {MATCH_INS_CC(B,NE,MATCH_OPCOUNT_IGNORE)},
+            {MATCH_INS(LDR, 2), {MATCH_OP_REG_ANY,MATCH_OP_MEM_BASE(SP)}},
+            {MATCH_INS(LDR, 2), {MATCH_OP_REG_ANY,MATCH_OP_MEM_BASE(PC)}},
+            {ARM_INS_ENDING}
+        };
+        if(!insn_match_find_next_seq(fw,is,15,match_cmp_bne_ldr2)) {
+            printf("sig_match_aram_start: no match CMP\n");
+            return 0;
+        }
     }
     uint32_t adr=LDR_PC2val(fw,is->insn);
     if(!adr) {
         printf("sig_match_aram_start: no match LDR PC 0x%"PRIx64"\n",is->insn->address);
-        return 0;
-    }
-    // could sanity check that it looks like a RAM address
-    save_misc_val(rule->name,adr,0,(uint32_t)is->insn->address);
-    return 1;
-}
-
-int sig_match_aram_start2(firmware *fw, iter_state_t *is, sig_rule_t *rule)
-{
-    if (get_misc_val_value("ARAM_HEAP_START"))
-        return 0;
-
-    if(!init_disasm_sig_ref(fw,is,rule)) {
-        printf("sig_match_aram_start: missing ref\n");
-        return 0;
-    }
-    if(!find_next_sig_call(fw,is,60,"DebugAssert")) {
-        printf("sig_aram_start2: no match DebugAssert\n");
-        return 0;
-    }
-    const insn_match_t match_cmp_bne_ldr[]={
-        {MATCH_INS(CMP, 2), {MATCH_OP_REG(R1),MATCH_OP_IMM(0)}},
-        {MATCH_INS_CC(B,NE,MATCH_OPCOUNT_IGNORE)},
-        {MATCH_INS(LDR, 2), {MATCH_OP_REG_ANY,MATCH_OP_MEM_BASE(SP)}},
-        {MATCH_INS(LDR, 2), {MATCH_OP_REG_ANY,MATCH_OP_MEM_BASE(PC)}},
-        {ARM_INS_ENDING}
-    };
-    if(!insn_match_find_next_seq(fw,is,15,match_cmp_bne_ldr)) {
-        printf("sig_match_aram_start2: no match CMP\n");
-        return 0;
-    }
-    uint32_t adr=LDR_PC2val(fw,is->insn);
-    if(!adr) {
-        printf("sig_match_aram_start2: no match LDR PC 0x%"PRIx64"\n",is->insn->address);
         return 0;
     }
     // could sanity check that it looks like a RAM address
@@ -4852,6 +4861,61 @@ int sig_match_live_free_cluster_count(firmware *fw, iter_state_t *is, sig_rule_t
 
 }
 
+int sig_match_init_sd_io_funcs(firmware *fw, iter_state_t *is, sig_rule_t *rule)
+{
+    uint32_t call_adr = find_call_near_str(fw, is, rule);
+
+    if (call_adr == 0) {
+        printf("sig_match_init_sd_io_funcs: no match call 1\n");
+        return 0;
+    }
+
+    // initialize to call address
+    disasm_iter_init(fw,is,call_adr);
+    disasm_iter(fw,is);
+    // follow
+    disasm_iter_init(fw,is,get_branch_call_insn_target(fw,is));
+    if(!insn_match_find_nth(fw,is,14,2,match_bl_blximm)) {
+        printf("sig_match_init_sd_io_funcs: no match call 2\n");
+        return 0;
+    }
+    return save_sig_with_j(fw,rule->name,get_branch_call_insn_target(fw,is));
+}
+
+int sig_match_sd_io_func(firmware *fw, iter_state_t *is, sig_rule_t *rule)
+{
+    if(!init_disasm_sig_ref(fw,is,rule)) {
+        return 0;
+    }
+    const insn_match_t write_fn_str_match[]={
+        {MATCH_INS(STR,     2), {MATCH_OP_REG_ANY,  MATCH_OP_MEM(INVALID,INVALID,rule->param)}},
+        {ARM_INS_ENDING}
+    };
+    // search for store to function offset
+    if(!insn_match_find_next(fw,is,46,write_fn_str_match)) {
+        printf("sig_match_sd_io_func: %s no match STR 0x%"PRIx64"\n",rule->name,is->insn->address);
+        return 0;
+    }
+    arm_reg fn_reg = (arm_reg)is->insn->detail->arm.operands[0].reg;
+    // backtrack until we find ldr into reg
+    int i;
+    for(i=1; i<5; i++) {
+        fw_disasm_iter_single(fw,adr_hist_get(&is->ah,i));
+        cs_insn *insn=fw->is->insn;
+        if(insn->id != ARM_INS_LDR || (arm_reg)insn->detail->arm.operands[0].reg != fn_reg) {
+            continue;
+        }
+        if(insn->detail->arm.operands[1].mem.base != ARM_REG_PC) {
+            printf("sig_match_sd_io_func: %s expected LDR PC 0x%"PRIx64"\n",rule->name,is->insn->address);
+            return 0;
+        }
+        // printf("WriteSDCard %x 0x%"PRIx64"\n",LDR_PC2val(fw,insn),insn->address);
+        return save_sig_with_j(fw,rule->name,LDR_PC2val(fw,insn));
+    }
+    printf("sig_match_sd_io_func: no match LDR\n");
+    return 0;
+}
+
 int sig_match_debug_logging_ptr(firmware *fw, iter_state_t *is, sig_rule_t *rule)
 {
     uint32_t call_adr = find_str_arg_call(fw,is,rule);
@@ -4961,12 +5025,12 @@ int sig_match_fw_yuv_layer_buf_52(firmware *fw, iter_state_t *is, sig_rule_t *ru
         printf("sig_match_fw_yuv_layer_buf_52: no match get_displaytype\n");
         return 0;
     }
-    printf("match get_displaytype 0x%"PRIx64"\n",is->insn->address);
+//     printf("match get_displaytype 0x%"PRIx64"\n",is->insn->address);
     if(!insn_match_find_nth(fw,is,14,2,match_bl_blximm)) {
         printf("sig_match_fw_yuv_layer_buf_52: no match call\n");
         return 0;
     }
-    printf("match 0x%"PRIx64"\n",is->insn->address);
+//     printf("match 0x%"PRIx64"\n",is->insn->address);
     uint32_t regs[4];
     // get r1, backtracking up to 8 instructions
     if ((get_call_const_args(fw,is,8,regs)&2)!=2) {
@@ -5072,6 +5136,7 @@ uint32_t find_call_near_str(firmware *fw, iter_state_t *is, sig_rule_t *rule)
     // TODO should handle multiple instances of string
     disasm_iter_init(fw,is,(ADR_ALIGN4(search_adr) - SEARCH_NEAR_REF_RANGE) | fw->thumb_default); // reset to a bit before where the string was found
     while(fw_search_insn(fw,is,search_disasm_const_ref,str_adr,NULL,search_adr+SEARCH_NEAR_REF_RANGE)) {
+        uint32_t ref_adr = is->insn->address | is->thumb;
         // bactrack looking for preceding call
         if(rule->param & SIG_NEAR_REV) {
             int i;
@@ -5090,6 +5155,37 @@ uint32_t find_call_near_str(firmware *fw, iter_state_t *is, sig_rule_t *rule)
                 return iter_state_adr(is);
             }
         }
+        // Not found - look for previous branch to ref_adr
+        disasm_iter_init(fw, is, (ADR_ALIGN4(ref_adr) - SEARCH_NEAR_REF_RANGE) | fw->thumb_default);
+        int i;
+        for (i=0; i<50; i+=1) {
+            if (insn_match_find_next(fw,is,1,match_b)) {
+                uint32_t b_adr=get_branch_call_insn_target(fw,is);
+                if (b_adr == ref_adr) {
+                    // bactrack looking for preceding call
+                    if(rule->param & SIG_NEAR_REV) {
+                        int i;
+                        int n_calls=0;
+                        for(i=1; i<=max_insns; i++) {
+                            fw_disasm_iter_single(fw,adr_hist_get(&is->ah,i));
+                            if(insn_match_any(fw->is->insn,insn_match)) {
+                                n_calls++;
+                            }
+                            if(n_calls == n) {
+                                return iter_state_adr(fw->is);
+                            }
+                        }
+                    } else {
+                        if(insn_match_find_nth(fw,is,max_insns,n,insn_match)) {
+                            return iter_state_adr(is);
+                        }
+                    }
+                }
+            }
+        }
+        // Reset - second check not matched
+        disasm_iter_init(fw, is, ref_adr);
+        disasm_iter(fw, is);
     }
     printf("find_call_near_str: no match %s\n",rule->name);
     return 0;
@@ -5287,18 +5383,17 @@ int sig_match_named_save_sig(firmware *fw,const char *name, uint32_t adr, uint32
     }
     return 0;
 }
+
 // match already identified function found by name
 // if offset is 1, match the first called function with 20 insn instead (e.g. to avoid eventproc arg handling)
-// veneers are added
-int sig_match_named(firmware *fw, iter_state_t *is, sig_rule_t *rule)
+uint32_t sig_match_named_find(firmware *fw, iter_state_t *is, sig_rule_t *rule, uint32_t ref_adr)
 {
-    uint32_t ref_adr = get_saved_sig_val(rule->ref_name);
     if(!ref_adr) {
-        printf("sig_match_named: missing %s\n",rule->ref_name);
+        if (!(rule->flags & SIG_OPTIONAL))
+            printf("sig_match_named_find: missing %s\n",rule->ref_name);
         return 0;
     }
     uint32_t sig_type = rule->param & SIG_NAMED_TYPE_MASK;
-    uint32_t sig_flags = rule->param & SIG_NAMED_FLAG_MASK;
     uint32_t sig_nth = (rule->param & SIG_NAMED_NTH_MASK)>>SIG_NAMED_NTH_SHIFT;
     uint32_t sig_nth_range = (rule->param & SIG_NAMED_NTH_RANGE_MASK)>>SIG_NAMED_NTH_RANGE_SHIFT;
     if(!sig_nth) {
@@ -5310,7 +5405,7 @@ int sig_match_named(firmware *fw, iter_state_t *is, sig_rule_t *rule)
     // no offset, just save match as is
     // TODO might want to validate anyway
     if(sig_type == SIG_NAMED_ASIS) {
-        return sig_match_named_save_sig(fw,rule->name,ref_adr,sig_flags);
+        return ref_adr;
     }
     const insn_match_t *insn_match;
     if(sig_type == SIG_NAMED_JMP_SUB) {
@@ -5339,7 +5434,7 @@ int sig_match_named(firmware *fw, iter_state_t *is, sig_rule_t *rule)
                 return 0;
             }
         }
-        return sig_match_named_save_sig(fw,rule->name,iter_state_adr(is),sig_flags);
+        return iter_state_adr(is);
     }
 
     // initial 15 is hard coded
@@ -5356,12 +5451,108 @@ int sig_match_named(firmware *fw, iter_state_t *is, sig_rule_t *rule)
                 // preserve current state
                 adr |= is->thumb;
             }
-            return sig_match_named_save_sig(fw,rule->name,adr,sig_flags);
+            return adr;
         } else {
             printf("sig_match_named: %s invalid branch target 0x%08x\n",rule->ref_name,adr);
         }
-    } else {
+    } else if (!(rule->flags & SIG_OPTIONAL)) {
         printf("sig_match_named: %s branch not found 0x%08x\n",rule->ref_name,ref_adr);
+    }
+    return 0;
+}
+
+// match already identified function found by name
+// if offset is 1, match the first called function with 20 insn instead (e.g. to avoid eventproc arg handling)
+// veneers are added
+int sig_match_named(firmware *fw, iter_state_t *is, sig_rule_t *rule)
+{
+    uint32_t ref_adr = get_saved_sig_val(rule->ref_name);
+    uint32_t adr = sig_match_named_find(fw, is, rule, ref_adr);
+    if (adr) {
+        return sig_match_named_save_sig(fw,rule->name,adr,rule->param & SIG_NAMED_FLAG_MASK);
+    }
+    return 0;
+}
+
+int sig_seq[][2] = {
+    { SIG_NAMED_SUB, SIG_NAMED_NTH(3,JMP_SUB) },        //MakeSDCardBootable
+    { SIG_NAMED_SUB, SIG_NAMED_SUB },                   //GetFocusLensSubjectDistanceFromLens
+    { SIG_NAMED_JMP_SUB, SIG_NAMED_NTH(3,JMP_SUB) },    //apex2us
+};
+
+// Follow sig_seq entries starting from saved sig val. Rule param is index into sig_seq array
+int sig_match_named_seq(firmware *fw, iter_state_t *is, sig_rule_t *rule)
+{
+    uint32_t ref_adr = get_saved_sig_val(rule->ref_name);
+    sig_rule_t trule;
+    memcpy(&trule, rule, sizeof(sig_rule_t));
+    trule.param = sig_seq[rule->param][0];
+    // Follow first sig_seq entry
+    uint32_t adr = sig_match_named_find(fw, is, &trule, ref_adr);
+    if (adr) {
+        // Check in case first link is to a veneer direct jump
+        fw_disasm_iter_single(fw, adr);
+        uint32_t b_adr = get_direct_jump_target(fw, fw->is);
+        if (b_adr) adr = b_adr;
+        trule.param = sig_seq[rule->param][1];
+        // If 1st is valid, follow second entry
+        adr = sig_match_named_find(fw, is, &trule, adr);
+        if (adr) {
+            return sig_match_named_save_sig(fw,rule->name,adr,rule->param & SIG_NAMED_FLAG_MASK);
+        }
+    }
+    return 0;
+}
+
+// match already identified function found by name, select next func as result
+int sig_match_named_next_func(firmware *fw, iter_state_t *is, sig_rule_t *rule)
+{
+    uint32_t adr = get_saved_sig_val(rule->ref_name);
+    if(!adr) {
+        printf("sig_match_named_next_func: missing %s\n",rule->ref_name);
+        return 0;
+    }
+    adr += 32;
+    int i;
+    fw_disasm_iter_single(fw,adr);
+    for (i=0; i<20; i+=1) {
+        if (fw->is->insn->id == ARM_INS_PUSH && fw->is->insn->detail->arm.operands[0].reg == ARM_REG_R4) {
+            return save_sig_with_j(fw,rule->name,(fw->is->insn->address) | is->thumb);
+        }
+        fw_disasm_iter(fw);
+    }
+
+    return 0;
+}
+
+// Match function using string
+int sig_match_func_using_str(firmware *fw, iter_state_t *is, sig_rule_t *rule)
+{
+    uint32_t str_adr = find_str_bytes_main_fw(fw,rule->ref_name);
+    if(!str_adr) {
+        printf("sig_match_func_using_str: %s failed to find ref %s\n",rule->name,rule->ref_name);
+        return  0;
+    }
+
+    disasm_iter_init(fw,is,(ADR_ALIGN4(str_adr) - SEARCH_NEAR_REF_RANGE) | fw->thumb_default); // reset to a bit before where the string was found
+    // Find references to string
+    while(fw_search_insn(fw,is,search_disasm_const_ref,str_adr,NULL,str_adr+SEARCH_NEAR_REF_RANGE)) {
+        // string reference address
+        uint32_t ref_adr = is->insn->address | is->thumb;
+        // back up a bit
+        fw_disasm_iter_single(fw,ref_adr - rule->param);
+        int i;
+        // Search for push {r4,...} instruction
+        for (i=0; i<rule->param; i+=1) {
+            if (fw->is->insn->id == ARM_INS_PUSH && fw->is->insn->detail->arm.operands[0].reg == ARM_REG_R4) {
+                // Push instruction address
+                uint32_t f_adr = (fw->is->insn->address) | fw->is->thumb;
+                // If push is after string reference use string reference address as function start
+                if (f_adr > ref_adr) f_adr = ref_adr;
+                return save_sig_with_j(fw,rule->name,f_adr);
+            }
+            fw_disasm_iter(fw);
+        }
     }
     return 0;
 }
@@ -5401,7 +5592,7 @@ sig_rule_t sig_rules_main[]={
 {sig_match_misc_flag_named,"CAM_HAS_WIFI",      "task_ComWireless",},
 {sig_match_named,   "SetParameterData",         "PTM_BackupUIProperty_FW", 0,               SIG_DRY_MIN(58)},
 {sig_match_named,   "ExitTask",                 "ExitTask_FW",},
-{sig_match_named,   "EngDrvRead",               "EngDrvRead_FW",        SIG_NAMED_JMP_SUB},
+{sig_match_named,   "EngDrvRead",               "EngDrvRead_FW",        SIG_NAMED_JMP_SUB, 0, 0, SIG_OPTIONAL },
 {sig_match_named,   "CalcLog10",                "CalcLog10_FW",         SIG_NAMED_JMP_SUB},
 {sig_match_named,   "CalcSqrt",                 "CalcSqrt_FW",          SIG_NAMED_JMP_SUB},
 {sig_match_named,   "Close",                    "Close_FW",},
@@ -5431,6 +5622,9 @@ sig_rule_t sig_rules_main[]={
 {sig_match_named,   "GetBatteryTemperature",    "GetBatteryTemperature_FW",},
 {sig_match_named,   "GetCCDTemperature",        "GetCCDTemperature_FW",},
 {sig_match_named,   "GetFocusLensSubjectDistance","GetFocusLensSubjectDistance_FW",SIG_NAMED_JMP_SUB},
+{sig_match_named,   "EFLensCom_FocusSearchNear","EFLensCom.FocusSearchNear_FW",SIG_NAMED_ASIS,SIG_DRY_ANY,SIG_ILC_ONLY},
+{sig_match_named,   "EFLensCom_FocusSearchFar", "EFLensCom.FocusSearchFar_FW",SIG_NAMED_ASIS,SIG_DRY_ANY,SIG_ILC_ONLY},
+{sig_match_named,   "GetEFLensFocusPositionWithLensCom","GetEFLensFocusPositionWithLensCom_FW",SIG_NAMED_ASIS,SIG_DRY_ANY,SIG_ILC_ONLY},
 {sig_match_named,   "GetLensExtenderTypeValue", "GetLensExtenderTypeValue_FW",SIG_NAMED_SUB,SIG_DRY_ANY,    SIG_ILC_ONLY},
 {sig_match_named,   "GetLensTypeValue",         "GetLensTypeValue_FW",  0,                  SIG_DRY_ANY,    SIG_ILC_ONLY},
 {sig_match_named,   "GetFALensInfoData",        "GetFALensInfoData_FW", SIG_NAMED_SUB ,     SIG_DRY_ANY,    SIG_ILC_ONLY},
@@ -5441,6 +5635,7 @@ sig_rule_t sig_rules_main[]={
 {sig_match_named,   "EFLens_Send_low",          "EFLens_Send",(SIG_NAMED_NTH(4,SUB)|SIG_NAMED_NTH_RANGE(10)),SIG_DRY_RANGE(57,57),SIG_ILC_ONLY},
 {sig_match_named,   "EFLens_Send_low",          "EFLens_Send",(SIG_NAMED_NTH(2,SUB)),       SIG_DRY_RANGE(59,59),SIG_ILC_ONLY},
 {sig_match_named,   "ReleaseEFlensComBuffer",   "EFLensCom.FocusSearchFar_FW",SIG_NAMED_NTH(3,SUB),SIG_DRY_ANY,SIG_ILC_ONLY},
+{sig_match_named_last,"EFLensCom_MoveFocus",    "EFLensCom.MoveFocus_FW",SIG_NAMED_LAST_RANGE(10,18),SIG_DRY_ANY,SIG_ILC_ONLY},
 
 {sig_match_named,   "GetOpticalTemperature",    "GetOpticalTemperature_FW",},
 {sig_match_named,   "GetPropertyCase",          "GetPropertyCase_FW",   SIG_NAMED_SUB},
@@ -5517,7 +5712,7 @@ sig_rule_t sig_rules_main[]={
 {sig_match_named,   "strlen",                   "strlen_FW",},
 {sig_match_named,   "task_CaptSeq",             "task_CaptSeqTask",},
 {sig_match_named,   "task_ExpDrv",              "task_ExpDrvTask",},
-{sig_match_named,   "task_FileWrite",           "task_FileWriteTask",},
+{sig_match_named,   "task_FileWrite",           "task_FileWriteTask", 0, 0, 0, SIG_OPTIONAL },
 //{sig_match_named,   "task_MovieRecord",         "task_MovieRecord",},
 //{sig_match_named,   "task_PhySw",               "task_PhySw",},
 {sig_match_named,   "vsprintf",                 "sprintf_FW",           SIG_NAMED_SUB},
@@ -5659,7 +5854,7 @@ sig_rule_t sig_rules_main[]={
 {sig_match_wait_all_eventflag_strict,"WaitForAllEventFlagStrictly","EF.StartInternalMainFlash_FW"},
 {sig_match_near_str,"DeleteSemaphore",          "DeleteSemaphore passed",SIG_NEAR_BEFORE(3,1)},
 {sig_match_get_num_posted_messages,"GetNumberOfPostedMessages","task_CtgTotalTask"},
-{sig_match_near_str,"LocalTime",                "%Y-%m-%dT%H:%M:%S",    SIG_NEAR_BEFORE(5,1),SIG_DRY_MAX(58)},
+{sig_match_near_str,"LocalTime",                "%Y-%m-%dT%H:%M:%S",    SIG_NEAR_BEFORE(5,1),SIG_DRY_MAX(57)},
 {sig_match_near_str,"LocalTime",                "%Y.%m.%d %H:%M:%S",    SIG_NEAR_BEFORE(5,1)},
 {sig_match_near_str,"strftime",                 "%Y/%m/%d %H:%M:%S",    SIG_NEAR_AFTER(3,1)},
 {sig_match_near_str,"OpenFastDir",              "OpenFastDir_ERROR\n",  SIG_NEAR_BEFORE(5,1)},
@@ -5723,7 +5918,6 @@ sig_rule_t sig_rules_main[]={
 {sig_match_aram_size,"ARAM_HEAP_SIZE",          "AdditionAgentRAM_FW",  0,                  SIG_DRY_MAX(58)},
 {sig_match_aram_size_gt58,"ARAM_HEAP_SIZE",     "AdditionAgentRAM_FW",  0,                  SIG_DRY_MIN(59)},
 {sig_match_aram_start,"ARAM_HEAP_START",        "AdditionAgentRAM_FW",},
-{sig_match_aram_start2,"ARAM_HEAP_START",       "AdditionAgentRAM_FW",},
 {sig_match_icache_flush_range,"icache_flush_range","AdditionAgentRAM_FW",},
 {sig_match__nrflag,"_nrflag",                   "NRTBL.SetDarkSubType_FW",},
 {sig_match_near_str,"transfer_src_overlay_helper","Window_EmergencyRefreshPhysicalScreen",SIG_NEAR_BEFORE(6,1)},
@@ -5796,6 +5990,26 @@ sig_rule_t sig_rules_main[]={
 {sig_match_mzrm_sendmsg_ret_adr,"mzrm_sendmsg_ret_adr","SendMsg   : %d\n",      SIG_STRCALL_ARG(0)|SIG_STRCALL_CALL_REG},
 {sig_match_fw_yuv_layer_buf_52,"fw_yuv_layer_buf","fw_yuv_layer_buf_helper",0,SIG_DRY_MAX(52)}, // dry52 has different code
 {sig_match_fw_yuv_layer_buf_gt52,"fw_yuv_layer_buf","fw_yuv_layer_buf_helper",0,SIG_DRY_MIN(54)}, // dry52 has different code
+
+{sig_match_named_seq,   "MakeSDCardBootable",                   "MakeBootDisk_FW",              0 },    // param = index into sig_seq array
+{sig_match_named_seq,   "GetFocusLensSubjectDistanceFromLens",  "SetISFocusLensDistance_FW",    1 },    // param = index into sig_seq array
+{sig_match_named_seq,   "apex2us",                              "ConvertTvToExposureTime_FW",   2 },    // param = index into sig_seq array
+
+{sig_match_named,   "CancelHPTimer",    "task_TouchPanel",      SIG_NAMED_NTH(8,SUB), 0, 0, SIG_OPTIONAL },
+
+{sig_match_named_next_func, "Feof_Fut", "Fseek_Fut" },
+{sig_match_named_next_func, "Fflush_Fut", "Feof_Fut" },
+
+{sig_match_named,   "err_init_task",    "init_task_error" },
+
+{sig_match_func_using_str,  "EnterToCompensationEVF",   "ExpOn",        8 },
+{sig_match_func_using_str,  "ExitFromCompensationEVF",  "ExpOff",       8 },
+{sig_match_func_using_str,  "ExpCtrlTool_StartContiAE", "StartContiAE", 30 },
+{sig_match_func_using_str,  "ExpCtrlTool_StopContiAE",  "StopContiAE",  28 },
+{sig_match_init_sd_io_funcs,"init_sd_io_funcs",         "\nStartDiskboot\n",   SIG_NEAR_BEFORE(7,2) },
+{sig_match_sd_io_func,   "WriteSDCard",                 "init_sd_io_funcs", 0x54 }, // WriteSDCard is at 0x54 for all known d6/d7 firmware
+{sig_match_sd_io_func,   "ReadSDCard",                  "init_sd_io_funcs", 0x50 },
+
 {NULL},
 };
 
@@ -5871,13 +6085,70 @@ void add_event_proc(firmware *fw, char *name, uint32_t adr)
     add_func_name(fw,name,adr,"_FW");
 }
 
+uint32_t process_reg_eventproc_call_loop_check(firmware *fw, iter_state_t *is, uint64_t adr) {
+    // check for special case: one of the 2 arg eventprocs is used in loop to register a table
+
+    // using the existing 'is' iterator
+    uint32_t tbla = 0;
+    int ar = -1;
+    // go back at most 10 instructions
+    int backtrack = 10;
+    if (backtrack > is->ah.count) backtrack = is->ah.count-1;
+    disasm_iter_init(fw,is,adr_hist_get(&is->ah,backtrack));
+    // search for ldr reg, =address where address is higher in ROM (supposed to be the eventproc table)
+    while(1) {
+        if (!disasm_iter(fw,is)) break;
+        if (is->insn->address >= adr) break;
+        if (is->insn->id == ARM_INS_LDR && is->insn->detail->arm.operands[1].type == ARM_OP_MEM) {
+            uint32_t u = LDR_PC2val(fw,is->insn);
+            if ((u<fw->base+fw->size8) && (u>adr) && (!isASCIIstring(fw,u))) {
+                ar = is->insn->detail->arm.operands[0].reg;
+                tbla = u;
+                break;
+            }
+        }
+    }
+    // search for found register appearing later in an add instruction
+    while (ar >= 0) {
+        if (!disasm_iter(fw,is)) break;
+        if (is->insn->address >= adr) break;
+        if (is->insn->id == ARM_INS_ADD && is->insn->detail->arm.operands[1].reg == ar) {
+            return tbla;
+            //printf("found loop eventproc table at 0x%"PRIx64"\n",is->insn->address);
+            break;
+        }
+        if (is->insn->id == ARM_INS_B) {
+            // if jumping over data, follow branches
+            disasm_iter_init(fw,is,get_branch_call_insn_target(fw,is));
+            disasm_iter(fw,is);
+            disasm_iter(fw,is);
+            disasm_iter(fw,is);
+            if (is->insn->id == ARM_INS_B) {
+                disasm_iter_init(fw,is,get_branch_call_insn_target(fw,is));
+            }
+        }
+    }
+
+    return 0;
+}
+
 // process a call to an 2 arg event proc registration function
 int process_reg_eventproc_call(firmware *fw, iter_state_t *is, __attribute__ ((unused))uint32_t unused) {
+    static uint32_t last_adr = 0;
+
+    uint32_t fadr = get_saved_sig_val("RegisterEventProcTable");
+    if (fadr) {
+        // Ignore call inside 'RegisterEventProcTable'
+        if ((is->insn->address - fadr) < 10)
+            return 0;
+    }
+
     uint32_t regs[4];
     // get r0, r1, backtracking up to 4 instructions
     if((get_call_const_args(fw,is,4,regs)&3)==3) {
         // TODO follow ptr to verify code, pick up underlying functions
         if(isASCIIstring(fw,regs[0])) {
+            last_adr = is->insn->address | is->thumb;
             char *nm=(char *)adr2ptr(fw,regs[0]);
             add_event_proc(fw,nm,regs[1]);
             //add_func_name(fw,nm,regs[1],NULL);
@@ -5886,41 +6157,30 @@ int process_reg_eventproc_call(firmware *fw, iter_state_t *is, __attribute__ ((u
             printf("eventproc name not string at 0x%"PRIx64"\n",is->insn->address);
         }
     } else {
-        // check for special case: one of the 2 arg eventprocs is used in loop to register a table
-
-        // using the existing 'is' iterator
-        // first, address is backed up
-        uint64_t adr = is->insn->address;
+        // Save for later
         uint32_t adr_thumb = is->thumb;
-        uint32_t tbla = 0;
-        int ar = -1;
-        int found = 0;
-        // go back a 10 instructions
-        disasm_iter_init(fw,is,adr_hist_get(&is->ah,10));
-        // search for ldr reg, =address where address is higher in ROM (supposed to be the eventproc table)
-        while(1) {
-            if (!disasm_iter(fw,is)) break;
-            if (is->insn->address >= adr) break;
-            if (is->insn->id == ARM_INS_LDR && is->insn->detail->arm.operands[1].type == ARM_OP_MEM) {
-                uint32_t u = LDR_PC2val(fw,is->insn);
-                if ((u<fw->base+fw->size8) && (u>adr) && (!isASCIIstring(fw,u))) {
-                    ar = is->insn->detail->arm.operands[0].reg;
-                    tbla = u;
-                    break;
+        uint64_t adr = is->insn->address;
+
+        // check for special case: one of the 2 arg eventprocs is used in loop to register a table
+        uint32_t tbla = process_reg_eventproc_call_loop_check(fw, is, adr);
+
+        if (!tbla) {
+            // Not found - back up further and look for branch instruction that jumps over data
+            disasm_iter_init(fw,is,(adr - 220) | adr_thumb);
+            disasm_iter(fw,is);
+            int i;
+            for (i = 0; i < 20; i += 1) {
+                if (insn_match_find_next(fw,is,1,match_b)) {
+                    uint32_t badr = get_branch_call_insn_target(fw,is);
+                    if ((badr - adr) < 8) {
+                        tbla = process_reg_eventproc_call_loop_check(fw, is, adr);
+                        break;
+                    }
                 }
             }
         }
-        // search for found register appearing later in an add instruction
-        while(ar >= 0) {
-            if (!disasm_iter(fw,is)) break;
-            if (is->insn->address >= adr) break;
-            if (is->insn->id == ARM_INS_ADD && is->insn->detail->arm.operands[1].reg == ar) {
-                found = 1;
-                //printf("found loop eventproc table at 0x%"PRIx64"\n",is->insn->address);
-                break;
-            }
-        }
-        if (found) {
+
+        if (tbla) {
             // following is taken from process_eventproc_table_call
             uint32_t *p=(uint32_t*)adr2ptr_with_data(fw,tbla);
             if(p) {
@@ -5943,7 +6203,65 @@ int process_reg_eventproc_call(firmware *fw, iter_state_t *is, __attribute__ ((u
             }
         }
         else {
-            printf("failed to get export/register eventproc args at 0x%"PRIx64"\n",adr);
+            // Reset to previous eventproc call and look for branch in the sequence
+            //      bl eventproc_call   // previous
+            //      ldr/adr r1, func_address
+            //      b  xxx
+            //          ...
+            //   xxx:
+            //      adr r0, func_name
+            //      bl eventproc_call   // current
+            // or
+            //      bl eventproc_call   // previous
+            //      ldr/adr r1, func_address
+            //      adr r0, func_name
+            //      b  xxx
+            //          ...
+            //   xxx:
+            //      bl eventproc_call   // current
+            disasm_iter_init(fw,is,last_adr);
+            disasm_iter(fw,is);
+            disasm_iter(fw,is);
+            int found = 0;
+            if (is->insn->detail->arm.operands[0].reg == ARM_REG_R1) {
+                uint8_t* r0_adr = 0;    // ptr to func name
+                uint32_t r1_adr = 0;    // func adress
+                if (isLDR_PC(is->insn)) {
+                    r1_adr = LDR_PC2val(fw,is->insn);
+                } else if (isADRx(is->insn)) {
+                    r1_adr = ADRx2adr(fw,is->insn);
+                }
+                if (r1_adr) {
+                    disasm_iter(fw, is);
+                    if (isADRx(is->insn) && (is->insn->detail->arm.operands[0].reg == ARM_REG_R0)) {
+                        r0_adr = adr2ptr(fw,ADR2adr(fw,is->insn));
+                        if (insn_match_find_next(fw,is,1,match_b)) {
+                            uint32_t badr=get_branch_call_insn_target(fw,is);
+                            disasm_iter_init(fw, is, badr);
+                            disasm_iter(fw, is);
+                        }
+                    } else {
+                        disasm_iter_init(fw, is, adr_hist_get(&is->ah,1));
+                        disasm_iter(fw, is);
+                        if (insn_match_find_next(fw,is,1,match_b)) {
+                            uint32_t badr=get_branch_call_insn_target(fw,is);
+                            disasm_iter_init(fw, is, badr);
+                            disasm_iter(fw, is);
+                            if (isADRx(is->insn) && (is->insn->detail->arm.operands[0].reg == ARM_REG_R0)) {
+                                r0_adr = adr2ptr(fw,ADR2adr(fw,is->insn));
+                                disasm_iter(fw, is);
+                            }
+                        }
+                    }
+                    if (r0_adr && (is->insn->address == adr)) {
+                        add_event_proc(fw,(char*)r0_adr,r1_adr);
+                        found = 1;
+                    }
+                }
+            }
+            if (!found) {
+                printf("failed to get export/register eventproc args at 0x%"PRIx64"\n",adr);
+            }
         }
         // restore address in 'is' to avoid infinite loop
         disasm_iter_init(fw,is,adr | adr_thumb);
@@ -5983,7 +6301,7 @@ int process_eventproc_table_call(firmware *fw, iter_state_t *is, __attribute__ (
         disasm_iter_init(fw,is,ca);
         disasm_iter(fw,is);
     }
-    if(foundr0) {
+    if(foundr0 && regs[0]) {
         // include tables in RAM data
         uint32_t *p=(uint32_t*)adr2ptr_with_data(fw,regs[0]);
         //printf("found eventproc table 0x%08x\n",regs[0]);
@@ -6013,10 +6331,25 @@ int process_eventproc_table_call(firmware *fw, iter_state_t *is, __attribute__ (
 }
 
 int process_createtask_call(firmware *fw, iter_state_t *is, __attribute__ ((unused))uint32_t unused) {
+
+    uint32_t fadr = get_saved_sig_val("CreateTaskStrictly");
+    if (fadr) {
+        // Ignore call inside 'CreateTaskStrictly'
+        if ((is->insn->address - fadr) < 16)
+            return 0;
+    }
+
+    fadr = get_saved_sig_val("AdditionAgentRAM_FW");
+    if (fadr) {
+        // Ignore call inside 'AdditionAgentRAM_FW'
+        if ((is->insn->address - fadr) < 150)
+            return 0;
+    }
+
     //printf("CreateTask call at %"PRIx64"\n",is->insn->address);
     uint32_t regs[4];
     // get r0 (name) and r3 (entry), backtracking up to 10 instructions
-    if((get_call_const_args(fw,is,10,regs)&9)==9) {
+    if((get_call_const_args(fw,is,20,regs)&9)==9) {
         if(isASCIIstring(fw,regs[0])) {
             // TODO
             char *buf=malloc(64);
@@ -7061,7 +7394,7 @@ void write_funcs(firmware *fw, char *filename, sig_entry_t *fns[], int (*compare
         }
         if (fns[k]->val != 0)
         {
-            if (fns[k]->flags & BAD_MATCH)
+            if (fns[k]->flags & (BAD_MATCH))
             {
                 osig* ostub2 = find_sig(fw->sv->stubs,fns[k]->name);
                 if (ostub2 && ostub2->val)

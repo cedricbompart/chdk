@@ -196,16 +196,7 @@ DEF_CONST(fw_yuv_layer_buf                  ,0x418c1000) // Found @0xfc245bf6
 
 //NHSTUB(DeleteDirectory_Fut                  ,0x00000000) //  0        *** != 0xfc374285
 //NHSTUB(DeleteFile_Fut                       ,0x00000000) //  0        *** != 0xfc37423b
-//NHSTUB(EnterToCompensationEVF               ,0x00000000) //  0        *** != 0xfc0aa66b
-//NHSTUB(ExitFromCompensationEVF              ,0x00000000) //  0        *** != 0xfc0aa6a7
-//NHSTUB(ExpCtrlTool_StartContiAE             ,0x00000000) //  0        *** != 0xfc2aab75
-//NHSTUB(ExpCtrlTool_StopContiAE              ,0x00000000) //  0        *** != 0xfc2aadc9
-//NHSTUB(Feof_Fut                             ,0x00000000) //  0        *** != 0xfc374429
-//NHSTUB(Fflush_Fut                           ,0x00000000) //  0        *** != 0xfc374451
-//NHSTUB(GetDrive_TotalClusters               ,0x00000000) //  0        *** != 0xfc06bf33
-//NHSTUB(GetFocusLensSubjectDistanceFromLens  ,0x00000000) //  0        *** != 0xfc35ff17
 //NHSTUB(GetImageFolder                       ,0x00000000) //  0        *** != 0xfc303c65
-//NHSTUB(MakeSDCardBootable                   ,0x00000000) //  0        *** != 0xfc37a6bd
 //NHSTUB(MoveFocusLensToDistance              ,0x00000000) //  0        *** != 0xfc44bb9d
 //NHSTUB(PutInNdFilter                        ,0x00000000) //  0        *** != 0xfc44d241
 //NHSTUB(PutOutNdFilter                       ,0x00000000) //  0        *** != 0xfc44d25b
@@ -215,14 +206,10 @@ DEF_CONST(fw_yuv_layer_buf                  ,0x418c1000) // Found @0xfc245bf6
 //NHSTUB(SetFileAttributes                    ,0x00000000) //  0        *** != 0xfc37ab05
 //NHSTUB(SetFileTimeStamp                     ,0x00000000) //  0        *** != 0xfc37aabd
 //NHSTUB(SetParameterData                     ,0x00000000) //  0        *** != 0xfc2783c1
-//NHSTUB(WriteSDCard                          ,0x00000000) //  0        *** != 0xfcc9a373
-//NHSTUB(apex2us                              ,0x00000000) //  0        *** != 0xfc3f454f
 //NHSTUB(displaybusyonscreen                  ,0x00000000) //  0        *** != 0xfc333197
-//NHSTUB(err_init_task                        ,0x00000000) //  0        *** != 0xfc06316b
 //NHSTUB(realloc                              ,0x00000000) //  0        *** != 0xfc4fa309
 //NHSTUB(reboot_fw_update                     ,0x00000000) //  0        *** != 0xfc4504b1
 //NHSTUB(undisplaybusyonscreen                ,0x00000000) //  0        *** != 0xfc33322d
-//NHSTUB(CancelHPTimer                        ,0x00000000) //  0        *** != 0xfc1fcc21
 //NHSTUB(SetHPTimerAfterNow                   ,0x00000000) //  0        *** != 0xfc1fcb89
 
 NHSTUB(AllocateUncacheableMemory              ,0xfc153795) //  0
@@ -233,9 +220,15 @@ NHSTUB(DebugAssert                            ,0x010e1001) //  0
 NHSTUB(DeleteSemaphore                        ,0xbfe15391) //  0
 NHSTUB(DoAELock                               ,0xfc0aa83f) //  0
 NHSTUB(DoAFLock                               ,0xfc0aa4a1) //  0
+//NHSTUB(EnterToCompensationEVF               ,0xfc0aa66b) //  0            == 0xfc0aa66b
 NHSTUB2(ExecuteEventProcedure                  ,0xfc327d25) //  0
+//NHSTUB(ExitFromCompensationEVF              ,0xfc0aa6a7) //  0            == 0xfc0aa6a7
 NHSTUB(ExitTask                               ,0xbfe14c13) //  0
+//NHSTUB(ExpCtrlTool_StartContiAE             ,0xfc2aab75) //  0            == 0xfc2aab75
+//NHSTUB(ExpCtrlTool_StopContiAE              ,0xfc2aadc9) //  0            == 0xfc2aadc9
 NHSTUB(Fclose_Fut                             ,0xfc3742e7) //  0
+//NHSTUB(Feof_Fut                             ,0xfc374429) //  0            == 0xfc374429
+//NHSTUB(Fflush_Fut                           ,0xfc374451) //  0            == 0xfc374451
 NHSTUB(Fgets_Fut                              ,0xfc3743c5) //  0
 NHSTUB(Fopen_Fut                              ,0xfc3742bf) //  0
 NHSTUB(Fread_Fut                              ,0xfc374359) //  0
@@ -251,7 +244,9 @@ NHSTUB(GetUsableMinAv                         ,0xfc18136f) //  0
 NHSTUB(get_current_deltasv                    ,0xfc20cf17) //  0
 NHSTUB(GetCurrentDriveBaseSvValue             ,0xfc306a17) //  0
 NHSTUB(GetDrive_ClusterSize                   ,0xfc379e4f) //  0
+NHSTUB(GetDrive_TotalClusters                 ,0xfc37a32f) //  0
 NHSTUB(GetFocusLensSubjectDistance            ,0xfc35fd97) //  0
+//NHSTUB(GetFocusLensSubjectDistanceFromLens  ,0xfc35ff17) //  0            == 0xfc35ff17
 NHSTUB(GetKbdState                            ,0xfc075053) //  0
 NHSTUB(GetMemInfo                             ,0xfc5a1885) //  0
 NHSTUB(GetOpticalTemperature                  ,0xfc1f61c7) //  0
@@ -268,6 +263,7 @@ NHSTUB(LEDDrive                               ,0xfc189089) //  0
 NHSTUB(LocalTime                              ,0x010e1515) //  0
 NHSTUB(LockMainPower                          ,0xfc1fd10f) //  0
 NHSTUB(MakeDirectory_Fut                      ,0xfc37ab5b) //  0
+//NHSTUB(MakeSDCardBootable                   ,0xfc37a6bd) //  0            == 0xfc37a6bd
 NHSTUB(MoveIrisWithAv                         ,0xfc44c81d) //  0
 NHSTUB(Open                                   ,0xfc37a7ed) //  0
 NHSTUB(PB2Rec                                 ,0xfc32a9a1) //  0
@@ -296,12 +292,15 @@ NHSTUB(UnlockAF                               ,0xfc0aa4d1) //  0
 NHSTUB(UnlockMainPower                        ,0xfc1fd0a7) //  0
 NHSTUB(VbattGet                               ,0xfc130cd3) //  0
 NHSTUB(Write                                  ,0xfc37a8a9) //  0
+//NHSTUB(WriteSDCard                          ,0x010e2bed) //  0            == 0x010e2bed
 NHSTUB(_log                                   ,0x01102bc8) //  0
 NHSTUB(_log10                                 ,0x011030e8) //  0
 NHSTUB(_pow                                   ,0x01103250) //  0
 NHSTUB(_sqrt                                  ,0x011052d0) //  0
 NHSTUB(add_ptp_handler                        ,0xfc16bac7) //  0
+//NHSTUB(apex2us                              ,0xfc3f454f) //  0            == 0xfc3f454f
 NHSTUB(close                                  ,0xfc1ee4df) //  0
+//NHSTUB(err_init_task                        ,0xfc06316b) //  0            == 0xfc06316b
 NHSTUB(exmem_alloc                            ,0xfc078d63) //  0
 NHSTUB(exmem_ualloc                           ,0xfc078c6d) //  0
 NHSTUB(exmem_ufree                            ,0xfc078d27) //  0
@@ -352,6 +351,7 @@ NHSTUB(vsprintf                               ,0xfc0d7383) //  0
 NHSTUB(EngDrvRead                             ,0xfc3802a1) //  0
 NHSTUB(PTM_GetCurrentItem                     ,0xfc36e8d7) //  0
 NHSTUB(DisableISDriveError                    ,0xfc44ddbd) //  0
+//NHSTUB(CancelHPTimer                        ,0xfc1fcc21) //  0            == 0xfc1fcc21
 NHSTUB(SetEventFlag                           ,0xbfe14e43) //  0
 NHSTUB(transfer_src_overlay                   ,0xfc37f013) //  0
 NHSTUB(bzero                                  ,0x01100410) //  0

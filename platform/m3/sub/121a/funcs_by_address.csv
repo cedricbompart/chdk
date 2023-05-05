@@ -7,6 +7,8 @@
 0x010e1739,task_SD1stInit
 0x010e2201,GetRomID
 0x010e2859,ChangeSDPortVoltage_FW
+0x010e2b03,ReadSDCard
+0x010e2bed,WriteSDCard
 0x010f3c59,j_mktime_ext
 0x010f3dac,j_dcache_flush_and_enable
 0x011001c4,dry_memcpy_bytes
@@ -139,6 +141,7 @@
 0xfc06306f,exception_handler_DataAbort
 0xfc063085,exception_handler_SupervisorCall
 0xfc0630cd,exception_handler_FIQ
+0xfc06316b,err_init_task
 0xfc06316b,init_task_error
 0xfc063229,exception_handler_IRQ
 0xfc06347d,task_Startup
@@ -304,6 +307,8 @@
 0xfc0a9ed5,SS.GetDigitalZoomPosition_FW
 0xfc0aa4a1,DoAFLock
 0xfc0aa4d1,UnlockAF
+0xfc0aa66b,EnterToCompensationEVF
+0xfc0aa6a7,ExitFromCompensationEVF
 0xfc0aa83f,DoAELock
 0xfc0aa85d,UnlockAE
 0xfc0ab61d,PT_MFOn
@@ -450,6 +455,9 @@
 0xfc0f8363,WriteToRom_FW
 0xfc0f83cb,EraseRom_FW
 0xfc0f846d,GetRomID_FW
+0xfc0f8597,task_LensController
+0xfc0f8683,task_LensController
+0xfc0f873f,task_LensController
 0xfc0f8a29,IsLensOutside_FW
 0xfc0f8a43,GetFocusStartZoomPosition_FW
 0xfc0fb645,task_FaceFrame
@@ -1153,6 +1161,7 @@
 0xfc1fbce1,default_assert_handler
 0xfc1fbfff,default_exception_handler
 0xfc1fc1e9,default_panic_handler
+0xfc1fcc29,CancelHPTimer
 0xfc1fccf1,GetBuildDate_FW
 0xfc1fccf5,PrintBuildDate_FW
 0xfc1fccfd,GetBuildTime_FW
@@ -1193,6 +1202,7 @@
 0xfc2145b5,FPGA.Bypass_FW
 0xfc214b6d,FPGA.Log_FW
 0xfc215427,task_DevelopModule
+0xfc21edbd,task__cntFlashTask
 0xfc221c8d,task_AfIntSrvTask
 0xfc23621b,task_Gap3rd
 0xfc238d2b,CanceltDfeCorrectMode_FW
@@ -1358,6 +1368,7 @@
 0xfc29f4cf,SoundDevRecMusicOnDramTest_FW
 0xfc29f5a7,SoundDevDumpChIn0_FW
 0xfc29f7e9,SoundDevPlayOpSound_FW
+0xfc29f879,ApMoniSel_FW
 0xfc29f8bd,SoundDevSetSyncRate_FW
 0xfc29f8e3,SoundDevSetSpVol_FW
 0xfc29f8ed,SoundDevSetMovieRecPath_FW
@@ -1395,6 +1406,8 @@
 0xfc2a1b03,BeepDrive_FW
 0xfc2a1b17,BeepDriveComp_FW
 0xfc2a1b2b,BeepDriveStop_FW
+0xfc2aaba5,ExpCtrlTool_StartContiAE
+0xfc2aadf9,ExpCtrlTool_StopContiAE
 0xfc2b6911,task_WBIntegTask
 0xfc2bc871,task_ExpDrv
 0xfc2bc871,task_ExpDrvTask
@@ -1429,6 +1442,7 @@
 0xfc2f2acf,EFLensCom.Disconnect_FW
 0xfc2f2c3b,EFLens_Send
 0xfc2f3129,EFLensCom.ResetFocusPulse_FW
+0xfc2f3345,EFLensCom_MoveFocus
 0xfc2f3b87,EFLensCom.UpdateStatus_FW
 0xfc2f3fe3,j1_GetLensIDValue
 0xfc2f4005,j_get_ef_lens_name
@@ -1606,6 +1620,7 @@
 0xfc35fc69,GetFocusLensPullInMaxSpeed_FW
 0xfc35fdc7,GetFocusLensSubjectDistance
 0xfc35fdfb,GetFocusLensCurrentPosition_FW
+0xfc35ff47,GetFocusLensSubjectDistanceFromLens
 0xfc3603cf,GetCurrentShutterSpeed
 0xfc3603cf,GetCurrentShutterSpeed_FW
 0xfc36062f,GetCurrentExposureTime_FW
@@ -1663,6 +1678,8 @@
 0xfc3743f5,Fgets_Fut
 0xfc374427,Fseek_Fut
 0xfc374427,Fseek_Fut_FW
+0xfc374459,Feof_Fut
+0xfc374481,Fflush_Fut
 0xfc3744b1,fut_prepare
 0xfc3744c9,fut_finish
 0xfc375001,task_CtrlSrv
@@ -1671,9 +1688,12 @@
 0xfc37970f,ui_free_default
 0xfc37976d,ui_malloc
 0xfc379773,ui_free
+0xfc379a57,init_sd_io_funcs
 0xfc379e19,get_fstype
 0xfc379e7f,GetDrive_ClusterSize
+0xfc37a35f,GetDrive_TotalClusters
 0xfc37a383,GetDrive_FreeClusters
+0xfc37a6ed,MakeSDCardBootable
 0xfc37a78d,j_malloc
 0xfc37a791,j_free
 0xfc37a795,malloc_strictly
@@ -1766,6 +1786,7 @@
 0xfc3f4351,Capture.Mem2MemDefMarkWholeSerial_FW
 0xfc3f4357,Capture.SaveCrwWholeSerial_FW
 0xfc3f4379,Capture.PubHeadDirectMode_FW
+0xfc3f457f,apex2us
 0xfc3f4713,ShutterTool.SetTv_FW
 0xfc3f471b,ShutterTool.SetTvWithErrMode_FW
 0xfc3f47bb,ShutterTool.CheckTv_FW
@@ -1865,7 +1886,9 @@
 0xfc43e2bd,EFLensCom.GetFocalLength_FW
 0xfc43e2ff,EFLensCom.DistanceInfo_FW
 0xfc43e379,EFLensCom.FocusSearchFar_FW
+0xfc43e379,EFLensCom_FocusSearchFar
 0xfc43e39f,EFLensCom.FocusSearchNear_FW
+0xfc43e39f,EFLensCom_FocusSearchNear
 0xfc43e3c5,j_EFLensCom.ResetFocusPulse_FW
 0xfc43e3c9,EFLensCom.GetPO_FW
 0xfc43e463,EFLensCom.GetNewPO_FW
@@ -2317,8 +2340,10 @@
 0xfc4caa41,ChargeStrobeForFA_FW
 0xfc4caa6f,StopStrobeChargeForFA_FW
 0xfc4caa83,ExecuteInternalPreFlash_FW
+0xfc4f30cd,task_EFChargeT
 0xfc4f3419,EF.IsChargeFull_FW
 0xfc4f3419,IsStrobeChargeCompleted
+0xfc4f4303,task_AprocMusicTask
 0xfc4f547f,task_ImgPlyTask
 0xfc4f5631,task_ImgPlyTsk2
 0xfc4fa00f,UIFS_StartMoviePlay_FW
@@ -2699,6 +2724,7 @@
 0xfc5a890f,GetLensSerialNumberValue_FW
 0xfc5a896f,GetLensExtenderSerialNumberValue_FW
 0xfc5a89c7,RegistLensName_FW
+0xfc5a8b0f,GetEFLensFocusPositionWithLensCom
 0xfc5a8b0f,GetEFLensFocusPositionWithLensCom_FW
 0xfc5a8b27,SaveFBAdjValue_FW
 0xfc5a8b33,j_LoadFBAdjValue_FW

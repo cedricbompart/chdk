@@ -3,12 +3,6 @@ topdir=../../../../
 
 include $(topdir)makefile_cam.inc
 
-# Disable GCC 10 optimisation that prevents build from booting on some cameras.
-# See https://chdk.setepontos.com/index.php?topic=14281.0
-ifeq ($(GCC_VERSION_MAJOR),10)
-    CFLAGS+=-fno-tree-loop-distribute-patterns
-endif
-
 # Change CPU architecture to ARM V4 if building with GCC EABI
 # Otherwise incorrect wrapper calls to firmware functions are generated
 ifndef THUMB_FW
@@ -27,7 +21,7 @@ OBJS+=main.thm.o gui_draw.thm.o memmgmt.thm.o \
      shooting.thm.o camera_info.thm.o remotecap.thm.o lib_thumb.thm.o lang_str.thm.o ptp.thm.o\
      firmware_crc_data.thm.o
 
-gui_draw.thm.o: $(core)/gui_draw.c $(lfont)/font_8x16_uni_packed.h
+gui_draw.thm.o: $(core)/gui_draw.c $(core)/gui_draw_shapes.c $(core)/gui_draw_text.c  $(core)/gui_draw_8bit.c $(core)/gui_draw_rgba.c $(core)/gui_draw_yuv.c $(lfont)/font_8x16_uni_packed.h
 	@echo $< '->' $@
 	$(CC) $(CFLAGS) -nostdinc -mthumb -c -o $@ $<
 
@@ -90,10 +84,16 @@ distclean: clean
 	rm -f stubs_entry.S stubs_auto.S
 	rm -rf .dep
 
+ifdef THUMB_FW
+    CODEGEN_EXE=$(tools)/code_gen2$(EXE)
+else
+    CODEGEN_EXE=$(tools)/code_gen$(EXE)
+endif
+
 run-code-gen:
 	@echo $^ '->' $@
 	if [ -s $(TARGET_PRIMARY) ] && [ -s code_gen.txt ] ; then \
-	  $(tools)/code_gen $(ROMBASEADDR) code_gen.txt $(TARGET_PRIMARY) $(ALT_ROMBASEADDR) ; \
+	  $(CODEGEN_EXE) $(ROMBASEADDR) code_gen.txt $(TARGET_PRIMARY) $(ALT_ROMBASEADDR) ; \
 	else \
 	  echo CAUTION! code_gen cannot be run due to target firmware binary or code_gen.txt not found! ; \
 	fi ; \

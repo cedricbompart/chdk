@@ -12,6 +12,7 @@
 #include "remotecap_core.h"
 #include "ptp.h" // for remotecap constants
 #include "script_api.h" // for script hook
+#include "raw_ev_histo.h"
 
 //-------------------------------------------------------------------
 #ifdef CAM_DATE_FOLDER_NAMING
@@ -81,11 +82,9 @@ void raw_get_path(char *path)
             strcat(path, &rdir[6]) ;
             break ;
         case 1:
-            mkdir_if_not_exist("A/DCIM");
             get_target_dir_name(path);
             break ;
         default:
-            mkdir_if_not_exist("A/DCIM");
             strcpy(path, RAW_TARGET_DIRECTORY);
             break ;
     }
@@ -206,13 +205,16 @@ void raw_process(void)
 #endif
 
     if ((conf.save_raw && conf.dng_raw && is_raw_enabled()) 
-        || (remotecap_get_target() & PTP_CHDK_CAPTURE_DNGHDR))
+        || (camera_info.remotecap.file_target & PTP_CHDK_CAPTURE_DNGHDR))
     {                             
         libdng->capture_data_for_exif();
 	}
 
     if (camera_info.state.state_kbd_script_run)
         libshothisto->build_shot_histogram();
+
+    if (is_raw_enabled())       // make sure it is safe to use raw buffers
+        librawevhisto->build();
 
     libscriptapi->shoot_hook(SCRIPT_SHOOT_HOOK_RAW);
 
@@ -261,7 +263,7 @@ void raw_process(void)
         raw_br_counter=0;
 
     // if any remote cap targets, skip local raw
-    if (remotecap_get_target())
+    if (camera_info.remotecap.file_target)
     {
         camera_info.state.state_shooting_progress = SHOOTING_PROGRESS_PROCESSING;
         remotecap_raw_available(rawadr);

@@ -56,6 +56,7 @@
     #undef  CAM_VIDEO_CONTROL
     #define CAM_VIDEO_QUALITY_ONLY              1
     #define CAM_QUALITY_OVERRIDE                1
+    #define CAM_EV_IN_VIDEO                     1
     #undef  CAM_UNCACHED_BIT
     #define CAM_UNCACHED_BIT                    0x40000000  // S90 @FF8875FC(via ExMem.FreeCacheable)
     #define CAM_SHOW_OSD_IN_SHOOT_MENU          1
@@ -159,5 +160,7 @@
     #define GPIO_VSYNC_CURRENT               	0xC0F070C8  // vsync current status register used by USB remote precision sync
 
     #define CAM_HAS_CANON_RAW                   1   // has native Canon raw
+
+    #define CAM_HAS_PLAYBACK_IMAGE_NO           1
 
 //--------------------------------------------------

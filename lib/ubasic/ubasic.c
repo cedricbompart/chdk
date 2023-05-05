@@ -496,7 +496,7 @@ static int factor(void)
     break;  
    case TOKENIZER_GET_SD_OVER_MODES:
     accept(TOKENIZER_GET_SD_OVER_MODES);
-    r = sd_over_modes() ;
+    r = camera_info.sd_override_modes;
     break;
   case TOKENIZER_GET_ISO_MARKET:
     accept(TOKENIZER_GET_ISO_MARKET);
@@ -1738,7 +1738,7 @@ static void set_console_autoredraw(void)
 static void console_redraw_statement(void)
 {
   accept(TOKENIZER_CONSOLE_REDRAW);
-  console_redraw();
+  console_redraw(0);
     accept_cr();
 }
 
@@ -2596,9 +2596,12 @@ statement(void)
       on_off_statement(token, TurnOnDisplay, TurnOffDisplay);
       break;
   case TOKENIZER_SET_DRAW_TITLE_LINE:
+      {
       accept(token);
-      camera_info.state.osd_title_line=expr()?1:0;
+      int n = expr();
+      camera_info.state.osd_title_line = (n == 2) ? n : n ? 1 : 0;
       accept_cr();
+      }
       break;
       
       // >> mx3 . motion detector

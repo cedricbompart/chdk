@@ -428,7 +428,8 @@ __stdcall int CreateTask_low(int (*entry)(),int parm, int unk1, int stack_size, 
 __stdcall int DeleteEventFlag(int flag);
 __stdcall int CheckAllEventFlag(int flag, int mask, int *res);
 __stdcall int WaitForAllEventFlag(int flag, int what, int timeout);
-__stdcall int RegisterInterruptHandler(const char *name, int int_num, int (*int_handler)(),int unk);
+__stdcall int RegisterInterruptHandler(const char *name, int int_num, int (*int_handler)(),int int_param);
+__stdcall int UnregisterInterruptHandler(int int_num);
 __stdcall int CreateMessageQueue(const char *name/*?*/, int unk/*size? Flags?*/);
 __stdcall int CreateMessageQueueStrictly(const char *name/*?*/, int unk/*size? Flags?*/);
 __stdcall int TryReceiveMessageQueue(int msgq, int *dst);
@@ -549,9 +550,23 @@ __stdcall void GetFALensInfoData_vals(void *fa_lens_info_vals); // TODO struct, 
 __stdcall void *AllocateEFlensComBuffer(int unk);
 __stdcall void ReleaseEFlensComBuffer(void *efcom_buf);
 __stdcall void EFLens_Send(void *efcom_buf);
+__stdcall int EFLensCom_MoveFocus(short target, unsigned char speed, void *callback, void *cb_data);
+__stdcall int EFLensCom_FocusSearchNear(void);
+__stdcall int EFLensCom_FocusSearchFar(void);
+__stdcall int GetEFLensFocusPositionWithLensCom(void);
+
 #if CAM_DRYOS_REL >= 59
 __stdcall void EFLens_Send_low(int unk, void *efcom_buf);
 #else
 __stdcall void EFLens_Send_low(int unk1, int unk2, void *efcom_buf);
 #endif
 
+// RTC / date related functions
+__stdcall void SetValidSystemCalender(int firmware_time, int max_time, int min_time);
+__stdcall void GetValidSystemCalender(int *firmware_time, int *max_time, int *min_time);
+__stdcall void GetTimeFromRTC(int *time);
+__stdcall int GetTimeFromRTC_FW(void);
+__stdcall int IsInvalidTime(int time);
+__stdcall void PauseTimeOfSystem(void);
+__stdcall void ResumeTimeOfSystem(void);
+#endif // FW_FUNCTIONS_H

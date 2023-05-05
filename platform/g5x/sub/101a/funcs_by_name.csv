@@ -32,6 +32,7 @@
 0xfc662f87,AllocateMemory_FW
 0xfc16f5f1,AllocateUncacheableMemory
 0xfc40e7a9,APE_DraftDump_FW
+0xfc25f5cb,apex2us
 0xfc2e1c55,ApMoniSel_FW
 0xfc0d7609,AprocSigProc_ALC_FW
 0xfc0d7627,AprocSigProc_ALCReset_FW
@@ -92,6 +93,7 @@
 0xfc6687a3,CancelBPFilterForBP_FW
 0xfc664417,CancelExStrobeMode_FW
 0xfc660437,CancelFocusLensMaxSpeedLimit_FW
+0xfc165d89,CancelHPTimer
 0xfc663fc7,CancelImageDrive_FW
 0xfc46833d,CancelImager_FW
 0xfc66a4b9,CancelLoopGainCalc_FW
@@ -410,6 +412,7 @@
 0xfc02133f,EngDrvRead_FW
 0xfc021357,EngDrvReadDump_FW
 0xfc5e5049,EngineDriver.Create_FW
+0xfc2d38e5,EnterToCompensationEVF
 0xfc39c767,EpilogFile_FW
 0xfc39c7ad,EpilogMenu_FW
 0xfc39c63b,EpilogShow_FW
@@ -417,6 +420,7 @@
 0xfc0bc805,EraseLogSector_FW
 0xfc0c7823,EraseRom_FW
 0xfc5e3c19,EraseSignature_FW
+0xfc06647b,err_init_task
 0xfc15634b,ErrorTest_Disconnect_FW
 0xfc156301,ErrorTest_Succession_FW
 0xfc65fb87,EscapeFocusLens_FW
@@ -447,6 +451,7 @@
 0xfc06d3bd,ExecuteTestRecSD_FW
 0xfc06d405,ExecuteTestRecSw1_FW
 0xfc06d3f7,ExecuteTestRecWithInteg_FW
+0xfc2d3927,ExitFromCompensationEVF
 0xbfe14bc7,ExitTask
 0xbfe14bc7,ExitTask_FW
 0xfc0a3927,ExMem.AllocCacheable_FW
@@ -461,6 +466,8 @@
 0xfc0a38b3,exmem_ufree
 0xfc466a6b,ExpCtrlTool.SetExpMode_FW
 0xfc466a9d,ExpCtrlTool.SoundDevTest_FW
+0xfc2cdb5b,ExpCtrlTool_StartContiAE
+0xfc2cdd4d,ExpCtrlTool_StopContiAE
 0xfc3b7f4f,ExportToEventProcedure_FW
 0xfc5e4be3,FA.Create_FW
 0xfc5e4bd7,FA.Delete_FW
@@ -471,6 +478,8 @@
 0xfc3b8e77,Fclose_Fut
 0xfc3b8e77,Fclose_Fut_FW
 0xfc5ed103,fclose_low
+0xfc3b8fb9,Feof_Fut
+0xfc3b8fe1,Fflush_Fut
 0xfc3b8f55,Fgets_Fut
 0xfc5ed27f,fgets_low
 0xfc5e29c1,File.ClearExifInfo_FW
@@ -630,6 +639,7 @@
 0xfc662cd9,GetDramTypeError_FW
 0xfc3b6e8b,GetDrive_ClusterSize
 0xfc3b738f,GetDrive_FreeClusters
+0xfc3b736b,GetDrive_TotalClusters
 0xfc481cb5,GetDriverInfoEvent_FW
 0xfc480e31,getEepromNum_FW
 0xfc66607d,GetEFUSEData_FW
@@ -663,6 +673,7 @@
 0xfc5ffc15,GetFocusLensResetVoltage_FW
 0xfc3b9f05,GetFocusLensSubjectDistance
 0xfc6604f5,GetFocusLensSubjectDistance_FW
+0xfc3ba1ff,GetFocusLensSubjectDistanceFromLens
 0xfc660507,GetFocusLensSubjectDistanceNumber_FW
 0xfc48d1b5,GetFocusPiSensorLevel_FW
 0xfc3ba31d,GetFocusResetPosition_FW
@@ -1016,6 +1027,7 @@
 0xfc3bb027,InactivateAdjLog_FW
 0xfc0a2499,init_error_handlers
 0xfc0669c1,init_ex_drivers
+0xfc3b6a49,init_sd_io_funcs
 0xfc06647b,init_task_error
 0xfc1aa5f9,initComDiscovery_FW
 0xfc5e4bc1,InitializeAdjustmentFunction_FW
@@ -1079,6 +1091,7 @@
 0xfc1cb35b,IsZoomLensOutSidePosition_FW
 0xfc34c734,j1_dry_memcpy_bytes
 0xbfe14fed,j1_GetSRAndDisableInterrupt
+0x010e168f,j1_LocalTime
 0xbfe14ff1,j1_SetSR
 0x010e1691,j1_strftime
 0xbfe14111,j2_GetSRAndDisableInterrupt
@@ -1306,7 +1319,7 @@
 0xfc0d86a7,j_LoadDUIDCheckSum_FW
 0xfc665fbb,j_LoadFactoryNumber_FW
 0xfc66602d,j_LoadSerialNumber_FW
-0xfc34d0ac,j_LocalTime
+0xfc34d1f4,j_LocalTime
 0xfc3bf985,j_malloc
 0xfc5e409b,j_MemoryChecker_FW
 0x010ee231,j_mktime_ext
@@ -1521,6 +1534,7 @@
 0xfc021257,MakeDefectTurnTable_FW
 0xfc3b5f9b,MakeDirectory_Fut
 0xfc663085,MakeScriptDisk_FW
+0xfc3b7731,MakeSDCardBootable
 0xfc3bf24d,malloc
 0xfc3bf98d,malloc_strictly
 0xfc020ee9,MarkPointDefData_FW
@@ -1707,6 +1721,7 @@
 0xfc2d4a45,PT_MFOn
 0xfc2d2ed3,PT_MoveDigitalZoomToWide
 0xfc5e4ab9,PT_MoveOpticalZoomAt
+0xfc3bde05,PT_PlaySound
 0xfc2a5fdf,PTM_AllReset_FW
 0xfc3adb3b,PTM_AllResetToFactorySetting_FW
 0xfc2a6cd7,PTM_BackupUIProperty_FW
@@ -1737,6 +1752,7 @@
 0xfc151589,Read
 0xfc151589,Read_FW
 0xfc282ec9,ReadFastDir
+0x010e2bcf,ReadSDCard
 0xfc364f6f,Rec2PB
 0xfc10aea7,ReceiveDataForPDS_FW
 0xfc660e27,ReceiveMechaCircuitData_FW
@@ -2094,6 +2110,26 @@
 0xfc364643,ShutdownPlayModeMenu_FW
 0xfc3646f3,ShutdownPlayModeMenuWithoutPbRedraw_FW
 0xfc3644c7,ShutdownRecModeMenu_FW
+0xfc5eb621,ShutterTool.CheckExpTime_FW
+0xfc5eb635,ShutterTool.CheckExpTimeWithErrMode_FW
+0xfc5eb4f1,ShutterTool.CheckTv_FW
+0xfc5eb50b,ShutterTool.CheckTvWithErrMode_FW
+0xfc5eb65d,ShutterTool.GetCurExpTime_FW
+0xfc5eb649,ShutterTool.GetCurTv_FW
+0xfc5eb6b5,ShutterTool.GetLimOfExpTime_FW
+0xfc5eb6d3,ShutterTool.GetLimOfExpTimeRegular_FW
+0xfc5eb671,ShutterTool.GetLimOfTv_FW
+0xfc5eb71f,ShutterTool.GetLimOfTvForFix_FW
+0xfc5eb731,ShutterTool.GetLimOfTvForFixWithAv_FW
+0xfc5eb693,ShutterTool.GetLimOfTvRegular_FW
+0xfc5eb57d,ShutterTool.SetExpTime_FW
+0xfc5eb709,ShutterTool.SetExpTimeForFix_FW
+0xfc5eb583,ShutterTool.SetExpTimeWithErrMode_FW
+0xfc5eb423,ShutterTool.SetTv_FW
+0xfc5eb435,ShutterTool.SetTvAfterDriveChange_FW
+0xfc5eb44f,ShutterTool.SetTvAndFrameRateType_FW
+0xfc5eb6f1,ShutterTool.SetTvForFix_FW
+0xfc5eb42b,ShutterTool.SetTvWithErrMode_FW
 0xfc6648fb,SleepAE_FW
 0xbfe14969,SleepTask
 0xbfe14969,SleepTask_FW
@@ -2111,6 +2147,7 @@
 0xfc2e1223,SoundDevClearPath_FW
 0xfc2e1aff,SoundDevDumpChIn0_FW
 0xfc2e10a9,SoundDevInitMusic_FW
+0xfc2e182f,SoundDevLineOut_FW
 0xfc2e0a27,SoundDevMovPlayMuteForStoryHighlight_FW
 0xfc10b581,SoundDevParam_SetATTMode_FW
 0xfc2e15a1,SoundDevPlayMusic_FW
@@ -2259,6 +2296,7 @@
 0xbfe153f9,TakeSemaphore_FW
 0xbfe120bb,takesemaphore_low
 0xbfe155d9,TakeSemaphoreStrictly
+0xfc465bc5,task__cntFlashTask
 0xfc153239,task__imageSensorTask
 0xfc19821d,task__tgTask
 0xfc452b6b,task_Accelerometer
@@ -2269,6 +2307,7 @@
 0xfc0cd15f,task_AprocBpGenTask
 0xfc0cd0fb,task_AprocBpPwmTask
 0xfc0cd07d,task_AprocMainTask
+0xfc0cc2cd,task_AprocMusicTask
 0xfc0cd1c3,task_AprocVaif3Task
 0xfc5e0c3d,task_AutoTrimming
 0xfc15c68d,task_BA_Task
@@ -2306,6 +2345,7 @@
 0xfc542965,task_DvlpCs
 0xfc091e67,task_DvlpSeqTask
 0xfc16089d,task_EdetSBJTask
+0xfc0c3e47,task_EFChargeT
 0xfc1cce6d,task_EISMainTask
 0xfc0af971,task_EncRemoteEVFJpgTask
 0xfc39c783,task_Epilog
@@ -2348,6 +2388,8 @@
 0xfc1570e9,task_LachesisTest
 0xfc0e4659,task_LcdConTask
 0xfc15d521,task_LEDCon
+0xfc0b29c5,task_LensController
+0xfc0b2b75,task_LensController
 0xfc199519,task_LiveImageTask
 0xfc1d1e2b,task_LowConsole
 0xfc286b99,task_MechaAlarm
@@ -2526,6 +2568,7 @@
 0xfc0dbde7,UIFS_SetCradleSetting_FW
 0xfc0dbc6d,UIFS_SetDialMovieRec_FW
 0xfc0dbc9b,UIFS_SetDialPlay_FW
+0xfc0dbc53,UIFS_SetDialStillRec_FW
 0xfc0dbfd1,UIFS_SetTouchOperation_FW
 0xfc0dbdd3,UIFS_StartClockMode_FW
 0xfc20921b,UIFS_StartMoviePlay_FW

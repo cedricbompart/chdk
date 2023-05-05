@@ -65,6 +65,8 @@
 0x010e69f3,ReleaseRecursiveLock
 0x010e7375,GetRomID
 0x010e790b,ChangeSDPortVoltage_FW
+0x010e7b79,ReadSDCard
+0x010e7c63,WriteSDCard
 0x010f776d,j2_GetSRAndDisableInterrupt
 0x010f7777,j2_SetSR
 0x010f7905,j_mktime_ext
@@ -134,6 +136,7 @@
 0xfc064427,exception_handler_DataAbort
 0xfc06443d,exception_handler_SupervisorCall
 0xfc064485,exception_handler_FIQ
+0xfc064525,err_init_task
 0xfc064525,init_task_error
 0xfc0645e1,exception_handler_IRQ
 0xfc064831,task_Startup
@@ -731,6 +734,8 @@
 0xfc1482db,GetCurrentIrisPosition_FW
 0xfc1482db,GetIrisCurrentPosition_FW
 0xfc1484c5,GetIrisPRResetPosition_FW
+0xfc148709,task_LensController
+0xfc14889b,task_LensController
 0xfc148f93,IsLensOutside_FW
 0xfc148fad,GetFocusStartZoomPosition_FW
 0xfc149ced,task_MovieInit
@@ -750,6 +755,7 @@
 0xfc156d25,task_SsTask
 0xfc15858d,ExecuteShutDownPropertyService_FW
 0xfc158d8d,SetHPTimerAfterNow
+0xfc158e25,CancelHPTimer
 0xfc158ff5,GetBuildDate_FW
 0xfc158ff9,PrintBuildDate_FW
 0xfc159001,GetBuildTime_FW
@@ -777,6 +783,7 @@
 0xfc161acb,strncmp
 0xfc161af5,strchr
 0xfc161b07,strstr
+0xfc163247,task_AprocMusicTask
 0xfc163e33,task_AprocMainTask
 0xfc163ebf,task_AprocBpPwmTask
 0xfc163f1f,task_AprocBpGenTask
@@ -794,6 +801,7 @@
 0xfc18514b,task_DevelopDist
 0xfc185887,task_DevelopResize
 0xfc185caf,task_DevelopJpeg
+0xfc1860db,task_EFChargeT
 0xfc1862a5,EF.IsChargeFull_FW
 0xfc1862a5,IsStrobeChargeCompleted
 0xfc187db5,MovieAF.Suspend_FW
@@ -1269,6 +1277,7 @@
 0xfc31fb0f,GetFocusLensSubjectDistance
 0xfc31fb5f,GetCurrentFocusLensPosition_FW
 0xfc31fb5f,GetCurrentFocusPosition_FW
+0xfc31fe09,GetFocusLensSubjectDistanceFromLens
 0xfc31fe89,GetFocusLensAvCoefficient_FW
 0xfc31ff07,IsFocusLensOutSidePosition_FW
 0xfc31ff25,GetFocusResetPosition_FW
@@ -1290,6 +1299,8 @@
 0xfc325cc9,Fgets_Fut
 0xfc325cfb,Fseek_Fut
 0xfc325cfb,Fseek_Fut_FW
+0xfc325d2d,Feof_Fut
+0xfc325d55,Fflush_Fut
 0xfc325d85,fut_prepare
 0xfc325d9d,fut_finish
 0xfc325fc5,RegisterEventProcedure
@@ -1401,9 +1412,12 @@
 0xfc34b7ff,UiEvnt_StopDisguiseCradleStatus_FW
 0xfc352773,IsWirelessConnect
 0xfc3566e5,task_StartupImage
+0xfc3572db,init_sd_io_funcs
 0xfc35769d,get_fstype
 0xfc357703,GetDrive_ClusterSize
+0xfc357be3,GetDrive_TotalClusters
 0xfc357c07,GetDrive_FreeClusters
+0xfc357f71,MakeSDCardBootable
 0xfc35800d,Open
 0xfc35800d,Open_FW
 0xfc358091,Close
@@ -1473,6 +1487,7 @@
 0xfc362609,dry_con_printf
 0xfc37a525,task_FmidTask
 0xfc3807c7,GraphicSystemCoreFinish
+0xfc382693,apex2us
 0xfc382827,ShutterTool.SetTv_FW
 0xfc38282f,ShutterTool.SetTvWithErrMode_FW
 0xfc3828cf,ShutterTool.CheckTv_FW
@@ -1495,6 +1510,7 @@
 0xfc383b8f,NRTBL.SetDefectCorrectType_FW
 0xfc383ba1,NRTBL.SetTassenType_FW
 0xfc3882fd,task_ExpDrvSubTask
+0xfc38e373,task__cntFlashTask
 0xfc38f6f5,EF.StartEFCharge_FW
 0xfc38f72d,EF.StopEFCharge_FW
 0xfc38f737,EF.SetEFChargeTimeOut_FW

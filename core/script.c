@@ -37,7 +37,6 @@ void script_end();
 //-------------------------------------------------------------------
 static int  print_screen_p;             // print_screen predicate: 0=off, else is log file number. negative=append, postive=overwrite 
 static int  print_screen_d = -1;        // print_screen file descriptor.
-char print_screen_file[25];
 
 static void script_print_screen_init()
 {
@@ -71,6 +70,7 @@ void script_print_screen_statement(int val)
        val = -val;
     }
     while (val > 9999) val -= 10000;
+    char print_screen_file[32];
     sprintf(print_screen_file, "A/CHDK/LOGS/LOG_%04d.TXT", val);
     print_screen_d = open(print_screen_file, O_WRONLY|O_CREAT|flag_trunc, 0777);
     if (print_screen_d>=0) lseek(print_screen_d,0,SEEK_END);
@@ -189,10 +189,13 @@ static int gui_script_kbd_process()
 }
 
 //-------------------------------------------------------------------
-void gui_script_draw()
+void gui_script_draw(int force_redraw)
 {
-    extern void gui_chdk_draw();
-    gui_chdk_draw();
+    if (force_redraw)
+        libscriptapi->refresh_display();
+
+    extern void gui_chdk_draw(int);
+    gui_chdk_draw(force_redraw);
 
     if (camera_info.state.mode_rec || camera_info.state.mode_play)
     {

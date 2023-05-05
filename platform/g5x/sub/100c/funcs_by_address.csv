@@ -4,10 +4,12 @@
 0x010e11eb,time
 0x010e1255,GetTimeOfSystem_FW
 0x010e1589,LocalTime
+0x010e168f,j1_LocalTime
 0x010e1691,j1_strftime
 0x010e179d,task_SD1stInit
 0x010e2285,GetRomID
 0x010e2a09,SDCardUHSActive_FW
+0x010e2bcf,ReadSDCard
 0x010ee231,j_mktime_ext
 0x010ee23b,j2_strftime
 0x010ee3dc,j_dcache_flush_and_enable
@@ -139,6 +141,7 @@
 0xfc06637f,exception_handler_DataAbort
 0xfc066395,exception_handler_SupervisorCall
 0xfc0663dd,exception_handler_FIQ
+0xfc06647b,err_init_task
 0xfc06647b,init_task_error
 0xfc066539,exception_handler_IRQ
 0xfc066779,task_Startup
@@ -323,6 +326,8 @@
 0xfc0b2377,NRTBL.SetDefectCorrectType_FW
 0xfc0b2389,NRTBL.SetTassenType_FW
 0xfc0b278f,HardwareDefect_FW
+0xfc0b29c5,task_LensController
+0xfc0b2b75,task_LensController
 0xfc0b326f,IsLensOutside_FW
 0xfc0b3289,GetFocusStartZoomPosition_FW
 0xfc0b3291,GetMechaCondition_FW
@@ -344,6 +349,7 @@
 0xfc0c2e99,TurnOffE1_FW
 0xfc0c2f03,task_Bye
 0xfc0c32ff,task_DevelopModule
+0xfc0c3e47,task_EFChargeT
 0xfc0c41a7,EF.IsChargeFull_FW
 0xfc0c41a7,IsStrobeChargeCompleted
 0xfc0c67df,LiveImageTool.GetDzoomPosition_FW
@@ -374,6 +380,7 @@
 0xfc0c9453,GetDISModeParameter_FW
 0xfc0c950d,GetFixedPWMOutA_FW
 0xfc0c9513,GetFixedPWMOutB_FW
+0xfc0cc2cd,task_AprocMusicTask
 0xfc0cd07d,task_AprocMainTask
 0xfc0cd0fb,task_AprocBpPwmTask
 0xfc0cd15f,task_AprocBpGenTask
@@ -436,6 +443,7 @@
 0xfc0dbb33,UIFS_IsAutoPopupDownStrobe_FW
 0xfc0dbb37,UIFS_IsAvailableAvTvMode_FW
 0xfc0dbb3b,UIFS_IsAvailablePowerZoom_FW
+0xfc0dbc53,UIFS_SetDialStillRec_FW
 0xfc0dbc6d,UIFS_SetDialMovieRec_FW
 0xfc0dbc9b,UIFS_SetDialPlay_FW
 0xfc0dbcb5,UIFS_OpenPopupStrobe_FW
@@ -732,6 +740,7 @@
 0xfc164f6b,GetIrisPRResetPosition_FW
 0xfc1654f1,ExecuteShutDownPropertyService_FW
 0xfc165cf1,SetHPTimerAfterNow
+0xfc165d89,CancelHPTimer
 0xfc165e73,task_WdtPrint
 0xfc165ee5,task_WdtReset
 0xfc165f61,StartWDT_FW
@@ -868,6 +877,7 @@
 0xfc234c33,task_FmidTask
 0xfc23792b,GraphicSystemCoreFinish
 0xfc24280d,task_ExpDrvSubTask
+0xfc25f5cb,apex2us
 0xfc273bcb,StartTestRecLog_FW
 0xfc273bd7,StopTestRecLog_FW
 0xfc274aad,task_MetaCtgPrsTask
@@ -914,11 +924,15 @@
 0xfc2b9419,task_AFTask
 0xfc2ba509,GetMacroSupportZoomPoint_FW
 0xfc2c7eed,task_MoviePlay
+0xfc2cdb5b,ExpCtrlTool_StartContiAE
+0xfc2cdd4d,ExpCtrlTool_StopContiAE
 0xfc2d2d09,MoveOpticalZoomAt
 0xfc2d2ed3,PT_MoveDigitalZoomToWide
 0xfc2d2f63,SS.GetDigitalZoomPosition_FW
 0xfc2d3509,DoAFLock
 0xfc2d3539,UnlockAF
+0xfc2d38e5,EnterToCompensationEVF
+0xfc2d3927,ExitFromCompensationEVF
 0xfc2d3997,DoAELock
 0xfc2d39b5,UnlockAE
 0xfc2d4a45,PT_MFOn
@@ -953,6 +967,7 @@
 0xfc2e1667,SoundDevSetSpVol_FW
 0xfc2e1671,SoundDevSetSpkpwmVol_FW
 0xfc2e1811,SoundDevBeepGenGain_FW
+0xfc2e1817,SoundDevLineOut_FW
 0xfc2e181d,SoundDevSetRecPath_FW
 0xfc2e182d,SoundDevSetBeepPWMMuteParam_FW
 0xfc2e1847,SoundDevPlayOpSound_FW
@@ -1041,7 +1056,6 @@
 0xfc34d03c,j_ReceiveMessageQueue
 0xfc34d07c,j_CheckAllEventFlag
 0xfc34d08c,j__pow
-0xfc34d094,j_LocalTime
 0xfc34d09c,j_CreateTaskStrictly
 0xfc34d0a4,j_CreateBinarySemaphoreStrictly
 0xfc34d0b4,j_WaitForAllEventFlag
@@ -1061,6 +1075,7 @@
 0xfc34d1ac,j_takesemaphore_low
 0xfc34d1cc,j_ClearEventFlag
 0xfc34d1d4,j_DeleteEventFlag
+0xfc34d1dc,j_LocalTime
 0xfc34d1e4,j_strftime
 0xfc34d1ec,j_dry_memzero
 0xfc34d1f4,j_dry_memset
@@ -1178,9 +1193,12 @@
 0xfc3b60a3,PrepareDirectory_1
 0xfc3b60a7,PrepareDirectory_0
 0xfc3b611d,task_CtrlSrv
+0xfc3b6a31,init_sd_io_funcs
 0xfc3b6e0d,get_fstype
 0xfc3b6e73,GetDrive_ClusterSize
+0xfc3b7353,GetDrive_TotalClusters
 0xfc3b7377,GetDrive_FreeClusters
+0xfc3b7719,MakeSDCardBootable
 0xfc3b7931,RegisterEventProcedure
 0xfc3b7983,RegisterEventProcedure_alt1
 0xfc3b7987,UnRegisterEventProcedure
@@ -1210,6 +1228,8 @@
 0xfc3b8f3d,Fgets_Fut
 0xfc3b8f6f,Fseek_Fut
 0xfc3b8f6f,Fseek_Fut_FW
+0xfc3b8fa1,Feof_Fut
+0xfc3b8fc9,Fflush_Fut
 0xfc3b8ff9,fut_prepare
 0xfc3b9011,fut_finish
 0xfc3b9c8d,GetFocusLensPullInMaxSpeed_FW
@@ -1217,6 +1237,7 @@
 0xfc3b9eed,GetFocusLensSubjectDistance
 0xfc3b9f3d,GetCurrentFocusLensPosition_FW
 0xfc3b9f3d,GetCurrentFocusPosition_FW
+0xfc3ba1e7,GetFocusLensSubjectDistanceFromLens
 0xfc3ba25f,GetFocusLensAvCoefficient_FW
 0xfc3ba2e7,IsFocusLensOutSidePosition_FW
 0xfc3ba305,GetFocusResetPosition_FW
@@ -1245,6 +1266,7 @@
 0xfc3bd76d,PostLogicalEventToUI_FW
 0xfc3bd86b,PostEventShootSeqToUI_FW
 0xfc3bd89d,ShowLogicalEventName_FW
+0xfc3bdded,PT_PlaySound
 0xfc3be151,transfer_src_overlay
 0xfc3be5c7,VTM_ShrinkLayoutForFinder_FW
 0xfc3becc7,transfer_src_overlay_helper
@@ -1358,6 +1380,7 @@
 0xfc46139f,task_TskCocoa2
 0xfc4613a5,task_TskCocoa1
 0xfc4613ab,task_TskCocoa0
+0xfc465bad,task__cntFlashTask
 0xfc466a53,ExpCtrlTool.SetExpMode_FW
 0xfc466a85,ExpCtrlTool.SoundDevTest_FW
 0xfc466b45,AFTool.GetEVal_FW
@@ -1704,6 +1727,26 @@
 0xfc5e5031,EngineDriver.Create_FW
 0xfc5e506d,EngApp.CreatePub_FW
 0xfc5e50fb,AdditionAgentRAM_FW
+0xfc5eb40b,ShutterTool.SetTv_FW
+0xfc5eb413,ShutterTool.SetTvWithErrMode_FW
+0xfc5eb41d,ShutterTool.SetTvAfterDriveChange_FW
+0xfc5eb437,ShutterTool.SetTvAndFrameRateType_FW
+0xfc5eb4d9,ShutterTool.CheckTv_FW
+0xfc5eb4f3,ShutterTool.CheckTvWithErrMode_FW
+0xfc5eb565,ShutterTool.SetExpTime_FW
+0xfc5eb56b,ShutterTool.SetExpTimeWithErrMode_FW
+0xfc5eb609,ShutterTool.CheckExpTime_FW
+0xfc5eb61d,ShutterTool.CheckExpTimeWithErrMode_FW
+0xfc5eb631,ShutterTool.GetCurTv_FW
+0xfc5eb645,ShutterTool.GetCurExpTime_FW
+0xfc5eb659,ShutterTool.GetLimOfTv_FW
+0xfc5eb67b,ShutterTool.GetLimOfTvRegular_FW
+0xfc5eb69d,ShutterTool.GetLimOfExpTime_FW
+0xfc5eb6bb,ShutterTool.GetLimOfExpTimeRegular_FW
+0xfc5eb6d9,ShutterTool.SetTvForFix_FW
+0xfc5eb6f1,ShutterTool.SetExpTimeForFix_FW
+0xfc5eb707,ShutterTool.GetLimOfTvForFix_FW
+0xfc5eb719,ShutterTool.GetLimOfTvForFixWithAv_FW
 0xfc5ebf37,Ltkids.SetCapThrough_FW
 0xfc5ebf45,Ltkids.SetLiveThrough_FW
 0xfc5ebf53,Ltkids.SetCapRtsThrough_FW

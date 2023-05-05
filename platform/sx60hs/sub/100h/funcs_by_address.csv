@@ -65,6 +65,8 @@
 0x010e69bf,ReleaseRecursiveLock
 0x010e7341,GetRomID
 0x010e78cd,ChangeSDPortVoltage_FW
+0x010e7b39,ReadSDCard
+0xfcd1d6df,WriteSDCard,(stubs_entry_2.s)
 0x010f772d,j2_GetSRAndDisableInterrupt
 0x010f7737,j2_SetSR
 0x010f78c5,j_mktime_ext
@@ -134,6 +136,7 @@
 0xfc05efe7,exception_handler_DataAbort
 0xfc05effd,exception_handler_SupervisorCall
 0xfc05f045,exception_handler_FIQ
+0xfc05f0e5,err_init_task
 0xfc05f0e5,init_task_error
 0xfc05f1a1,exception_handler_IRQ
 0xfc05f3f1,task_Startup
@@ -633,6 +636,7 @@
 0xfc137779,VbattGet_FW
 0xfc137a71,task_ClockSave
 0xfc1394f1,omar_init
+0xfc13aa25,task_EFChargeT
 0xfc13ad3f,EF.IsChargeFull_FW
 0xfc13ad3f,IsStrobeChargeCompleted
 0xfc13b29b,imager_active_callback
@@ -728,6 +732,8 @@
 0xfc14e00d,GetIrisAv_FW
 0xfc14e17b,GetCurrentIrisPosition_FW
 0xfc14e17b,GetIrisCurrentPosition_FW
+0xfc14e511,task_LensController
+0xfc14e6a3,task_LensController
 0xfc14ed9b,IsLensOutside_FW
 0xfc14edb5,GetFocusStartZoomPosition_FW
 0xfc14f8af,task_ExMechaAlarm
@@ -776,6 +782,7 @@
 0xfc161a17,strncmp
 0xfc161a41,strchr
 0xfc161a53,strstr
+0xfc163193,task_AprocMusicTask
 0xfc163d7f,task_AprocMainTask
 0xfc163e0b,task_AprocBpPwmTask
 0xfc163e6b,task_AprocBpGenTask
@@ -798,6 +805,7 @@
 0xfc1789dd,task_DevelopDist
 0xfc179279,task_DevelopResize
 0xfc179b25,task_DevelopJpeg
+0xfc17acc5,task__cntFlashTask
 0xfc17cd29,MovieAF.Suspend_FW
 0xfc17cd33,MovieAF.Resume_FW
 0xfc17e7bb,task_AfIntSrvTask
@@ -1169,11 +1177,15 @@
 0xfc255985,task_AFTask
 0xfc256a4b,GetMacroSupportZoomPoint_FW
 0xfc25910d,task_MoviePlay
+0xfc264e83,ExpCtrlTool_StartContiAE
+0xfc264f6f,ExpCtrlTool_StopContiAE
 0xfc275a99,MoveOpticalZoomAt
 0xfc275c6f,PT_MoveDigitalZoomToWide
 0xfc275cff,SS.GetDigitalZoomPosition_FW
 0xfc2763b9,DoAFLock
 0xfc2763e9,UnlockAF
+0xfc2766ed,EnterToCompensationEVF
+0xfc276727,ExitFromCompensationEVF
 0xfc276775,DoAELock
 0xfc276793,UnlockAE
 0xfc277783,PT_MFOn
@@ -1393,6 +1405,7 @@
 0xfc2fa907,GetFocusLensSubjectDistance
 0xfc2fa957,GetCurrentFocusLensPosition_FW
 0xfc2fa957,GetCurrentFocusPosition_FW
+0xfc2fabe9,GetFocusLensSubjectDistanceFromLens
 0xfc2facc3,IsFocusLensOutSidePosition_FW
 0xfc2face1,GetFocusResetPosition_FW
 0xfc2fad41,GetFocusDefaultResetPosition_FW
@@ -1417,6 +1430,8 @@
 0xfc301d71,Fgets_Fut
 0xfc301da3,Fseek_Fut
 0xfc301da3,Fseek_Fut_FW
+0xfc301dd5,Feof_Fut
+0xfc301dfd,Fflush_Fut
 0xfc301e2d,fut_prepare
 0xfc301e45,fut_finish
 0xfc30206d,RegisterEventProcedure
@@ -1527,9 +1542,12 @@
 0xfc32cd91,UIFS_GetNumberOfDisplayedImage_FW
 0xfc32f0ff,task_StartupImage
 0xfc3300bb,IsWirelessConnect
+0xfc331c0b,init_sd_io_funcs
 0xfc331fcd,get_fstype
 0xfc332033,GetDrive_ClusterSize
+0xfc332513,GetDrive_TotalClusters
 0xfc332537,GetDrive_FreeClusters
+0xfc332875,MakeSDCardBootable
 0xfc332911,Open
 0xfc332911,Open_FW
 0xfc332995,Close
@@ -1597,6 +1615,7 @@
 0xfc338171,dry_con_printf
 0xfc3411f5,task_FmidTask
 0xfc344dd3,GraphicSystemCoreFinish
+0xfc3468e3,apex2us
 0xfc346a77,ShutterTool.SetTv_FW
 0xfc346a7f,ShutterTool.SetTvWithErrMode_FW
 0xfc346b1f,ShutterTool.CheckTv_FW

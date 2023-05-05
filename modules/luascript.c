@@ -357,6 +357,22 @@ int lua_run_restore()
     return 0;
 }
 
+static int scr_refresh_flag = 0;
+
+// run the "refresh_display" function in the script
+int lua_refresh_display()
+{
+    scr_refresh_flag = 1;
+    return 0;
+}
+
+static int luaCB_screen_needs_refresh( lua_State* L)
+{
+    lua_pushboolean(L,scr_refresh_flag);
+    scr_refresh_flag = 0;
+    return 1;
+}
+
 // get key ID of key name at arg, throw error if invalid
 static int lua_get_key_arg( lua_State * L, int narg )
 {
@@ -435,7 +451,7 @@ static int luaCB_set_mf(lua_State* L)
 
 static int luaCB_get_sd_over_modes( lua_State* L )
 {
-    lua_pushnumber(L,sd_over_modes());
+    lua_pushnumber(L,camera_info.sd_override_modes);
     return 1;
 }
 
@@ -509,7 +525,7 @@ static int luaCB_set_console_autoredraw( lua_State* L )
 
 static int luaCB_console_redraw( __attribute__ ((unused))lua_State* L )
 {
-  console_redraw();
+  console_redraw(luaL_optnumber( L, 1, 0 ));
   return 0;
 }
 
@@ -842,6 +858,43 @@ static int luaCB_get_vbatt( lua_State* L )
 static int luaCB_get_zoom( lua_State* L )
 {
   lua_pushnumber( L, shooting_get_zoom() );
+  return 1;
+}
+
+// helper for get_focal_length and get_eff_focal_length
+static int get_zoom_pos_arg( lua_State *L )
+{
+  int pos = luaL_optnumber(L,1,shooting_get_zoom());
+  // get_focal_length is implemented per platform, so range check here to be safe
+  if(pos < 0) {
+      pos = 0;
+  } else if(pos >= zoom_points) {
+      pos = zoom_points - 1;
+  }
+  return pos;
+}
+
+/*
+fl = get_focal_length([zoom_pos])
+return the focal lenth of the specified zoom position, expressed as mm*1000
+if no position is specified, the current position is used
+out of range positions are clamped to the nearest valid value
+*/
+static int luaCB_get_focal_length( lua_State* L )
+{
+  lua_pushnumber( L, get_focal_length(get_zoom_pos_arg(L) ) );
+  return 1;
+}
+
+/*
+efl = get_eff_focal_length([zoom_pos])
+return the 35 mm equivalent focal lenth of the specified zoom position, expressed as mm*1000
+if no position is specified, the current position is used
+out of range positions are clamped to the nearest valid value
+*/
+static int luaCB_get_eff_focal_length( lua_State* L )
+{
+  lua_pushnumber( L, get_effective_focal_length(get_zoom_pos_arg(L) ) );
   return 1;
 }
 
@@ -1925,14 +1978,17 @@ static int luaCB_set_lcd_display( lua_State* L )
   return 0;
 }
 
-// Enable/disable CHDK <ALT> & scriptname OSD items (input argument 1/0)
+// Enable/disable CHDK <ALT> & scriptname OSD items (input argument 0, 1 or 2)
 static int luaCB_set_draw_title_line( lua_State* L )
 {
-  camera_info.state.osd_title_line= on_off_value_from_lua_arg(L,1);
+  unsigned n = on_off_value_from_lua_arg(L,1);
+  if (camera_info.state.osd_title_line != (int)n)
+    gui_set_need_restore();
+  camera_info.state.osd_title_line = n;
   return 0;
 }
 
-// get CHDK <ALT> & scriptname OSD display state (input argument 1/0)
+// get CHDK <ALT> & scriptname OSD display state
 static int luaCB_get_draw_title_line( lua_State* L )
 {
    lua_pushboolean( L, camera_info.state.osd_title_line  );
@@ -2637,7 +2693,7 @@ bitmask=get_usb_capture_support()
 */
 static int luaCB_get_usb_capture_support( lua_State* L )
 {
-    lua_pushnumber(L,remotecap_get_target_support());
+    lua_pushnumber(L,camera_info.remotecap.target_support);
     return 1;
 }
 
@@ -2664,7 +2720,7 @@ selected = bitmask passed to init, or 0 if capture not configured or timed out/c
 */
 static int luaCB_get_usb_capture_target( lua_State* L )
 {
-    lua_pushnumber(L,remotecap_get_target());
+    lua_pushnumber(L,camera_info.remotecap.file_target);
     return 1;
 }
 
@@ -2840,6 +2896,8 @@ static const luaL_Reg chdk_funcs[] = {
     FUNC(get_user_tv96)
     FUNC(get_vbatt)
     FUNC(get_zoom)
+    FUNC(get_focal_length)
+    FUNC(get_eff_focal_length)
     FUNC(get_exp_count)
     FUNC(get_image_dir)
     FUNC(get_flash_params_count)
@@ -3032,6 +3090,8 @@ static const luaL_Reg chdk_funcs[] = {
     FUNC(tv96_to_usec)
     FUNC(seconds_to_tv96)
 
+    FUNC(screen_needs_refresh)
+
     {NULL, NULL},
 };
 
@@ -3152,6 +3212,7 @@ libscriptapi_sym _liblua =
     lua_set_as_ret,
     lua_run_restore,
     script_shoot_hook_run,
+    lua_refresh_display,
 };
 
 ModuleInfo _module_info =

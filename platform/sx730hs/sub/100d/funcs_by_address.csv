@@ -1,4 +1,6 @@
 0x010e12bf,SDCardUHSActive_FW
+0x010e1447,ReadSDCard
+0x010e14f9,WriteSDCard
 0x010e1a37,task_SD1stInit
 0x010e2521,GetRomID
 0x010ee6ec,j_dcache_flush_and_enable
@@ -79,6 +81,7 @@
 0xfc05ca63,exception_handler_DataAbort
 0xfc05ca79,exception_handler_SupervisorCall
 0xfc05cac1,exception_handler_FIQ
+0xfc05cb5f,err_init_task
 0xfc05cb5f,init_task_error
 0xfc05cc1d,exception_handler_IRQ
 0xfc05ccf5,task_Startup
@@ -505,6 +508,7 @@
 0xfc11dc51,task_DevelopDist
 0xfc11e1b3,task_DevelopResize
 0xfc11e621,task_DevelopJpeg
+0xfc11ea17,task_EFChargeT
 0xfc11ebe5,EF.IsChargeFull_FW
 0xfc11ebe5,IsStrobeChargeCompleted
 0xfc12278b,ExpCtrlTool.SetExpMode_FW
@@ -731,6 +735,7 @@
 0xfc193ac7,j_UIFS_StartMovieRecord_FW
 0xfc193acb,j_UIFS_StopMovieRecord_FW
 0xfc193acf,UIFS_StartClockMode_FW
+0xfc193ad9,UIFS_EndClockMode_FW
 0xfc193ae3,UIFS_SetCradleSetting_FW
 0xfc193ae5,j_UIFS_WriteFirmInfoToFile_FW
 0xfc193ae9,j_UIFS_GetMovieRecoadableNumber_FW
@@ -791,6 +796,7 @@
 0xfc1f4d43,EF.SetChargeMode_FW
 0xfc1f9879,task_ExpDrvSubTask
 0xfc210df7,task_GapBS
+0xfc21985b,apex2us
 0xfc222f69,task_WSSAPP
 0xfc22ef61,task_FA_GyroInfo
 0xfc231a2f,StartTestRecLog_FW
@@ -974,6 +980,7 @@
 0xfc3341e9,GetFocusLensSubjectDistance
 0xfc334239,GetCurrentFocusLensPosition_FW
 0xfc334239,GetCurrentFocusPosition_FW
+0xfc3344e3,GetFocusLensSubjectDistanceFromLens
 0xfc334565,GetFocusLensAvCoefficient_FW
 0xfc3345c7,IsFocusLensOutSidePosition_FW
 0xfc3345e5,GetFocusResetPosition_FW
@@ -1052,6 +1059,8 @@
 0xfc34c925,Fgets_Fut
 0xfc34c957,Fseek_Fut
 0xfc34c957,Fseek_Fut_FW
+0xfc34c989,Feof_Fut
+0xfc34c9b1,Fflush_Fut
 0xfc34c9e1,fut_prepare
 0xfc34c9f9,fut_finish
 0xfc350f5f,task_BleA
@@ -1080,9 +1089,12 @@
 0xfc351a1d,j_pvm_malloc
 0xfc351a21,j_pvm_free
 0xfc351a25,pvm_get_largest_free_block_size_ptr
+0xfc351d17,init_sd_io_funcs
 0xfc3520f7,get_fstype
 0xfc35215d,GetDrive_ClusterSize
+0xfc352637,GetDrive_TotalClusters
 0xfc35265b,GetDrive_FreeClusters
+0xfc3529fd,MakeSDCardBootable
 0xfc353881,EpilogShow_FW
 0xfc3539ad,EpilogFile_FW
 0xfc3539c9,task_Epilog
@@ -1258,6 +1270,8 @@
 0xfc3afe47,j_IsCCDTemperature_FW
 0xfc3afea1,j_IsBatteryTemperature_FW
 0xfc3afea3,StartAllTempMeasurement_FW
+0xfc3b0123,task_LensController
+0xfc3b02e5,task_LensController
 0xfc3b09e9,IsLensOutside_FW
 0xfc3b0a03,GetFocusStartZoomPosition_FW
 0xfc3b0a0b,GetMechaCondition_FW
@@ -1286,6 +1300,7 @@
 0xfc3b4821,memcpy_FW
 0xfc3b48df,strncmp
 0xfc3b4909,strchr
+0xfc3b5f4d,task_AprocMusicTask
 0xfc3b6cfd,task_AprocMainTask
 0xfc3b6d7b,task_AprocBpPwmTask
 0xfc3b6ddf,task_AprocBpGenTask
@@ -1524,6 +1539,7 @@
 0xfc3ea369,j_Peek16_FW
 0xfc3ea36d,j_Peek8_FW
 0xfc3ea371,Wait_FW
+0xfc3ea37b,j_exec_FW
 0xfc3ea37f,ShowAllTaskInfo_FW
 0xfc3ea389,System.Delete_FW
 0xfc3ea981,System.Create_FW
@@ -1560,6 +1576,7 @@
 0xfc3edc4f,AdditionAgentRAM_FW
 0xfc3edd47,EFUSE_ReadData_FW
 0xfc3ee2b9,qsort
+0xfc417183,task__cntFlashTask
 0xfc41a067,LiveImageTool.StartEVF_FW
 0xfc41a06d,LiveImageTool.StartEVFFocusJet_FW
 0xfc41a073,LiveImageTool.StartEVFMF_FW
@@ -2108,6 +2125,7 @@
 0xfc442a47,Peek8_FW
 0xfc442a4d,GetSystemTime
 0xfc442a4d,GetSystemTime_FW
+0xfc442a59,exec_FW
 0xfc442b1d,MakeBootDisk_FW
 0xfc442b29,MakeScriptDisk_FW
 0xfc458207,task_Raw2Ss2YuvTask

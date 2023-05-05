@@ -145,14 +145,6 @@ librawop_sym* librawop = &default_librawop;
 
 /************* DYNAMIC LIBRARY EDGE OVERLAY ******/
 
-// Storage and interface for edge overlay 'image' buffer.
-// This is so the previous overlay can survive if the module gets unloaded
-static void* saved_edgebuf = 0;
-static int saved_edgestate = 0;
-
-int module_restore_edge(void **buf) { *buf = saved_edgebuf; return saved_edgestate; }
-void module_save_edge(void* buf, int state)      { saved_edgebuf = buf; saved_edgestate = state; }
-
 #define MODULE_NAME_EDGEOVR "edgeovr.flt"
 
 // Forward reference
@@ -334,8 +326,9 @@ libscriptapi_sym default_libscriptapi =
     dummy_void,             //script_reset
     dummy_void,             //set_variable
     dummy_void,             //set_as_ret
-    dummy_int,               //run_restore
+    dummy_int,              //run_restore
     dummy_void,             //shoot_hook
+    dummy_int,              //refresh_display
 };
 
 // Library pointer
@@ -875,3 +868,39 @@ libconfmigrate_sym default_libconfmigrate=
 
 // Library pointer
 libconfmigrate_sym* libconfmigrate = &default_libconfmigrate;
+
+/************* MODULE RAW EV Histogram ******/
+
+#define MODULE_NAME_RAWEVHIST "rawevhst.flt"
+
+// Forward reference
+extern librawevhisto_sym default_librawevhisto;
+
+module_handler_t h_rawevhisto =
+{
+    (base_interface_t**)&librawevhisto,
+    &default_librawevhisto.base,
+    RAW_EV_HISTO_VERSION,
+    MODULE_NAME_RAWEVHIST
+};
+
+static void default_load_raw_ev_histogram(int enable)
+{
+    // If enabling shot histogram, then load module, otherwise nothing to do
+    if (enable)
+        if (module_load(&h_rawevhisto))
+            librawevhisto->load(enable);
+}
+
+// Default library - module unloaded
+librawevhisto_sym default_librawevhisto=
+{
+    { 0,0,0,0,0 },
+    default_load_raw_ev_histogram,
+    dummy_void,         // build
+    dummy_void,         // draw
+    dummy_void,         // erase
+};
+
+// Library pointer
+librawevhisto_sym* librawevhisto = &default_librawevhisto;

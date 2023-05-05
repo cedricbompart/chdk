@@ -1082,6 +1082,19 @@ void get_target_dir_name(char *dir) {
 }
 #endif
 
+// Get currently displayed image number.
+// Returns a string in the format DDD-NNNN
+// Where DDD is the base folder number and NNNN is the image number.
+char* get_playback_image_number()
+{
+#ifdef CAM_HAS_PLAYBACK_IMAGE_NO
+    extern char playback_image_number[];
+    return playback_image_number;
+#else
+    return 0;
+#endif
+}
+
 //-------------------------------------------------------------------
 // Convert values to/from APEX 96
 
@@ -1129,21 +1142,6 @@ int shooting_mode_chdk2canon(int hackmode)
 	}
 	return -1; // 0 is a valid mode on old cameras!
 }
-
-
-
-int sd_over_modes()
-{  return ( 0
-#ifdef CAM_SD_OVER_IN_AF 
-          + 1
-#endif
-#ifdef CAM_SD_OVER_IN_AFL
-          + 2 
-#endif
-#ifdef CAM_SD_OVER_IN_MF
-          + 4
-#endif
-);  }
 
 int shooting_get_lens_to_focal_plane_width()
 {

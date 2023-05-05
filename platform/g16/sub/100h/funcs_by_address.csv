@@ -128,6 +128,7 @@
 0xfc05e133,exception_handler_DataAbort
 0xfc05e149,exception_handler_SupervisorCall
 0xfc05e191,exception_handler_FIQ
+0xfc5237bd,err_init_task,(stubs_entry_2.s)
 0xfc05e231,init_task_error
 0xfc05e2ed,exception_handler_IRQ
 0xfc05e53d,task_Startup
@@ -527,6 +528,8 @@
 0xfc0ef97f,ResetRegistNoticeCBR_FW
 0xfc0ef989,RegistFirmScanNoticeCBR_FW
 0xfc0effe7,IsLensOutside_FW
+0xfc0effff,task_LensController
+0xfc0f063f,task_LensController
 0xfc0f1105,GetFocusStartZoomPosition_FW
 0xfc0f160d,task_SsStartupTask
 0xfc0f24a3,task_CaptSeq
@@ -577,6 +580,8 @@
 0xfc10a7bb,task_dccdCalcTask
 0xfc10bd15,task_DPOFTask
 0xfc10e04d,task_MediaStatusMngr
+0xfc10e45d,ReadSDCard
+0xfc10e525,WriteSDCard
 0xfc10ea99,task_MechaCPUTransfer
 0xfc110be5,task_MovieTranscoder
 0xfc111e5b,AdditionAgentRAM_FW
@@ -607,6 +612,7 @@
 0xfc13e449,omar_init
 0xfc13e57d,task_WBCtrl
 0xfc13f443,task_DevelopModule
+0xfc1410d9,task_EFChargeT
 0xfc141383,EF.IsChargeFull_FW
 0xfc141383,IsStrobeChargeCompleted
 0xfc1417f9,imager_active_callback
@@ -736,6 +742,7 @@
 0xfc15fa69,strncmp
 0xfc15fa93,strchr
 0xfc15faa5,strstr
+0xfc1610e3,task_AprocMusicTask
 0xfc161d7d,task_AprocMainTask
 0xfc161dfb,task_AprocBpPwmTask
 0xfc161e5b,task_AprocBpGenTask
@@ -1038,12 +1045,16 @@
 0xfc226b3b,task_ExpDrvTask
 0xfc23b385,task_AFTask
 0xfc23c20b,GetMacroSupportZoomPoint_FW
+0xfc2428d1,ExpCtrlTool_StartContiAE
+0xfc2429b1,ExpCtrlTool_StopContiAE
 0xfc246a03,task_WBIntegTask
 0xfc25432d,MoveOpticalZoomAt
 0xfc25442d,PT_MoveDigitalZoomToWide
 0xfc2545a7,SS.GetDigitalZoomPosition_FW
 0xfc254a09,DoAFLock
 0xfc254a39,UnlockAF
+0xfc254c45,EnterToCompensationEVF
+0xfc254c81,ExitFromCompensationEVF
 0xfc254ccf,DoAELock
 0xfc254ced,UnlockAE
 0xfc255cad,PT_MFOn
@@ -1157,6 +1168,8 @@
 0xfc2b0301,Fgets_Fut
 0xfc2b0333,Fseek_Fut
 0xfc2b0333,Fseek_Fut_FW
+0xfc2b0365,Feof_Fut
+0xfc2b038d,Fflush_Fut
 0xfc2b03bd,fut_prepare
 0xfc2b03d5,fut_finish
 0xfc2ba3a3,get_playrec_mode
@@ -1169,6 +1182,7 @@
 0xfc2c74b7,GetFocusLensSubjectDistance
 0xfc2c7507,GetCurrentFocusLensPosition_FW
 0xfc2c7507,GetCurrentFocusPosition_FW
+0xfc2c77b1,GetFocusLensSubjectDistanceFromLens
 0xfc2c785b,IsFocusLensOutSidePosition_FW
 0xfc2c7879,GetFocusResetPosition_FW
 0xfc2c78d3,GetFocusDefaultResetPosition_FW
@@ -1304,9 +1318,12 @@
 0xfc30842b,StartCameraLog_FW
 0xfc30848d,StopCameraLog_FW
 0xfc3084c7,LogCameraEvent
+0xfc3089ab,init_sd_io_funcs
 0xfc308d63,get_fstype
 0xfc308dc9,GetDrive_ClusterSize
+0xfc3092d5,GetDrive_TotalClusters
 0xfc3092f9,GetDrive_FreeClusters
+0xfc3096e3,MakeSDCardBootable
 0xfc30977d,Open
 0xfc30977d,Open_FW
 0xfc309801,Close
@@ -1357,12 +1374,14 @@
 0xfc30e2db,memcmp_FW
 0xfc30e365,dry_con_printf
 0xfc335565,GraphicSystemCoreFinish
+0xfc33792f,apex2us
 0xfc33be15,NRTBL.SetDarkSubType_FW
 0xfc33be29,NRTBL.GetDarkSubType_FW
 0xfc33be4f,NRTBL.SetDefectCorrectType_FW
 0xfc33be63,NRTBL.GetDefectCorrectType_FW
 0xfc33be89,NRTBL.SetTassenType_FW
 0xfc3496dd,DevelopTool.DevelopTest_FW
+0xfc34a4a3,task__cntFlashTask
 0xfc34ccd1,EF.StartEFCharge_FW
 0xfc34ccff,EF.StopEFCharge_FW
 0xfc34cd09,EF.SetEFChargeTimeOut_FW

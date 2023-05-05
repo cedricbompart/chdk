@@ -2,6 +2,7 @@
 0xdffcd8c5,_log
 0xdffcdc39,_log10
 0xdffcdd31,_pow
+0xdffcf241,_sqrt
 0xe04f1135,_ToggleBatteryStatus_FW
 0xe0536e87,AbortAEIntegralValue_FW
 0xdffcac7d,AcquireRecursiveLock
@@ -22,6 +23,7 @@
 0xe047a317,AFTool.StoreAFixPosition_FW
 0xe0569c31,AllocateMemory_FW
 0xe046e571,AllocateUncacheableMemory
+0xe0067ab3,apex2us
 0xe02a9a87,ApMoniSel_FW
 0xe017115f,AprocSigProc_ALC_FW
 0xe017117d,AprocSigProc_ALCReset_FW
@@ -85,6 +87,7 @@
 0xe05866cf,CancelBPFilterForBP_FW
 0xe0591b97,CancelExStrobeMode_FW
 0xe0566ae9,CancelFocusLensMaxSpeedLimit_FW
+0xe03f4b5b,CancelHPTimer
 0xe05830a1,CancelImageDrive_FW
 0xe054c2bd,CancelImager_FW
 0xe0588313,CancelLoopGainCalc_FW
@@ -395,6 +398,7 @@
 0xe05b0023,EngDrvRead_FW
 0xe05b005d,EngDrvReadDump_FW
 0xe05533d9,EngineDriver.Create_FW
+0xe0298d6d,EnterToCompensationEVF
 0xe0306f1d,EpilogFile_FW
 0xe0306f63,EpilogMenu_FW
 0xe0306df1,EpilogShow_FW
@@ -402,6 +406,7 @@
 0xe005aa37,EraseLogSector_FW
 0xe0420389,EraseRom_FW
 0xe0552029,EraseSignature_FW
+0xe0020419,err_init_task
 0xe0566235,EscapeFocusLens_FW
 0xe0020321,exception_handler_DataAbort
 0xe002023f,exception_handler_FIQ
@@ -430,6 +435,7 @@
 0xe0028575,ExecuteTestRecSD_FW
 0xe00285bd,ExecuteTestRecSw1_FW
 0xe00285af,ExecuteTestRecWithInteg_FW
+0xe0298dad,ExitFromCompensationEVF
 0xdffc95af,ExitTask
 0xdffc95af,ExitTask_FW
 0xe00562d5,ExMem.AllocCacheable_FW
@@ -444,6 +450,8 @@
 0xe005625f,exmem_ufree
 0xe0503cfb,ExpCtrlTool.SetExpMode_FW
 0xe0503d2d,ExpCtrlTool.SoundDevTest_FW
+0xe02a1a91,ExpCtrlTool_StartContiAE
+0xe02a1bfd,ExpCtrlTool_StopContiAE
 0xe03709d3,ExportToEventProcedure_FW
 0xe0552f5b,FA.Create_FW
 0xe0552f4f,FA.Delete_FW
@@ -455,6 +463,8 @@
 0xe0370f77,Fclose_Fut
 0xe0370f77,Fclose_Fut_FW
 0xe05517ff,fclose_low
+0xe03710c1,Feof_Fut
+0xe03710eb,Fflush_Fut
 0xe037105b,Fgets_Fut
 0xe0551983,fgets_low
 0xe0464269,File.ClearExifInfo_FW
@@ -603,6 +613,7 @@
 0xe0568ee3,GetDisSupportStatus_FW
 0xe0374c35,GetDrive_ClusterSize
 0xe0375149,GetDrive_FreeClusters
+0xe0375125,GetDrive_TotalClusters
 0xe04b24fd,GetDriverInfoEvent_FW
 0xe058587f,GetEFUSEData_FW
 0xe055a3f9,GetEFuseData_FW
@@ -635,6 +646,7 @@
 0xe048f96b,GetFocusLensResetVoltage_FW
 0xe0372bf5,GetFocusLensSubjectDistance
 0xe0566ba3,GetFocusLensSubjectDistance_FW
+0xe0372eeb,GetFocusLensSubjectDistanceFromLens
 0xe0566bb5,GetFocusLensSubjectDistanceNumber_FW
 0xe006503d,GetFocusPiSensorLevel_FW
 0xe0373007,GetFocusResetPosition_FW
@@ -1006,6 +1018,7 @@
 0xe0373cf9,InactivateAdjLog_FW
 0xe0056651,init_error_handlers
 0xe00208bf,init_ex_drivers
+0xe03747f5,init_sd_io_funcs
 0xe0020419,init_task_error
 0xe0552f39,InitializeAdjustmentFunction_FW
 0xe0552ef9,InitializeAdjustmentSystem_FW
@@ -1264,6 +1277,7 @@
 0xe03775cb,j_PTM_NextItem_FW
 0xe03775cf,j_PTM_PrevItem_FW
 0xe03775b3,j_PTM_SetCurrentItem_FW
+0xe03775eb,j_PTM_SetProprietyEnable_FW
 0xe004ed49,j_PutsCameraLogEvent_FW
 0xe037e609,j_pvm_free
 0xe037e5fd,j_pvm_init_pool
@@ -1311,6 +1325,7 @@
 0xe04da125,j_UIFS_GetStillShotableNumber_FW
 0xe04da2db,j_UIFS_IsAvailableShots_FW
 0xe04da0bd,j_UIFS_MoveZoomTo_FW
+0xe04da0c1,j_UIFS_MoveZoomToPositionWithTaskSwCtrlServ_FW
 0xe04da377,j_UIFS_PlayTrimExecuteAllImageSize_FW
 0xe04da321,j_UIFS_StartMoviePlay_FW
 0xe04da0ff,j_UIFS_StartMovieRecord_FW
@@ -1420,6 +1435,7 @@
 0xe05afde3,MakeDefectTurnTable_FW
 0xe037422f,MakeDirectory_Fut
 0xe0569dc5,MakeScriptDisk_FW
+0xe03754ef,MakeSDCardBootable
 0xe047513b,malloc
 0xe037e5dd,malloc_strictly
 0xe05afa81,MarkPointDefData_FW
@@ -1606,6 +1622,7 @@
 0xe0299ea5,PT_MFOn
 0xe02982c3,PT_MoveDigitalZoomToWide
 0xe0552e35,PT_MoveOpticalZoomAt
+0xe037e475,PT_PlaySound
 0xe0271853,PTM_AllReset_FW
 0xe0376cc7,PTM_AllResetToFactorySetting_FW
 0xe02724e3,PTM_BackupUIProperty_FW
@@ -1618,6 +1635,7 @@
 0xe0376ce7,PTM_RestoreUIProperty_FW
 0xe037741b,PTM_SetCurrentCaptureMode_FW
 0xe0271b9b,PTM_SetCurrentItem_FW
+0xe02721fb,PTM_SetProprietyEnable_FW
 0xe0592499,PutInNdFilter
 0xe0592499,PutInNdFilter_FW
 0xe05924bf,PutOutNdFilter
@@ -1635,6 +1653,7 @@
 0xe0451397,Read
 0xe0451397,Read_FW
 0xe03fa8ff,ReadFastDir
+0xe051e8b5,ReadSDCard
 0xe035e00f,Rec2PB
 0xe05674dd,ReceiveMechaCircuitData_FW
 0xe05674f5,ReceiveMechaCircuitDataAll_FW
@@ -1809,6 +1828,7 @@
 0xe05695ab,SetGyroHPFINOffsetRoll_FW
 0xe0568fb1,SetGyroHPFINOffsetYaw_FW
 0xe05853a7,SetHour_FW
+0xe03f4ac1,SetHPTimerAfterNow
 0xe0551fff,SetIgnoreAVJACK_FW
 0xe0585249,SetImageMode_FW
 0xe0585233,SetInputVoltage_FW
@@ -2036,6 +2056,7 @@
 0xe02a992b,SoundDevDumpChIn0_FW
 0xe02a8ed9,SoundDevInitMusic_FW
 0xe02a9667,SoundDevLineOut_FW
+0xe02a884b,SoundDevMovPlayMuteForStoryHighlight_FW
 0xe01a7cfb,SoundDevParam_SetATTMode_FW
 0xe01a7d13,SoundDevParam_SetMicSelect_FW
 0xe02a93d7,SoundDevPlayMusic_FW
@@ -2181,6 +2202,7 @@
 0xdffca0cf,TakeSemaphore_FW
 0xdffc682f,takesemaphore_low
 0xdffca2ad,TakeSemaphoreStrictly
+0xe058c6e3,task__cntFlashTask
 0xe007156d,task__tgTask
 0xe04918d1,task_Accelerometer
 0xe021d61d,task_AfIntSrvTask
@@ -2191,6 +2213,7 @@
 0xe006a53d,task_AlgStgQr
 0xe016d3b3,task_AprocBpGenTask
 0xe016d2d1,task_AprocMainTask
+0xe016c461,task_AprocMusicTask
 0xe016d415,task_AprocVaif3Task
 0xe04f0ee9,task_BA_Task
 0xe0490ec3,task_BatteryTask
@@ -2226,6 +2249,7 @@
 0xe04a678f,task_DPOFTask
 0xe004b693,task_DvlpSeqTask
 0xe038a4b7,task_EdetSBJTask
+0xe053b251,task_EFChargeT
 0xe0403913,task_EISMainTask
 0xe006a7d9,task_EncRemoteEVFJpgTask
 0xe0306f39,task_Epilog
@@ -2268,6 +2292,8 @@
 0xe0057ea5,task_JpegEncTask
 0xe052b4c1,task_LachesisTest
 0xe045d359,task_LEDCon
+0xe005c13f,task_LensController
+0xe005c2f7,task_LensController
 0xe00af531,task_LiveImage2ndTask
 0xe00af125,task_LiveImageTask
 0xe0525d43,task_LowConsole
@@ -2430,6 +2456,7 @@
 0xe04da2df,UIFS_IsOperationEvent_FW
 0xe04da02f,UIFS_MountExtFlash_FW
 0xe03514cd,UIFS_MoveZoomTo_FW
+0xe0351a3d,UIFS_MoveZoomToPositionWithTaskSwCtrlServ_FW
 0xe04d9fe9,UIFS_OpenPopupStrobe_FW
 0xe04e58d5,UIFS_PlayTrimExecuteAllImageSize_FW
 0xe04da33f,UIFS_PostBatAuthNG_FW
@@ -2489,6 +2516,7 @@
 0xe055c27f,WriteNFCUserArea_FW
 0xe055aa79,WriteNFCUserAreaWithInitNFCAdj_FW
 0xe0587ff1,WritePWMAdjustment_FW
+0xe051e963,WriteSDCard
 0xe042030f,WriteToRom_FW
 0xe0044d5b,WRITEUSERSETTINGDATATOFROM_FW
 0xe055a549,WriteWLANMACAddressToFROM_FW

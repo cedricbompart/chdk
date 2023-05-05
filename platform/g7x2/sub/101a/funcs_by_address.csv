@@ -80,6 +80,7 @@
 0xdffcd8c5,_log
 0xdffcdc39,_log10
 0xdffcdd31,_pow
+0xdffcf241,_sqrt
 0xe0020011,exception_handler_Reset
 0xe002023d,exception_handler_SupervisorCall
 0xe002023f,exception_handler_FIQ
@@ -87,6 +88,7 @@
 0xe00202dd,exception_handler_UndefinedInstruction
 0xe0020307,exception_handler_PrefetchAbort
 0xe0020321,exception_handler_DataAbort
+0xe0020419,err_init_task
 0xe0020419,init_task_error
 0xe00206d5,task_Startup
 0xe00208bf,init_ex_drivers
@@ -295,6 +297,8 @@
 0xe005bce1,ChangePowerState_FW
 0xe005bd31,EnableHDMIPower
 0xe005bd67,DisableHDMIPower
+0xe005c13f,task_LensController
+0xe005c2f7,task_LensController
 0xe005c9e3,IsLensOutside_FW
 0xe005c9fd,GetFocusStartZoomPosition_FW
 0xe005ca05,GetMechaCondition_FW
@@ -336,6 +340,7 @@
 0xe006500d,GetZoomPiSensorLevel_FW
 0xe006503d,GetFocusPiSensorLevel_FW
 0xe006506d,GetIrisPiSensorLevel_FW
+0xe0067ab3,apex2us
 0xe0068629,task_SsgMainTask
 0xe0068877,task_SsgPeriodTask
 0xe006a469,task_AlgStgAlg
@@ -381,6 +386,7 @@
 0xe011c033,GetFaceAuthBinSize_FW
 0xe011c039,IsOKFaceAuthBinFile_FW
 0xe013a3d1,task_ClockSavePU1
+0xe016c461,task_AprocMusicTask
 0xe016d2d1,task_AprocMainTask
 0xe016d3b3,task_AprocBpGenTask
 0xe016d415,task_AprocVaif3Task
@@ -451,6 +457,7 @@
 0xe0271b9b,PTM_SetCurrentItem_FW
 0xe0271e69,PTM_NextItem_FW
 0xe0271e6d,PTM_PrevItem_FW
+0xe02721fb,PTM_SetProprietyEnable_FW
 0xe02723e3,PTM_IsEnableItem_FW
 0xe02724e3,PTM_BackupUIProperty_FW
 0xe02724e3,SetParameterData
@@ -463,11 +470,15 @@
 0xe0298353,SS.GetDigitalZoomPosition_FW
 0xe02989e7,DoAFLock
 0xe0298a17,UnlockAF
+0xe0298d6d,EnterToCompensationEVF
+0xe0298dad,ExitFromCompensationEVF
 0xe0298e1d,DoAELock
 0xe0298e3b,UnlockAE
 0xe0299ea5,PT_MFOn
 0xe0299ed9,PT_MFOff
 0xe029a115,SS.SetAvailShot_FW
+0xe02a1a91,ExpCtrlTool_StartContiAE
+0xe02a1bfd,ExpCtrlTool_StopContiAE
 0xe02a7257,SoundDevSetSyncRate_FW
 0xe02a7609,task_SoundTsk
 0xe02a7725,InitializeAudio_FW
@@ -476,6 +487,7 @@
 0xe02a86e3,SoundDevSetBgmMixRate_FW
 0xe02a8701,SoundDevSetBgmData_FW
 0xe02a8839,SoundDevBgmFadeOut_FW
+0xe02a884b,SoundDevMovPlayMuteForStoryHighlight_FW
 0xe02a8dad,TurnOnVideoOutMode_FW
 0xe02a8ddd,TurnOffVideoOutMode_FW
 0xe02a8ea3,BeepDrive_FW
@@ -563,6 +575,7 @@
 0xe034000f,GetFocusLensFinalStopSettingTime_FW
 0xe03514cd,UIFS_MoveZoomTo_FW
 0xe0351951,UIFS_GetNumOfOptZoomPos_FW
+0xe0351a3d,UIFS_MoveZoomToPositionWithTaskSwCtrlServ_FW
 0xe0356633,UIFS_StartMovieRecord_FW
 0xe0356649,UIFS_StopMovieRecord_FW
 0xe035b13f,task_CorctTask
@@ -614,6 +627,8 @@
 0xe037105b,Fgets_Fut
 0xe037108d,Fseek_Fut
 0xe037108d,Fseek_Fut_FW
+0xe03710c1,Feof_Fut
+0xe03710eb,Fflush_Fut
 0xe037111d,fut_prepare
 0xe0371135,fut_finish
 0xe0371491,CreateController_FW
@@ -639,6 +654,7 @@
 0xe0372bf5,GetFocusLensSubjectDistance
 0xe0372c45,GetCurrentFocusLensPosition_FW
 0xe0372c45,GetCurrentFocusPosition_FW
+0xe0372eeb,GetFocusLensSubjectDistanceFromLens
 0xe0372f63,GetFocusLensAvCoefficient_FW
 0xe0372fe9,IsFocusLensOutSidePosition_FW
 0xe0373007,GetFocusResetPosition_FW
@@ -676,9 +692,12 @@
 0xe03742b1,PrepareDirectory_x
 0xe0374351,PrepareDirectory_1
 0xe0374355,PrepareDirectory_0
+0xe03747f5,init_sd_io_funcs
 0xe0374bcf,get_fstype
 0xe0374c35,GetDrive_ClusterSize
+0xe0375125,GetDrive_TotalClusters
 0xe0375149,GetDrive_FreeClusters
+0xe03754ef,MakeSDCardBootable
 0xe03756bf,StartPlayModeMenu_FW
 0xe03756d9,StartRecModeMenu_FW
 0xe0375785,ShutdownRecModeMenu_FW
@@ -696,6 +715,7 @@
 0xe03775cb,j_PTM_NextItem_FW
 0xe03775cf,j_PTM_PrevItem_FW
 0xe03775e3,j_PTM_IsEnableItem_FW
+0xe03775eb,j_PTM_SetProprietyEnable_FW
 0xe0377603,j_PTM_BackupUIProperty_FW
 0xe0377dbb,transfer_src_overlay
 0xe0378993,transfer_src_overlay_helper
@@ -714,6 +734,7 @@
 0xe037ca81,SetCurrentCaptureModeType
 0xe037ca81,SetCurrentCaptureModeType_FW
 0xe037dbed,GetCurrentCaptureModeType_FW
+0xe037e475,PT_PlaySound
 0xe037e5d5,j_malloc
 0xe037e5d9,j_free
 0xe037e5dd,malloc_strictly
@@ -750,6 +771,8 @@
 0xe03eaa55,UIFS_CaptureNoneStop_FW
 0xe03ece73,FmtMenu_ExecuteQuickFormat_FW
 0xe03f2fd5,task_ReadMultiConTask
+0xe03f4ac1,SetHPTimerAfterNow
+0xe03f4b5b,CancelHPTimer
 0xe03fa829,closedir
 0xe03fa861,OpenFastDir
 0xe03fa8ff,ReadFastDir
@@ -1068,6 +1091,7 @@
 0xe04da079,UIFS_ConnectVideo_FW
 0xe04da09d,UIFS_DisconnectVideo_FW
 0xe04da0c1,j_UIFS_MoveZoomTo_FW
+0xe04da0c5,j_UIFS_MoveZoomToPositionWithTaskSwCtrlServ_FW
 0xe04da0c9,j_UIFS_GetNumOfOptZoomPos_FW
 0xe04da0cd,UIFS_StopPostingUIEvent_FW
 0xe04da0cf,UIFS_RestartPostingUIEvent_FW
@@ -1171,6 +1195,8 @@
 0xe051a277,handle_PTP_OC_CANON_CheckEvent
 0xe051b9d9,GetZoomLensCurrentPosition
 0xe051e69f,SDCardUHSActive_FW
+0xe051e8b9,ReadSDCard
+0xe051e967,WriteSDCard
 0xe051fe1d,task_TrnsCtrlTask
 0xe0523989,strftime
 0xe052594d,task_ConsoleSvr
@@ -1271,6 +1297,7 @@
 0xe05377a3,AttachIntegCrawData_FW
 0xe05378c3,GetCrawDataAddr_FW
 0xe05387f5,task_FilYuvMaker
+0xe053b255,task_EFChargeT
 0xe053b423,EF.IsChargeFull_FW
 0xe053b423,IsStrobeChargeCompleted
 0xe053c133,task_NfcConTask
@@ -2302,6 +2329,7 @@
 0xe05882eb,SetISPWMFreqData_FW
 0xe05882f7,j_GetISPWMFreqData_FW
 0xe0589b61,GetMemInfo
+0xe058c697,task__cntFlashTask
 0xe058c9e5,GetCurrentAdjImgDriveType_FW
 0xe058c9f1,GetCurrentImgDrvMode_FW
 0xe058ca0b,ConvertAEIntegDrvTypeToAdjImgDriveType_FW

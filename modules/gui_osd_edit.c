@@ -32,7 +32,7 @@ static OSD_elem osd[]={
     {LANG_OSD_LAYOUT_EDITOR_RAW,        &conf.mode_raw_pos,     {7*FONT_WIDTH, FONT_HEIGHT},    &conf.mode_raw_scale    },
     {LANG_OSD_LAYOUT_EDITOR_BAT_ICON,   &conf.batt_icon_pos,    {SCX(28), SCY(12)},             &conf.batt_icon_scale   },
     {LANG_OSD_LAYOUT_EDITOR_BAT_TEXT,   &conf.batt_txt_pos,     {5*FONT_WIDTH, FONT_HEIGHT},    &conf.batt_txt_scale    },
-    {LANG_OSD_LAYOUT_EDITOR_SPACE_ICON, &conf.space_icon_pos,   {23, 15},                       &conf.space_icon_scale  },
+    {LANG_OSD_LAYOUT_EDITOR_SPACE_ICON, &conf.space_icon_pos,   {32, 15},                       &conf.space_icon_scale  },
     {LANG_OSD_LAYOUT_EDITOR_SPACE_TEXT, &conf.space_txt_pos,    {5*FONT_WIDTH, FONT_HEIGHT},    &conf.space_txt_scale   },
     {LANG_OSD_LAYOUT_EDITOR_SPACE_ICON, &conf.space_ver_pos,    {3, 50},                        &conf.space_ver_scale   },
     {LANG_OSD_LAYOUT_EDITOR_SPACE_ICON, &conf.space_hor_pos,    {50, 3},                        &conf.space_hor_scale   },
@@ -44,6 +44,7 @@ static OSD_elem osd[]={
     {LANG_OSD_LAYOUT_EDITOR_HISTO,      &conf.histo_pos,        {HISTO_WIDTH+2, HISTO_HEIGHT},  &conf.histo_scale       },
     {LANG_OSD_LAYOUT_EDITOR_STATES,     &conf.mode_state_pos,   {12*FONT_WIDTH, 4*FONT_HEIGHT}, &conf.mode_state_scale  },
     {LANG_OSD_LAYOUT_EDITOR_MISC,       &conf.values_pos,       {9*FONT_WIDTH, 9*FONT_HEIGHT},  &conf.values_scale      },
+    {LANG_MENU_RAW_EV_HISTO_TITLE,      &conf.raw_ev_histo_pos, {112+8*FONT_WIDTH, 31*3},       &conf.histo_scale       },
     {0}
 };
 

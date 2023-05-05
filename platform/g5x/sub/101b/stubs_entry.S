@@ -166,37 +166,25 @@ DEF_CONST(uiprop_count                      ,0x000000d7) // Found @0xfc2a63d6
 DEF(exmem_alloc_table                 ,0x00047438) // Found @0xfc0a3386
 DEF(exmem_types_table                 ,0xfceb1070) // Found @0xfc0a338a
 DEF_CONST(exmem_type_count                  ,0x00000023) // Found @0xfceb1070
-//DEF(debug_logging_ptr                 ,0x00022078),          stubs_entry_2 = 0x00022078 (0x00022078)
-//DEF(debug_logging_flag                ,0x00022070),          stubs_entry_2 = 0x00022070 (0x00022070)
-//DEF(mzrm_sendmsg_ret_adr              ,0xfc361fa9),          stubs_entry_2 = 0xfc361fa9 (0xfc361fa9)
+DEF(debug_logging_ptr                 ,0x00022078) // Found @0xfc236b4a
+DEF(debug_logging_flag                ,0x00022070) // Found @0xfc236b44
+DEF(mzrm_sendmsg_ret_adr              ,0xfc361fa9)
 DEF_CONST(fw_yuv_layer_buf                  ,0x41141000) // Found @0xfc1b9202
 // focus_len_table contains zoom focus lengths for use in 'get_focal_length' (main.c).
 // each entry contains 2 int value(s), the first is the zoom focus length.
 // there are 101 entries in the table - set NUM_FL to 101
 DEF(focus_len_table                         ,0xfdf3169c) // Found @0xfdf3169c
 
-//NHSTUB(EnterToCompensationEVF               ,0x00000000) //  0        *** != 0xfc2d38e5
-//NHSTUB(ExitFromCompensationEVF              ,0x00000000) //  0        *** != 0xfc2d3927
-//NHSTUB(ExpCtrlTool_StartContiAE             ,0x00000000) //  0        *** != 0xfc2cdb5b
-//NHSTUB(ExpCtrlTool_StopContiAE              ,0x00000000) //  0        *** != 0xfc2cdd4d
-//NHSTUB(Feof_Fut                             ,0x00000000) //  0        *** != 0xfc3b8fdd
-//NHSTUB(Fflush_Fut                           ,0x00000000) //  0        *** != 0xfc3b9005
-//NHSTUB(GetDrive_TotalClusters               ,0x00000000) //  0        *** != 0xfc3b738f
-//NHSTUB(GetFocusLensSubjectDistanceFromLens  ,0x00000000) //  0        *** != 0xfc3ba223
 //NHSTUB(GetImageFolder                       ,0x00000000) //  0        *** != 0xfc39d655
-//NHSTUB(MakeSDCardBootable                   ,0x00000000) //  0        *** != 0xfc3b68af
-//NHSTUB(PT_PlaySound                         ,0xfc3bde29) //  0        *** != 0x00000000
 //NHSTUB(RenameFile_Fut                       ,0x00000000) //  0        *** != 0xfc3b8d8d
 //NHSTUB(ScreenLock                           ,0xfc3becb5) //  0        *** != 0x00000000
 //NHSTUB(ScreenUnlock                         ,0xfc3beceb) //  0        *** != 0x00000000
 //NHSTUB(SetFileTimeStamp                     ,0x00000000) //  0        *** != 0xfc3b5f07
 //NHSTUB(TurnOffBackLight                     ,0x00000000) //  0        *** != 0xfc15bb35
 //NHSTUB(TurnOnBackLight                      ,0x00000000) //  0        *** != 0xfc15bb31
-//NHSTUB(apex2us                              ,0x00000000) //  0        *** != 0xfc25f5cb
-//NHSTUB(err_init_task                        ,0x00000000) //  0        *** != 0xfc06647b
+//NHSTUB(WriteSDCard                          ,0x010e2c81) //  0        *** != 0x00000000
 //NHSTUB(realloc                              ,0x00000000) //  0        *** != 0xfc5e535d
 //NHSTUB(reboot_fw_update                     ,0x00000000) //  0        *** != 0xfc28b97d
-//NHSTUB(CancelHPTimer                        ,0x00000000) //  0        *** != 0xfc165d89
 
 NHSTUB(AllocateUncacheableMemory              ,0xfc16f5f1) //  0
 NHSTUB(Close                                  ,0xfc3b5c3b) //  0
@@ -208,9 +196,15 @@ NHSTUB(DeleteFile_Fut                         ,0xfc3b8def) //  0
 NHSTUB(DeleteSemaphore                        ,0xbfe15389) //  0
 NHSTUB(DoAELock                               ,0xfc2d3997) //  0
 NHSTUB(DoAFLock                               ,0xfc2d3509) //  0
+NHSTUB(EnterToCompensationEVF                 ,0xfc2d38e5) //  0
 NHSTUB2(ExecuteEventProcedure                  ,0xfc3b7a19) //  0
+NHSTUB(ExitFromCompensationEVF                ,0xfc2d3927) //  0
 NHSTUB(ExitTask                               ,0xbfe14bc7) //  0
+NHSTUB(ExpCtrlTool_StartContiAE               ,0xfc2cdb5b) //  0
+NHSTUB(ExpCtrlTool_StopContiAE                ,0xfc2cdd4d) //  0
 NHSTUB(Fclose_Fut                             ,0xfc3b8e9b) //  0
+NHSTUB(Feof_Fut                               ,0xfc3b8fdd) //  0
+NHSTUB(Fflush_Fut                             ,0xfc3b9005) //  0
 NHSTUB(Fgets_Fut                              ,0xfc3b8f79) //  0
 NHSTUB(Fopen_Fut                              ,0xfc3b8e73) //  0
 NHSTUB(Fread_Fut                              ,0xfc3b8f0d) //  0
@@ -228,7 +222,9 @@ NHSTUB(get_current_nd_value                   ,0xfc4ea821) //  0
 NHSTUB(get_current_deltasv                    ,0xfc469d3f) //  0
 NHSTUB(GetCurrentDriveBaseSvValue             ,0xfc3afda3) //  0
 NHSTUB(GetDrive_ClusterSize                   ,0xfc3b6eaf) //  0
+NHSTUB(GetDrive_TotalClusters                 ,0xfc3b738f) //  0
 NHSTUB(GetFocusLensSubjectDistance            ,0xfc3b9f29) //  0
+NHSTUB(GetFocusLensSubjectDistanceFromLens    ,0xfc3ba223) //  0
 NHSTUB(GetKbdState                            ,0xfc09b723) //  0
 NHSTUB(GetMemInfo                             ,0xfc675371) //  0
 NHSTUB(GetOpticalTemperature                  ,0xfc453903) //  0
@@ -245,6 +241,7 @@ NHSTUB(LEDDrive                               ,0xfc5e3ba1) //  0
 NHSTUB(LocalTime                              ,0x010e1589) //  0
 NHSTUB(LockMainPower                          ,0xfc39abe9) //  0
 NHSTUB(MakeDirectory_Fut                      ,0xfc3b5fbf) //  0
+NHSTUB(MakeSDCardBootable                     ,0xfc3b7755) //  0
 //NHSTUB(MoveFocusLensToDistance              ,0xfc667c59) //  0            Overridden
 NHSTUB(MoveIrisWithAv                         ,0xfc660955) //  0
 NHSTUB(MoveZoomLensWithPoint                  ,0xfc661385) //  0
@@ -253,6 +250,7 @@ NHSTUB(PB2Rec                                 ,0xfc364f2b) //  0
 NHSTUB(PT_MoveDigitalZoomToWide               ,0xfc2d2ed3) //  0
 NHSTUB(PT_MoveOpticalZoomAt                   ,0xfc5e4add) //  0
 NHSTUB(MoveOpticalZoomAt                      ,0xfc2d2d09) //  0
+NHSTUB(PT_PlaySound                           ,0xfc3bde29) //  0
 NHSTUB(PostLogicalEventForNotPowerType        ,0xfc3bd775) //  0
 NHSTUB(PostLogicalEventToUI                   ,0xfc3bd7a9) //  0
 //NHSTUB(PutInNdFilter                        ,0xfc667f01) //  0            Overridden
@@ -280,13 +278,14 @@ NHSTUB(UnlockMainPower                        ,0xfc39ab85) //  0
 //NHSTUB(UnsetZoomForMovie                    ,0x00000000) //  0            == 0x00000000
 NHSTUB(VbattGet                               ,0xfc0c2823) //  0
 NHSTUB(Write                                  ,0xfc3b5bc1) //  0
-//NHSTUB(WriteSDCard                          ,0x00000000) //  0            == 0x00000000
 NHSTUB(_log                                   ,0x010f7518) //  0
 NHSTUB(_log10                                 ,0x010f7a38) //  0
 NHSTUB(_pow                                   ,0x010f7ba0) //  0
 NHSTUB(_sqrt                                  ,0x010f9c20) //  0
 NHSTUB(add_ptp_handler                        ,0xfc35b37b) //  0
+NHSTUB(apex2us                                ,0xfc25f5cb) //  0
 NHSTUB(close                                  ,0xfc151483) //  0
+NHSTUB(err_init_task                          ,0xfc06647b) //  0
 NHSTUB(exmem_alloc                            ,0xfc0a38ef) //  0
 NHSTUB(exmem_ualloc                           ,0xfc0a37f9) //  0
 NHSTUB(exmem_ufree                            ,0xfc0a38b3) //  0
@@ -337,6 +336,7 @@ NHSTUB(vsprintf                               ,0xfc0f5b3b) //  0
 NHSTUB(EngDrvRead                             ,0xfc3bf37d) //  0
 NHSTUB(PTM_GetCurrentItem                     ,0xfc3ae35d) //  0
 NHSTUB(DisableISDriveError                    ,0xfc661df9) //  0
+NHSTUB(CancelHPTimer                          ,0xfc165d89) //  0
 NHSTUB(SetHPTimerAfterNow                     ,0xfc165cf1) //  0
 NHSTUB(SetEventFlag                           ,0xbfe14df7) //  0
 NHSTUB(transfer_src_overlay                   ,0xfc3be18d) //  0

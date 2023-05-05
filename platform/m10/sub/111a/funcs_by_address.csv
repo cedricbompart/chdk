@@ -8,6 +8,8 @@
 0x010e2275,GetRomID
 0x010e28dd,ChangeSDPortVoltage_FW
 0x010e2a4f,SDCardUHSActive_FW
+0x010e2ba1,ReadSDCard
+0x010e2c9d,WriteSDCard
 0x010f43a1,j_mktime_ext
 0x010f44ec,j_dcache_flush_and_enable
 0x01100928,dry_memcpy_bytes
@@ -142,6 +144,7 @@
 0xfc06c627,exception_handler_DataAbort
 0xfc06c63d,exception_handler_SupervisorCall
 0xfc06c685,exception_handler_FIQ
+0xfc06c723,err_init_task
 0xfc06c723,init_task_error
 0xfc06c7e1,exception_handler_IRQ
 0xfc06ca35,task_Startup
@@ -533,6 +536,9 @@
 0xfc133923,TouchPanelStartPrintPosition_FW
 0xfc133933,TouchPanelStopPrintPosition_FW
 0xfc135287,task_EdetSBJTask
+0xfc13706b,task_LensController
+0xfc137157,task_LensController
+0xfc137213,task_LensController
 0xfc1374f5,IsLensOutside_FW
 0xfc13750f,GetFocusStartZoomPosition_FW
 0xfc137513,GetMechaCondition_FW
@@ -550,6 +556,7 @@
 0xfc146bb5,task_OBCtrlTask
 0xfc147147,task_DetectMoveTask
 0xfc1482a9,task_ColorSBJTask
+0xfc1520c7,task_EFChargeT
 0xfc152295,EF.IsChargeFull_FW
 0xfc152295,IsStrobeChargeCompleted
 0xfc153cef,task_Gap3rd
@@ -955,6 +962,7 @@
 0xfc1a0543,LCDRect_Delete_FW
 0xfc1a7cfd,memset
 0xfc1a7cfd,memset_FW
+0xfc1b1d0f,apex2us
 0xfc1b4dfd,task_ExpDrvSubTask
 0xfc1ca905,GetAdjAcceleration_FW
 0xfc1ca911,ReloadProtractorAdjustment_FW
@@ -1192,6 +1200,7 @@
 0xfc1f8df7,default_exception_handler
 0xfc1f8fd9,default_panic_handler
 0xfc1fa1ed,ExecuteShutDownPropertyService_FW
+0xfc1faa85,CancelHPTimer
 0xfc1fab6f,task_WdtPrint
 0xfc1fabe1,task_WdtReset
 0xfc1fac5d,StartWDT_FW
@@ -1221,6 +1230,7 @@
 0xfc2019a5,memcpy_FW
 0xfc201a63,strchr
 0xfc201a75,strstr
+0xfc202f07,task_AprocMusicTask
 0xfc203bc1,task_AprocMainTask
 0xfc203c3f,task_AprocBpPwmTask
 0xfc203ca3,task_AprocBpGenTask
@@ -1412,6 +1422,7 @@
 0xfc295e93,ResumeLensCyclicStatusCom_FW
 0xfc29609f,EFLensCom.ResetFocusPulse_FW
 0xfc29609f,ResetEFLensFocus_FW
+0xfc296291,EFLensCom_MoveFocus
 0xfc296aab,EFLensCom.UpdateStatus_FW
 0xfc296e91,j1_GetLensIDValue
 0xfc296eb3,j_get_ef_lens_name
@@ -1422,6 +1433,8 @@
 0xfc2a5825,SS.GetDigitalZoomPosition_FW
 0xfc2a5de7,DoAFLock
 0xfc2a5e17,UnlockAF
+0xfc2a5fcf,EnterToCompensationEVF
+0xfc2a6011,ExitFromCompensationEVF
 0xfc2a61bb,DoAELock
 0xfc2a61d9,UnlockAE
 0xfc2a6f4d,PT_MFOn
@@ -1476,6 +1489,8 @@
 0xfc2b24a9,BeepDrive_FW
 0xfc2b24bd,BeepDriveComp_FW
 0xfc2b24d1,BeepDriveStop_FW
+0xfc2bb67f,ExpCtrlTool_StartContiAE
+0xfc2bb815,ExpCtrlTool_StopContiAE
 0xfc2cc717,task_WBIntegTask
 0xfc2dbe97,get_ef_lens_name
 0xfc2dc0c3,get_ef_lens_wide_fl
@@ -1680,9 +1695,12 @@
 0xfc385a91,ShowLogicalEventName_FW
 0xfc38813d,SetPropertyCase
 0xfc38828f,GetPropertyCase
+0xfc388ab7,init_sd_io_funcs
 0xfc388e79,get_fstype
 0xfc388edf,GetDrive_ClusterSize
+0xfc3893bf,GetDrive_TotalClusters
 0xfc3893e3,GetDrive_FreeClusters
+0xfc38974d,MakeSDCardBootable
 0xfc389865,Open
 0xfc389865,Open_FW
 0xfc3898e9,Close
@@ -1712,6 +1730,8 @@
 0xfc38a329,Fgets_Fut
 0xfc38a35b,Fseek_Fut
 0xfc38a35b,Fseek_Fut_FW
+0xfc38a38d,Feof_Fut
+0xfc38a3b5,Fflush_Fut
 0xfc38a3e5,fut_prepare
 0xfc38a3fd,fut_finish
 0xfc38a6e9,PrintFirmVersion_FW
@@ -1802,6 +1822,7 @@
 0xfc3ef477,NRTBL.SetDarkSubType_FW
 0xfc3ef489,NRTBL.SetDefectCorrectType_FW
 0xfc3ef49b,NRTBL.SetTassenType_FW
+0xfc3f972f,task__cntFlashTask
 0xfc411df7,task_GapBS
 0xfc422f9d,HdmiSetOutputResolusion_FW
 0xfc422f9f,HdmiChange5VShortState_FW
@@ -1880,7 +1901,9 @@
 0xfc42f77f,EFLensCom.GetFocalLength_FW
 0xfc42f7c1,EFLensCom.DistanceInfo_FW
 0xfc42f83b,EFLensCom.FocusSearchFar_FW
+0xfc42f83b,EFLensCom_FocusSearchFar
 0xfc42f861,EFLensCom.FocusSearchNear_FW
+0xfc42f861,EFLensCom_FocusSearchNear
 0xfc42f887,j_EFLensCom.ResetFocusPulse_FW
 0xfc42f88b,EFLensCom.GetPO_FW
 0xfc42f925,EFLensCom.GetNewPO_FW
@@ -2671,6 +2694,7 @@
 0xfc5be497,GetLensExtenderSerialNumberValue_FW
 0xfc5be4ef,RegistLensName_FW
 0xfc5be633,GetEFLensFocusPositionWithoutLensCom_FW
+0xfc5be647,GetEFLensFocusPositionWithLensCom
 0xfc5be647,GetEFLensFocusPositionWithLensCom_FW
 0xfc5bea4d,StopEfLensIsDrive_FW
 0xfc5bea5f,IsEfLensIsDrive_FW
